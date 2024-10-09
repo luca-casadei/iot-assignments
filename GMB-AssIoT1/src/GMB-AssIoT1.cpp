@@ -1,19 +1,16 @@
+#define DEBUG
+
 /*
 	Luca Casadei
   Francesco Pazzaglia
   Lucio Baiocchi
 */
 
+#include <Arduino.h>
 #include <TimerOne.h>
 #include "leds.h"
-
-#define BTN_1 12
-#define BTN_2 3
-#define BTN_3 4
-#define BTN_4 5
-
-#define BTN_LED_N 4
-
+#include "buttons.h"
+#include "game.h"
 
 #define START_TIME_SEC 10
 
@@ -22,52 +19,38 @@
 #define LOOP_DELAY_MS 100
 #define GAMEOVER_DELAY_MS 1000
 
-unsigned int btns[BTN_LED_N] = { BTN_1, BTN_2, BTN_3, BTN_4 };
-unsigned int leds[BTN_LED_N] = { LED_1, LED_2, LED_3, LED_4 };
-unsigned int bin_vals[BTN_LED_N] = { 8, 4, 2, 1 };
-
 /* Game values */
-unsigned int curr_bin;
-unsigned int score;
 unsigned int time_us;
 unsigned short correct_answer;
 unsigned int game_started;
 
 void nextTurn() {
-  curr_bin = 0;
+  initialize_game();
   /* Sets the value to be converted in binary */
-  randomSeed(micros());
-  correct_answer = random(0, 15);
-  shutLeds(leds);
+  shut_leds();
   
   /* TODO: Decrease time on next turn */
   unsigned int pot_f = analogRead(A5) / 255;
   unsigned int f_factor = ((pot_f * 5) / 3);
   time_us = (time_us - f_factor);
 
-  /* Sets the timer for game over */
   #ifdef DEBUG
     Serial.print("Tempo: ");
     Serial.print(time_us);
     Serial.println();
   #endif
-  Timer1.initialize(time_us * MICRO_MUL);
-  Timer1.attachInterrupt(timesUpHandler);
+
+  /* Sets the timer for game over */
+  // Timer1.initialize(time_us * MICRO_MUL);
+  // Timer1.attachInterrupt(timesUpHandler);
 }
 
 void timesUpHandler() {
-  Serial.print("Risposta: ");
-  Serial.print(curr_bin, DEC);
-  Serial.println();
-  Serial.print("Risposta corretta: ");
-  Serial.print(correct_answer, DEC);
-  Serial.println();
-  if (correct_answer == curr_bin) {
-    score += 1;
+  if (round_won()) {
     nextTurn();
   } else {
-    digitalWrite(LED_WRONG, HIGH);
-    shutLeds(leds);
+    set_analog_red_led(255);
+    shut_leds();
     delay(GAMEOVER_DELAY_MS);
     game_started = 0;
     time_us = START_TIME_SEC;
@@ -84,18 +67,11 @@ void setup() {
   /* See function for behaviour */
   time_us = START_TIME_SEC;
 
-  /* Zeroes the player's score */
-  score = 0;
-  curr_bin = 0;
-
-
   /* Activates Arduino's pins */
-  int i;
-  for (i = 0; i < BTN_LED_N; i++) {
-    pinMode(btns[i], INPUT);
-    pinMode(leds[i], OUTPUT);
-  }
-  pinMode(LED_WRONG, OUTPUT);
+  initialize_leds();
+  initialize_game();
+
+  // TODO: Potentiometer
   pinMode(A5, INPUT);
 
   fade_amount = 0;
@@ -130,18 +106,16 @@ void loop() {
     checkGameStarted();
   } else {
     int i;
-    for (i = 0; i < BTN_LED_N; i++) {
-      if (digitalRead(btns[i]) == HIGH) {
-        if (states[i] == LOW) {
-          digitalWrite(leds[i], HIGH);
-          states[i] = HIGH;
+    for (i = 0; i < LED_N; i++) {
+      if (is_button_state_high(BTN_1)) {
+        if (get_led_state(i) == LOW) {
+          set_led_state(i,HIGH);
           curr_bin += bin_vals[i];
         } else {
-          states[i] = LOW;
+          set_led_state(i,LOW);
           curr_bin -= bin_vals[i];
         }
         Serial.println(curr_bin);
-        digitalWrite(leds[i], states[i]);
       }
     }
   }
