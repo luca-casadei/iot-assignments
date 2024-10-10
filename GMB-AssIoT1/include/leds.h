@@ -6,7 +6,9 @@
 
 #define LED_N 4
 
-/* Fading and game over red LED */
+/* 
+  Fading and game over red LED. 
+*/
 #define LED_WRONG 6
 
 /*
@@ -25,6 +27,16 @@ void set_analog_red_led(int amount);
 void set_led_state(unsigned int led_index, uint8_t state);
 
 /*
-    Sets every LED pin to OUTPUT
+  Sets every LED pin to OUTPUT.
 */
 void initialize_leds(void);
+
+/*
+  Gets the state of a led.
+*/
+uint8_t get_led_state(unsigned int led_index);
+
+/*
+  Fades the red LED.
+*/
+void fade(void);
