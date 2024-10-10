@@ -8,9 +8,11 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/include",
-                "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/src",
-                "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/.pio/libdeps/uno/TimerOne",
+                "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/include",
+                "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/src",
+                "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt",
+                "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt/utility",
+                "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/TimerOne",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/variants/standard",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -23,9 +25,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/include",
-                    "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/src",
-                    "C:/Users/casad/Documents/PlatformIO/Projects/241009-105448-uno/.pio/libdeps/uno/TimerOne",
+                    "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/include",
+                    "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/src",
+                    "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt",
+                    "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt/utility",
+                    "D:/Development/Compiled/iot-assignments/GMB-AssIoT1/.pio/libdeps/uno/TimerOne",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/variants/standard",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
