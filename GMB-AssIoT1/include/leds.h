@@ -24,7 +24,7 @@ void set_analog_red_led(int amount);
 /*
   Sets the LED state to LOW or HIGH.
 */
-void set_led_state(unsigned int led_index, uint8_t state);
+void set_led_state(unsigned int led_index, unsigned char state);
 
 /*
   Sets every LED pin to OUTPUT.
@@ -34,7 +34,7 @@ void initialize_leds(void);
 /*
   Gets the state of a led.
 */
-uint8_t get_led_state(unsigned int led_index);
+unsigned char get_led_state(unsigned int led_index);
 
 /*
   Fades the red LED.

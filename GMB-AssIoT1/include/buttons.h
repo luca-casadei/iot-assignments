@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 #define BTN_1 2
 #define BTN_2 3
 #define BTN_3 4
@@ -21,11 +19,13 @@ void initialize_buttons(void);
 /*
   Gets the current state of pressed buttons. 
 */
-uint8_t get_pressed_state(unsigned int button_index);
+unsigned char get_pressed_state(unsigned int button_index);
 
 /*
   Sets the state of the button.
   LOW - Not pressed
   HIGH - Pressed
 */
-void set_state_button(unsigned int button_index, uint8_t state);
+void set_state_button(unsigned int button_index, unsigned char state);
+
+void disable_every_button(void);
