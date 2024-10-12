@@ -1,5 +1,3 @@
-#define DEBUG
-
 /*
   Luca Casadei
   Francesco Pazzaglia
@@ -7,18 +5,13 @@
 
 #include <Arduino.h>
 #include "game.h"
-#include "buttons.h"
-#include "potentiometer.h"
 #include "leds.h"
+
+#define GAME_OVER_DELAY 5000
 
 void setup()
 {
   Serial.begin(9600);
-
-  /* Activates Arduino's pins */
-  initialize_buttons();
-  initialize_potentiometer();
-  initialize_leds();
   initialize_game();
 }
 
@@ -37,6 +30,19 @@ void loop()
 
   case RUNNING:
   {
+    enum round_state r = round_won();
+    if (r == WON)
+    {
+      next_turn();
+    }
+    else if (r == LOST)
+    {
+      shut_leds();
+      set_analog_red_led(255);
+      delay(GAME_OVER_DELAY);
+      set_analog_red_led(LOW);
+      game_blink();
+    }
 #ifdef DEBUG
     Serial.println("State: Running");
 #endif
@@ -55,5 +61,5 @@ void loop()
     break;
   }
 
-  delay(BOUNCING_PREVENTION_TIME);
+  delay(20);
 }

@@ -4,18 +4,18 @@
 #define FADE_START 0
 #define STEP_MULTIPLIER 5
 
-uint8_t leds[LED_N] = {LED_1, LED_2, LED_3, LED_4};
+unsigned char leds[LED_N] = {LED_1, LED_2, LED_3, LED_4};
 unsigned short fade_amount;
 short step;
 
 void shut_leds(void) {
   int i;
   for (i = 0; i < LED_N; i++) {
-    set_led_state(leds[i], LOW);
+    set_led_state(i, LOW);
   }
 }
 
-void set_led_state(unsigned int led_index, uint8_t state){
+void set_led_state(unsigned int led_index, unsigned char state){
   digitalWrite(leds[led_index], state);
 }
 
