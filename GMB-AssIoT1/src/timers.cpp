@@ -1,77 +1,38 @@
 #include <Arduino.h>
 #include <TimerOne.h>
-#include <avr/sleep.h>
 #include "timers.h"
 #include "interrupts.h"
-#include "game.h"
+#include "pins.h"
 #include "potentiometer.h"
-#include "buttons.h"
 
 #define DEBUG
 
 /* Time in microseconds for the game to end */
 unsigned long time_us = START_TIME_SEC;
-static bool tinit = false;
 
-void wake_up(void)
+void initialize_timerone(void)
 {
-    game_blink();
+    time_us = START_TIME_SEC;
+    Timer1.initialize(MICRO_MUL * GOTO_SLEEP_TIME);
 }
 
-void go_to_sleep(void)
+void set_sleep_timer(void)
 {
-#ifdef DEBUG
-    Serial.println("Entering a deep sleep...");
-#endif
-    interrupts();
-    game_sleep();
-    enable_interrupt_to(BTN_1, wake_up);
-    enable_interrupt_to(BTN_2, wake_up);
-    enable_interrupt_to(BTN_3, wake_up);
-    enable_interrupt_to(BTN_4, wake_up);
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-    sleep_enable();
-    sleep_mode();
-    sleep_disable();
-    noInterrupts();
+    Timer1.setPeriod(MICRO_MUL * GOTO_SLEEP_TIME);
+    Timer1.attachInterrupt(sleep_timer_elapsed);
 }
 
-void initialize_sleep_timer(void)
+void set_game_timer(void)
 {
-    detach_timer();
-    if (!tinit){
-        Timer1.initialize(MICRO_MUL * GOTO_SLEEP_TIME);
-    }
-    else{
-        Timer1.setPeriod(MICRO_MUL * GOTO_SLEEP_TIME);
-    }
-    tinit = true;
-    Timer1.attachInterrupt(go_to_sleep);
-#ifdef DEBUG
-    Serial.print("Intializing sleep timer with time of s: ");
-    Serial.print(GOTO_SLEEP_TIME);
-    Serial.println();
-#endif
-}
-
-void initialize_game_over_timer(void)
-{
-    time_us = time_us - choose_difficulty() * F_FACTOR;
-    if (time_us <= MIN_TIME_VAL)
-    {
+    Timer1.setPeriod(MICRO_MUL * time_us);
+    Timer1.attachInterrupt(game_timer_elapsed);
+    time_us = time_us - (F_FACTOR * choose_difficulty());
+    if (time_us < MIN_TIME_VAL){
         time_us = MIN_TIME_VAL;
     }
-    detach_timer();
-    Timer1.setPeriod(MICRO_MUL * time_us);
-    Timer1.attachInterrupt(game_over);
-#ifdef DEBUG
-    Serial.print("Intializing game timer with time of s: ");
-    Serial.print(time_us);
-    Serial.println();
-#endif
 }
 
-void detach_timer(void)
+void detach_timerone(void)
 {
     Timer1.detachInterrupt();
 }

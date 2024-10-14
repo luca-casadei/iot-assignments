@@ -1,5 +1,3 @@
-#define POTENTIOMETER A5
-
 /* 
     Sets up the potentiometer's pin 
 */

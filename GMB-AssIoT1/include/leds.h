@@ -1,9 +1,3 @@
-/* Four green LEDs */
-#define LED_1 8
-#define LED_2 9
-#define LED_3 10
-#define LED_4 11
-
 #define LED_N 4
 
 /* 
@@ -24,17 +18,12 @@ void set_analog_red_led(int amount);
 /*
   Sets the LED state to LOW or HIGH.
 */
-void set_led_state(unsigned int led_index, unsigned char state);
+void set_led_state(unsigned int led_index);
 
 /*
   Sets every LED pin to OUTPUT.
 */
 void initialize_leds(void);
-
-/*
-  Gets the state of a led.
-*/
-unsigned char get_led_state(unsigned int led_index);
 
 /*
   Fades the red LED.
