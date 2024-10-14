@@ -1,49 +1,176 @@
 /*
-  Luca Casadei
-  Francesco Pazzaglia
-*/
+ * Embedded and IoT 2024-2025
+ * Assignment n.1 by
+ * Luca Casadei
+ * Francesco Pazzaglia
+ */
 
 #include <Arduino.h>
 #include "game.h"
+#include "buttons.h"
 #include "leds.h"
+#include "potentiometer.h"
+#include "interrupts.h"
+#include "timers.h"
+#include "pins.h"
 
-#define GAME_OVER_DELAY 5000
+/* Comment this lines to hide prints. */
+#define DEBUG
+/*#define DEBUG_VERBOSE*/
+
+static volatile bool first_entered;
 
 void setup()
 {
+  /* Serial line */
   Serial.begin(9600);
+
+  /* Initialization */
   initialize_game();
+  initialize_buttons();
+  initialize_leds();
+  initialize_potentiometer();
+  initialize_interrupts();
+  initialize_timerone();
+  first_entered = true;
 }
 
 void loop()
 {
+  unsigned char interrupt_provider = get_for_execution();
   switch (get_game_state())
   {
+    /*
+     * When the game is in the blinking state
+     * we will handle only the interrupts present
+     * in this switch case.
+     */
   case BLINKING:
   {
-#ifdef DEBUG
-    Serial.println("State: Blink");
-#endif
+    if (first_entered)
+    {
+      set_sleep_timer();
+      first_entered = false;
+    }
+    switch (interrupt_provider)
+    {
+      /*
+       * If the firt button is pressed while we are
+       * in the blinking state, we set the game into
+       * running mode, the interrupts on the last three
+       * button will be enabled and we'll be ready to
+       * play.
+       */
+    case BTN_1:
+    {
+      game_run();
+      first_entered = true;
+      enable_interrupt_to(BTN_2);
+      enable_interrupt_to(BTN_3);
+      enable_interrupt_to(BTN_4);
+      break;
+    }
+    /*
+     * When the sleep timer elapses, this case will be called
+     * so the red LED will be set to LOW and the sleep mode
+     * will be started.
+     */
+    case TIME_TO_SLEEP:
+    {
+      set_analog_red_led(LOW);
+      game_sleep();
+      go_to_sleep();
+      break;
+    }
+    default:
+      break;
+    }
     fade();
+#ifdef DEBUG_VERBOSE
+    Serial.println("State: Blinking");
+#endif
     break;
   }
-
+    /*
+     * The actual gaming phase, no phase here every
+     * button interrupt will be activated, and the timer
+     * one will have the game over time to count down.
+     */
   case RUNNING:
   {
-    enum round_state r = round_won();
-    if (r == WON)
+    if (first_entered == true)
     {
-      next_turn();
+      detach_timerone();
+      set_game_timer();
+      set_analog_red_led(LOW);
+      first_entered = false;
     }
-    else if (r == LOST)
+    /*
+     * This switch checks for the pressed
+     * button and increases/decreases the
+     * corresponding value.
+     */
+    switch (interrupt_provider)
+    {
+    case BTN_1:
+    {
+      toggle_binary(0);
+      set_led_state(0);
+      break;
+    }
+    case BTN_2:
+    {
+      toggle_binary(1);
+      set_led_state(1);
+      break;
+    }
+    case BTN_3:
+    {
+      toggle_binary(2);
+      set_led_state(2);
+      break;
+    }
+    case BTN_4:
+    {
+      toggle_binary(3);
+      set_led_state(3);
+      break;
+    }
+    case TIME_GAME_OVER:
     {
       shut_leds();
-      set_analog_red_led(255);
-      delay(GAME_OVER_DELAY);
-      set_analog_red_led(LOW);
-      game_blink();
-    }
 #ifdef DEBUG
+      Serial.print("Correct value: ");
+      Serial.println(get_correct_value());
+#endif
+      if (game_won())
+      {
+#ifdef DEBUG
+        Serial.println("You won!!");
+#endif
+        next_round();
+        set_game_timer();
+        first_entered = true;
+      }
+      else
+      {
+        detach_timerone();
+        set_analog_red_led(255);
+        delay(1000);
+        set_analog_red_led(LOW);
+        first_entered = true;
+        game_blink();
+        disable_interrupt_to(BTN_2);
+        disable_interrupt_to(BTN_3);
+        disable_interrupt_to(BTN_4);
+        set_sleep_timer();
+      }
+      break;
+    }
+    default:
+      break;
+    }
+#ifdef DEBUG_VERBOSE
     Serial.println("State: Running");
 #endif
     break;
@@ -51,9 +178,17 @@ void loop()
 
   case SLEEPING:
   {
-#ifdef DEBUG
+#ifdef DEBUG_VERBOSE
     Serial.println("State: Sleeping");
 #endif
+    game_blink();
+    first_entered = true;
+    detach_timerone();
+    disable_interrupt_to(BTN_1);
+    disable_interrupt_to(BTN_2);
+    disable_interrupt_to(BTN_3);
+    disable_interrupt_to(BTN_4);
+    enable_interrupt_to(BTN_1);
     break;
   }
 
@@ -61,5 +196,14 @@ void loop()
     break;
   }
 
-  delay(20);
+#ifdef DEBUG
+  if (interrupt_provider != NOINT)
+  {
+    Serial.print("Executed interrupt: ");
+    Serial.print(interrupt_provider);
+    Serial.println();
+  }
+#endif
+
+  delay(50);
 }

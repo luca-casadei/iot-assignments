@@ -1,69 +1,59 @@
-/*
-  Gets the binary value of the current pressed buttons in sum.
-*/
-unsigned short get_current_binary_value(void);
+/* The main game state, used to correctly manage interrupts. */
+typedef enum game_state
+{
+  RUNNING,
+  BLINKING,
+  SLEEPING
+} GameState;
 
 /*
-  Gets the associated binary values.
-*/
-unsigned short *get_bin_vals(void);
-
-/*
-  Increses the chosen binary values.
-*/
-void increase_curr_bin_amount(unsigned int amount_index, bool increase);
-
-/*
-  Sets the game values to the defaults.
-*/
+ * Initializes the game.
+ */
 void initialize_game(void);
 
 /*
-  Gets the current player's score
-*/
-unsigned int get_score(void);
+ * Gets the current game state.
+ */
+GameState get_game_state();
 
 /*
-  Adds 1 to the current player's score.
-*/
-void increment_score(void);
-
-/*
-  Checks if the current player has won the game.
-*/
-void next_turn(void);
-
-/*
-  Game states
-*/
-void game_start(void);
-void game_sleep(void);
+ * Sets the game blinking state.
+ */
 void game_blink(void);
-void game_over(void);
 
 /*
-  Game state enum
-*/
-enum game_state
-{
-  BLINKING,
-  SLEEPING,
-  RUNNING
-};
-
-enum round_state
-{
-  WON,
-  LOST,
-  WAITING
-};
+ * Sets the game sleeping state.
+ */
+void game_sleep(void);
 
 /*
-  Gets the current game state.
-*/
-enum game_state get_game_state(void);
+ * Sets the game running state.
+ */
+void game_run(void);
 
 /*
-  Checks if the current guessed value is the same as the correct one.
-*/
-enum round_state round_won(void);
+ * Returns true if the lit LEDs binary sum
+ * is equal to the correct random decimal
+ * value.
+ */
+bool game_won(void);
+
+/*
+ * Resets the values to be able to play
+ * a new round.
+ */
+void next_round(void);
+/*
+ * Toggles the binary state (subtracts if already lit, adds otherwise)
+ */
+void toggle_binary(unsigned short index);
+
+/*
+ * Returns the current player's scure.
+ */
+unsigned short get_score();
+
+/*
+ * Returns the correct value of the current round.
+ */
+unsigned short get_correct_value();
