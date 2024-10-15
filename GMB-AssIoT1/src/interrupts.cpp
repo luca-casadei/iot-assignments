@@ -94,14 +94,14 @@ void enable_interrupt_to(unsigned char pin)
     enableInterrupt(pin, f, RISING);
 }
 
+void enable_interrupt_to(unsigned char pin, void (*f)(void))
+{
+    enableInterrupt(pin, f, RISING);
+}
+
 void disable_interrupt_to(unsigned char button_pin)
 {
     disableInterrupt(button_pin);
-}
-
-void attach_to_function(unsigned char pin, void (*f)(void))
-{
-    enableInterrupt(pin, f, RISING);
 }
 
 void initialize_interrupts(void)

@@ -2,6 +2,7 @@
     Enables interrupt for the button pin.
 */
 void enable_interrupt_to(unsigned char button_pin);
+void enable_interrupt_to(unsigned char pin, void (*f)(void));
 
 /*
     Disables interrupt for the button pin.
@@ -24,8 +25,3 @@ void sleep_timer_elapsed(void);
     Game timer elapsed interrupt.
 */
 void game_timer_elapsed(void);
-
-/*
-    Attach a function to a pin.
-*/
-void attach_to_function(unsigned char pin, void (*f)(void));

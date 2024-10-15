@@ -149,7 +149,6 @@ void loop()
         Serial.println("You won!!");
 #endif
         next_round();
-        set_game_timer();
         first_entered = true;
       }
       else
@@ -163,7 +162,6 @@ void loop()
         disable_interrupt_to(BTN_2);
         disable_interrupt_to(BTN_3);
         disable_interrupt_to(BTN_4);
-        set_sleep_timer();
       }
       break;
     }
