@@ -1,8 +1,11 @@
 /*
-    Enable/Disable interrupt for the button pin.
-    Default button pin is for BTN 1.
+    Enables interrupt for the button pin.
 */
 void enable_interrupt_to(unsigned char button_pin);
+
+/*
+    Disables interrupt for the button pin.
+*/
 void disable_interrupt_to(unsigned char button_pin);
 /*
     Get the button pin that triggered the interrupt.
@@ -17,6 +20,9 @@ void initialize_interrupts(void);
 */
 void sleep_timer_elapsed(void);
 
+/*
+    Game timer elapsed interrupt.
+*/
 void game_timer_elapsed(void);
 
 /*

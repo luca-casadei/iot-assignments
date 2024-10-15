@@ -1,7 +1,10 @@
+/* 
+  The number of LEDs. 
+*/
 #define LED_N 4
 
 /* 
-  Fading and game over red LED. 
+  The pin of fading and game over red LED. 
 */
 #define LED_WRONG 6
 
