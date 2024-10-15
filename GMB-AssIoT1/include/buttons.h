@@ -1,3 +1,6 @@
+/*
+  The number of buttons. 
+*/
 #define BTN_N 4
 
 /*
