@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <TimerOne.h>
 #include "timers.h"
 #include "interrupts.h"
 #include "pins.h"
@@ -8,31 +7,42 @@
 #define DEBUG
 
 /* Time in microseconds for the game to end */
-unsigned long time_us = START_TIME_SEC;
-
-void initialize_timerone(void)
-{
-    time_us = START_TIME_SEC;
-    Timer1.initialize(MICRO_MUL * GOTO_SLEEP_TIME);
-}
-
-void set_sleep_timer(void)
-{
-    Timer1.setPeriod(MICRO_MUL * GOTO_SLEEP_TIME);
-    Timer1.attachInterrupt(sleep_timer_elapsed);
-}
+volatile unsigned long time;
+volatile unsigned long last_time;
 
 void set_game_timer(void)
 {
-    Timer1.setPeriod(MICRO_MUL * time_us);
-    Timer1.attachInterrupt(game_timer_elapsed);
-    time_us = time_us - (F_FACTOR * choose_difficulty());
-    if (time_us < MIN_TIME_VAL){
-        time_us = MIN_TIME_VAL;
+    time = START_TIME_SEC;
+    last_time = millis();
+}
+
+void set_sleep_timer(void){
+    time = GO_TO_SLEEP_TIME;
+    last_time = millis();
+}
+
+void check_sleep_timer(void)
+{
+    unsigned long curr_time = millis();
+    if ((curr_time - last_time) >= time * MILLIS_MUL){
+        sleep_timer_elapsed();
+        last_time = curr_time;
     }
 }
 
-void detach_timerone(void)
+void check_game_timer(void)
 {
-    Timer1.detachInterrupt();
+    unsigned long curr_time = millis();
+    if((curr_time - last_time) >= MILLIS_MUL * time){
+        game_timer_elapsed();
+        last_time = curr_time;
+    }
+}
+
+void delay_millis(unsigned long time_ms){
+    unsigned long curr_time = millis();
+    unsigned long t = curr_time;
+    while(t <= (curr_time + time_ms)){
+        t = millis();
+    }
 }

@@ -1,12 +1,12 @@
 /*
     It is the starting time of the game.
 */
-#define START_TIME_SEC 60UL
+#define START_TIME_SEC 10UL
 
 /*
     It is the time that the game will sleep during the blinking state.
 */
-#define GOTO_SLEEP_TIME 10UL
+#define GO_TO_SLEEP_TIME 10UL
 
 /*
     It is the minimum time that the game will have.
@@ -16,7 +16,7 @@
 /*
     It is a multiplier to convert seconds to microseconds.
 */
-#define MICRO_MUL 1000000UL
+#define MILLIS_MUL 1000UL
 
 /*
     It is the factor that will be multiplied by the difficulty.
@@ -26,24 +26,21 @@
 /*
     Sets up the timer with the sleeping time in the setup.
 */
-void initialize_timerone(void);
-
-/*
-    Stops the timer that ends the rounds.
-*/
-void detach_timerone(void);
+void set_game_timer(void);
 
 /*
     Starts the timer that ends the rounds.
 */
-void go_to_sleep(void);
+void set_sleep_timer(void);
 
 /*
     Sets up the timer with the sleeping time.
 */
-void set_sleep_timer(void);
+void check_sleep_timer(void);
 
 /*
     Sets up the timer with the game time.
 */
-void set_game_timer(void);
+void check_game_timer(void);
+
+void delay_millis(unsigned long time_millis);
