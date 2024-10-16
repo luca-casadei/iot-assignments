@@ -5,11 +5,6 @@
 #define LCD_LINES 4
 
 /*
-    The initial starting column of the LCD.
-*/
-#define INIT_LCD_COL 2
-
-/*
     It initializes the LCD.
 */
 void initialize_lcd(void);
@@ -47,4 +42,4 @@ void lcd_wakeup(void);
 /*
     It empties a line of the LCD.
 */
-void empty_line(unsigned char col, unsigned char row);
+void empty_line(unsigned char row);

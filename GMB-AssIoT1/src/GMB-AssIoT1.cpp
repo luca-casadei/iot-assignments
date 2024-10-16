@@ -108,7 +108,7 @@ void loop()
     if (first_entered == true)
     {
       print_second_line("Go!");
-      empty_line(INIT_LCD_COL, 2);
+      empty_line(2);
       delay_millis(1000);
       set_game_timer();
       set_analog_red_led(LOW);
