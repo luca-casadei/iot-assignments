@@ -14,10 +14,11 @@
 #include "timers.h"
 #include "pins.h"
 #include "lcd.h"
+#include "sleep.h"
 
 /* Comment this lines to hide prints. */
-/*#define DEBUG*/
-/*#define DEBUG_VERBOSE*/
+#define DEBUG
+//#define DEBUG_VERBOSE
 
 static volatile bool first_entered;
 
@@ -50,7 +51,9 @@ void loop()
   {
     if (first_entered)
     {
+      lcd_wakeup();
       set_sleep_timer();
+      print_second_line("Press B1 to start");
       first_entered = false;
     }
     check_sleep_timer();
@@ -82,6 +85,7 @@ void loop()
       set_analog_red_led(LOW);
       lcd_shutdown();
       game_sleep();
+      go_to_sleep();
       break;
     }
     default:
