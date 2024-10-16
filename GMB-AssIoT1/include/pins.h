@@ -11,7 +11,7 @@
 #define LED_4 11
 
 /* Potentiometer PIN */
-#define POTENTIOMETER A5
+#define POTENTIOMETER A0
 
 /* Timer constants, used for interrupts */
 #define TIME_GAME_OVER 100

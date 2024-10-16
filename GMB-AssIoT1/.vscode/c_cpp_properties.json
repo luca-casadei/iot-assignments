@@ -11,9 +11,10 @@
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/include",
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/src",
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/lib/queue/src",
+                "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt",
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt/utility",
-                "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/TimerOne",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/variants/standard",
                 "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/Unity/src",
@@ -21,7 +22,6 @@
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -30,9 +30,10 @@
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/include",
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/src",
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/lib/queue/src",
+                    "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt",
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/EnableInterrupt/utility",
-                    "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/TimerOne",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/variants/standard",
                     "C:/Users/casad/Desktop/Coding/Compiled/IoT/GMB-AssIoT1/GMB-AssIoT1/.pio/libdeps/uno/Unity/src",
@@ -40,7 +41,6 @@
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "C:/Users/casad/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },

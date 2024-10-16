@@ -13,9 +13,10 @@
 #include "interrupts.h"
 #include "timers.h"
 #include "pins.h"
+#include "lcd.h"
 
 /* Comment this lines to hide prints. */
-#define DEBUG
+/*#define DEBUG*/
 /*#define DEBUG_VERBOSE*/
 
 static volatile bool first_entered;
@@ -31,7 +32,7 @@ void setup()
   initialize_leds();
   initialize_potentiometer();
   initialize_interrupts();
-  initialize_timerone();
+  initialize_lcd();
   first_entered = true;
 }
 
@@ -52,6 +53,7 @@ void loop()
       set_sleep_timer();
       first_entered = false;
     }
+    check_sleep_timer();
     switch (interrupt_provider)
     {
       /*
@@ -78,8 +80,8 @@ void loop()
     case TIME_TO_SLEEP:
     {
       set_analog_red_led(LOW);
+      lcd_shutdown();
       game_sleep();
-      go_to_sleep();
       break;
     }
     default:
@@ -100,11 +102,20 @@ void loop()
   {
     if (first_entered == true)
     {
-      detach_timerone();
       set_game_timer();
       set_analog_red_led(LOW);
+      char *s = (char *)malloc(sizeof(char) * COLUMNS);
+      sprintf(s, "%hu", get_correct_value());
+      print_second_line(s);
+#ifdef DEBUG
+      Serial.println(s);
+#endif
+      sprintf(s, "Score: %hu", get_score());
+      print_third_line(s);
+      free(s);
       first_entered = false;
     }
+    check_game_timer();
     /*
      * This switch checks for the pressed
      * button and increases/decreases the
@@ -148,14 +159,20 @@ void loop()
 #ifdef DEBUG
         Serial.println("You won!!");
 #endif
+        print_second_line("You won!");
+        char *s = (char *)malloc(sizeof(char) * COLUMNS);
+        sprintf(s, "Score: %hu", get_score());
+        print_third_line(s);
+        free(s);
+        delay_millis(1000);
         next_round();
         first_entered = true;
       }
       else
       {
-        detach_timerone();
+        print_second_line("You lost... KYS!");
         set_analog_red_led(255);
-        delay(1000);
+        delay_millis(1000);
         set_analog_red_led(LOW);
         first_entered = true;
         game_blink();
@@ -181,7 +198,6 @@ void loop()
 #endif
     game_blink();
     first_entered = true;
-    detach_timerone();
     disable_interrupt_to(BTN_1);
     disable_interrupt_to(BTN_2);
     disable_interrupt_to(BTN_3);
@@ -202,6 +218,4 @@ void loop()
     Serial.println();
   }
 #endif
-
-  delay(50);
 }
