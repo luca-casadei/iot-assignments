@@ -53,7 +53,8 @@ void loop()
     {
       lcd_wakeup();
       set_sleep_timer();
-      print_second_line("Press B1 to start");
+      print_second_line("Welcome to GMB!");
+      print_third_line("Press B1 to Start");
       first_entered = false;
     }
     check_sleep_timer();
@@ -106,9 +107,12 @@ void loop()
   {
     if (first_entered == true)
     {
+      print_second_line("Go!");
+      empty_line(INIT_LCD_COL, 2);
+      delay_millis(1000);
       set_game_timer();
       set_analog_red_led(LOW);
-      char *s = (char *)malloc(sizeof(char) * COLUMNS);
+      char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
       sprintf(s, "%hu", get_correct_value());
       print_second_line(s);
 #ifdef DEBUG
@@ -161,10 +165,10 @@ void loop()
       if (game_won())
       {
 #ifdef DEBUG
-        Serial.println("You won!!");
+        Serial.println("You won!");
 #endif
-        print_second_line("You won!");
-        char *s = (char *)malloc(sizeof(char) * COLUMNS);
+        print_second_line("GOOD!");
+        char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
         sprintf(s, "Score: %hu", get_score());
         print_third_line(s);
         free(s);
@@ -174,7 +178,11 @@ void loop()
       }
       else
       {
-        print_second_line("You lost... KYS!");
+        print_second_line("Game Over!");
+        char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
+        sprintf(s, "Final Score: %hu", get_score());
+        print_third_line(s);
+        free(s);
         set_analog_red_led(255);
         delay_millis(1000);
         set_analog_red_led(LOW);

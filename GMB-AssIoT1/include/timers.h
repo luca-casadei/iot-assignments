@@ -43,4 +43,7 @@ void check_sleep_timer(void);
 */
 void check_game_timer(void);
 
+/*
+    It is a delay function that uses millis.
+*/
 void delay_millis(unsigned long time_millis);
