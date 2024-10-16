@@ -16,33 +16,38 @@ void set_game_timer(void)
     last_time = millis();
 }
 
-void set_sleep_timer(void){
+void set_sleep_timer(void)
+{
     time = GO_TO_SLEEP_TIME;
     last_time = millis();
 }
 
-void check_sleep_timer(void)
+static void check_timer(void (*f)(void))
 {
     unsigned long curr_time = millis();
-    if ((curr_time - last_time) >= time * MILLIS_MUL){
-        sleep_timer_elapsed();
+    if ((curr_time - last_time) >= time * MILLIS_MUL)
+    {
+        f();
         last_time = curr_time;
     }
+}
+
+void check_sleep_timer(void)
+{
+    check_timer(sleep_timer_elapsed);
 }
 
 void check_game_timer(void)
 {
-    unsigned long curr_time = millis();
-    if((curr_time - last_time) >= MILLIS_MUL * time){
-        game_timer_elapsed();
-        last_time = curr_time;
-    }
+    check_timer(game_timer_elapsed);
 }
 
-void delay_millis(unsigned long time_ms){
+void delay_millis(unsigned long time_ms)
+{
     unsigned long curr_time = millis();
     unsigned long t = curr_time;
-    while(t <= (curr_time + time_ms)){
+    while (t <= (curr_time + time_ms))
+    {
         t = millis();
     }
 }
