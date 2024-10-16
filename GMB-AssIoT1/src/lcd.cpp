@@ -2,19 +2,20 @@
 #include "lcd.h"
 
 #define ADDR 0x27
+#define INIT_LCD_COL 2
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(ADDR, LCD_COLUMNS, LCD_LINES);
-char empty[LCD_COLUMNS - INIT_LCD_COL];
+char empty[LCD_COLUMNS];
 
-void empty_line(unsigned char col, unsigned char row){
-    lcd.setCursor(col, row);
+void empty_line(unsigned char row){
+    lcd.setCursor(0, row);
     lcd.print(empty);
 }
 
 void initialize_lcd(void){
     lcd.init();
     int i = 0;
-    for (i = 0; i < LCD_COLUMNS - INIT_LCD_COL - 1; i++){
+    for (i = 0; i < LCD_COLUMNS - 1; i++){
         empty[i] = ' ';
     }
     empty[i] = '\0';
@@ -35,25 +36,25 @@ void lcd_shutdown(void){
 }
 
 void print_first_line(const char * content){
-    empty_line(INIT_LCD_COL, 0);
+    empty_line(0);
     lcd.setCursor(INIT_LCD_COL, 0);
     lcd.print(content);
 }
 
 void print_second_line(const char * content){
-    empty_line(INIT_LCD_COL, 1);
+    empty_line(1);
     lcd.setCursor(INIT_LCD_COL, 1);
     lcd.print(content);
 }
 
 void print_third_line(const char * content){
-    empty_line(INIT_LCD_COL, 2);
+    empty_line(2);
     lcd.setCursor(INIT_LCD_COL, 2);
     lcd.print(content);
 }
 
 void print_fourth_line(const char * content){
-    empty_line(INIT_LCD_COL, 3);
+    empty_line(3);
     lcd.setCursor(INIT_LCD_COL, 3);
     lcd.print(content);
 }
