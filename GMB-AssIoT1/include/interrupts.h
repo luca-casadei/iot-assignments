@@ -1,27 +1,30 @@
 /*
-    Enables interrupt for the button pin.
-*/
+ * Enables interrupt for the button pin(optionally with a specific function).
+ */
 void enable_interrupt_to(unsigned char button_pin);
 void enable_interrupt_to(unsigned char pin, void (*f)(void));
 
 /*
-    Disables interrupt for the button pin.
-*/
+ * Disables interrupt for the button pin.
+ */
 void disable_interrupt_to(unsigned char button_pin);
+
 /*
-    Get the button pin that triggered the interrupt.
-*/
+ * Gets the sender that triggers the interrupt.
+ */
 unsigned char get_for_execution(void);
+
 /*
-    Init the button pin that triggered the interrupt.
-*/
+ * Initializes the "queue of interrupts" and enqueues the BTN 1.
+ */
 void initialize_interrupts(void);
+
 /*
-    Sleep timer elapsed interrupt.
-*/
+ * Enqueues the sleep timer.
+ */
 void sleep_timer_elapsed(void);
 
 /*
-    Game timer elapsed interrupt.
-*/
+ * Enqueues the game over timer.
+ */
 void game_timer_elapsed(void);

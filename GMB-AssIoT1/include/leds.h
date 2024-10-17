@@ -1,34 +1,29 @@
 /* 
-  The number of LEDs. 
-*/
+ * The number of LEDs. 
+ */
 #define LED_N 4
 
-/* 
-  The pin of fading and game over red LED. 
-*/
-#define LED_WRONG 6
-
 /*
-  Shuts down every LED in the collection.
-*/
+ * Shuts down every LED in the collection.
+ */
 void shut_leds(void);
 
 /*
-  Sets the analog value of the red LED.
-*/
+ * Sets the analog value of the red LED.
+ */
 void set_analog_red_led(int amount);
 
 /*
-  Sets the LED state to LOW or HIGH.
-*/
+ * Sets the LED state to LOW or HIGH.
+ */
 void set_led_state(unsigned int led_index);
 
 /*
-  Sets every LED pin to OUTPUT.
-*/
+ * Sets every LED pin to OUTPUT.
+ */
 void initialize_leds(void);
 
 /*
-  Fades the red LED.
-*/
+ * Fades the red LED.
+ */
 void fade(void);
