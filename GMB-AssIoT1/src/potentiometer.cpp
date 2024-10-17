@@ -3,9 +3,9 @@
 #include "pins.h"
 
 /*
- * Uncomment this line to see difficulty print.
+ * Uncomment this line to see difficulty prints.
  */
-/*#define DEBUG*/
+// #define DEBUG
 
 void initialize_potentiometer(void)
 {
@@ -15,7 +15,13 @@ void initialize_potentiometer(void)
 long choose_difficulty(void)
 {
   int potentiometer_value = analogRead(POTENTIOMETER);
-  long chosen_diff = map(potentiometer_value, 0, 1023, 1, 4);
+#ifdef DEBUG
+  Serial.print("Analog potentiometer value: ");
+  Serial.println(potentiometer_value);
+#endif
+  /* To avoid noise-induced unstable readings. */
+  potentiometer_value = constrain(potentiometer_value, 8, 1015);
+  long chosen_diff = map(potentiometer_value, 8, 1015, 1, 4);
 #ifdef DEBUG
   Serial.print("Chosen difficulty: ");
   Serial.println(chosen_diff);

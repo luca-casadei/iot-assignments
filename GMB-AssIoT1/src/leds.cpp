@@ -3,7 +3,7 @@
 #include "pins.h"
 
 #define FADE_START 0
-#define STEP_MULTIPLIER 5
+#define STEP_MULTIPLIER 15
 
 static unsigned char leds[LED_N] = {LED_1, LED_2, LED_3, LED_4};
 static unsigned char states[LED_N];

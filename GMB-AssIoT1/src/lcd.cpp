@@ -4,8 +4,8 @@
 #define ADDR 0x27
 #define INIT_LCD_COL 2
 
-LiquidCrystal_I2C lcd = LiquidCrystal_I2C(ADDR, LCD_COLUMNS, LCD_LINES);
-char empty[LCD_COLUMNS];
+static LiquidCrystal_I2C lcd = LiquidCrystal_I2C(ADDR, LCD_COLUMNS, LCD_LINES);
+static char empty[LCD_COLUMNS];
 
 void empty_line(unsigned char row){
     lcd.setCursor(0, row);
