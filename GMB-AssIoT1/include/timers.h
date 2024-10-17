@@ -1,22 +1,26 @@
 /*
-    Sets up the timer with the sleeping time in the setup.
-*/
+ * Sets up the game over timer with the game over time.
+ */
 void set_game_timer(long difficulty);
+
+/*
+ * Resets the game over timer.
+ */
 void reset_game_timer(void);
 
 /*
-    Starts the timer that ends the rounds.
-*/
+ * Starts the sleep timer.
+ */
 void set_sleep_timer(void);
 
 /*
-    Sets up the timer with the sleeping time.
-*/
+ * Checks if the sleep timer has finished.
+ */
 void check_sleep_timer(void);
 
 /*
-    Sets up the timer with the game time.
-*/
+ * Checks if the game over timer has finished.
+ */
 void check_game_timer(void);
 
 /*
@@ -25,6 +29,6 @@ void check_game_timer(void);
 bool check_fade_timer(void);
 
 /*
-    It is a delay function that uses millis.
-*/
+ * It is a delay function that uses milliseconds.
+ */
 void delay_millis(unsigned long time_millis);

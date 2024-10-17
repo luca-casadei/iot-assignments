@@ -1,4 +1,6 @@
-/* The main game state, used to correctly manage interrupts. */
+/* 
+  The main game state, used to correctly manage interrupts. 
+*/
 typedef enum game_state
 {
   RUNNING,
@@ -32,24 +34,22 @@ void game_sleep(void);
 void game_run(void);
 
 /*
- * Returns true if the lit LEDs binary sum
- * is equal to the correct random decimal
- * value.
+ * Returns true if the lit LEDs binary sum is equal to the correct random decimal value.
  */
 bool game_won(void);
 
 /*
- * Resets the values to be able to play
- * a new round.
+ * Resets the values to be able to play a new round.
  */
 void next_round(void);
+
 /*
- * Toggles the binary state (subtracts if already lit, adds otherwise)
+ * Toggles the binary state (subtracts if already lit, adds otherwise).
  */
 void toggle_binary(unsigned short index);
 
 /*
- * Returns the current player's scure.
+ * Returns the current player's score.
  */
 unsigned short get_score();
 
