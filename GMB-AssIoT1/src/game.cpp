@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "game.h"
 
-GameState state;
+static GameState state;
 static unsigned int score;
 static unsigned short solution_value;
 static unsigned short chosen_value;

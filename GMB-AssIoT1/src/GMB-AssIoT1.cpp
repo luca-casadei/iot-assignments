@@ -16,15 +16,17 @@
 #include "lcd.h"
 #include "sleep.h"
 
-/* Comment this lines to hide prints. */
-#define DEBUG
-//#define DEBUG_VERBOSE
+/* Comment this lines to hide prints,
+ *the verbose mode prints every state repeatedly.
+ */
+// #define DEBUG
+// #define DEBUG_VERBOSE
 
 static volatile bool first_entered;
 
 void setup()
 {
-  /* Serial line */
+  /* Serial line for debugging */
   Serial.begin(9600);
 
   /* Initialization */
@@ -92,7 +94,10 @@ void loop()
     default:
       break;
     }
-    fade();
+    if (check_fade_timer())
+    {
+      fade();
+    }
 #ifdef DEBUG_VERBOSE
     Serial.println("State: Blinking");
 #endif
@@ -107,10 +112,15 @@ void loop()
   {
     if (first_entered == true)
     {
+      const long diff = choose_difficulty();
+#ifdef DEBUG
+      Serial.print("Difficulty: ");
+      Serial.println(diff);
+#endif
       print_second_line("Go!");
       empty_line(2);
       delay_millis(1000);
-      set_game_timer();
+      set_game_timer(diff);
       set_analog_red_led(LOW);
       char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
       sprintf(s, "%hu", get_correct_value());
@@ -120,6 +130,8 @@ void loop()
 #endif
       sprintf(s, "Score: %hu", get_score());
       print_third_line(s);
+      sprintf(s, "Difficulty: %ld", diff);
+      print_fourth_line(s);
       free(s);
       first_entered = false;
     }
@@ -162,16 +174,15 @@ void loop()
       Serial.print("Correct value: ");
       Serial.println(get_correct_value());
 #endif
+      char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
       if (game_won())
       {
 #ifdef DEBUG
         Serial.println("You won!");
 #endif
         print_second_line("GOOD!");
-        char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
         sprintf(s, "Score: %hu", get_score());
         print_third_line(s);
-        free(s);
         delay_millis(1000);
         next_round();
         first_entered = true;
@@ -179,19 +190,26 @@ void loop()
       else
       {
         print_second_line("Game Over!");
-        char *s = (char *)malloc(sizeof(char) * LCD_COLUMNS);
         sprintf(s, "Final Score: %hu", get_score());
+        reset_game_timer();
         print_third_line(s);
-        free(s);
+        empty_line(3);
+        /* Red led lights up for 1 second */
         set_analog_red_led(255);
         delay_millis(1000);
         set_analog_red_led(LOW);
+        delay_millis(9000);
+        /* The game must reset its values */
         first_entered = true;
+        /* Go into blinking state */
         game_blink();
+        /* Only the first button will send interrupts */
         disable_interrupt_to(BTN_2);
         disable_interrupt_to(BTN_3);
         disable_interrupt_to(BTN_4);
       }
+      /* Frees the memory of the printable string */
+      free(s);
       break;
     }
     default:
