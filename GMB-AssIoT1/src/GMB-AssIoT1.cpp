@@ -1,8 +1,8 @@
 /*
  * Embedded and IoT 2024-2025
  * Assignment n.1 by
- * Luca Casadei
- * Francesco Pazzaglia
+ * Luca Casadei - 0001069237
+ * Francesco Pazzaglia - 0001077423
  */
 
 #include <Arduino.h>
@@ -17,12 +17,13 @@
 #include "sleep.h"
 
 /* Comment this lines to hide prints,
- *the verbose mode prints every state repeatedly.
+ * the verbose mode prints every state repeatedly.
  */
 // #define DEBUG
 // #define DEBUG_VERBOSE
 
 static volatile bool first_entered;
+static volatile long game_diff;
 
 void setup()
 {
@@ -76,6 +77,7 @@ void loop()
       enable_interrupt_to(BTN_2);
       enable_interrupt_to(BTN_3);
       enable_interrupt_to(BTN_4);
+      game_diff = choose_difficulty();
       break;
     }
     /*
@@ -112,7 +114,7 @@ void loop()
   {
     if (first_entered == true)
     {
-      const long diff = choose_difficulty();
+      const long diff = game_diff;
 #ifdef DEBUG
       Serial.print("Difficulty: ");
       Serial.println(diff);
