@@ -31,7 +31,7 @@ void setup()
   Serial.begin(9600);
 
   /* Initialization */
-  initialize_game();
+  initialize_game(); 
   initialize_buttons();
   initialize_leds();
   initialize_potentiometer();
@@ -64,7 +64,7 @@ void loop()
     switch (interrupt_provider)
     {
       /*
-       * If the firt button is pressed while we are
+       * If the first button is pressed while we are
        * in the blinking state, we set the game into
        * running mode, the interrupts on the last three
        * button will be enabled and we'll be ready to
