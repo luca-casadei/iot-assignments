@@ -1,7 +1,7 @@
-#ifndef BUTTON_HPP
-#define BUTTON_HPP
+#pragma once
 
-class Button {
+class Button
+{
 public:
     Button(int pin);
     void begin();
@@ -13,5 +13,3 @@ private:
     unsigned long lastDebounceTime;
     static const unsigned long debounceDelay = 50;
 };
-
-#endif

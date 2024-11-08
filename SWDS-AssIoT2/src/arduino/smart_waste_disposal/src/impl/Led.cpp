@@ -1,9 +1,12 @@
 #include <Arduino.h>
-#include "Led.hpp"
+#include "classes/Led.hpp"
 
 Led::Led(int pin) {
   this->pin = pin;
-  pinMode(pin,OUTPUT);
+}
+
+void Led::init(){
+  pinMode(pin, OUTPUT);
 }
 
 void Led::switchOn() {
