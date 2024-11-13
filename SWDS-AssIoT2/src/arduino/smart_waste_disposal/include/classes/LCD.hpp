@@ -1,8 +1,7 @@
 #pragma once
-#include <Wire.h>
-#include <hd44780.h>
-#include <hd44780ioClass/hd44780_I2Cexp.h>
 #include "interfaces/ILCD.hpp"
+
+class hd44780_I2Cexp;
 
 class LCD : public ILCD
 {
@@ -15,6 +14,6 @@ public:
     void init() final;
 
 private:
-    hd44780_I2Cexp lcd;
+    hd44780_I2Cexp * lcd;
     char *empty_line;
 };

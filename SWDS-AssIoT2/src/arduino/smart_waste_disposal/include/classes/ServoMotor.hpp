@@ -1,18 +1,19 @@
 #pragma once
-#include <Servo.h>
 #include "interfaces/IServoMotor.hpp"
+
+class Servo;
 
 class ServoMotor : public IServoMotor
 {
 public:
-    ServoMotor(uint8_t pin);
-    ~ServoMotor();
+    ServoMotor(unsigned int pin);
+    virtual ~ServoMotor();
     void open() final;
     void close() final;
     void empty() final;
     void init() final;
 
 protected:
-    Servo servo_motor;
-    uint8_t pin;
+    Servo * servo_motor;
+    unsigned int pin;
 };
