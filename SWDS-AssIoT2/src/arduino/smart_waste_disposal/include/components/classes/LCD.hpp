@@ -1,5 +1,5 @@
 #pragma once
-#include "interfaces/ILCD.hpp"
+#include "components/interfaces/ILCD.hpp"
 
 class hd44780_I2Cexp;
 
