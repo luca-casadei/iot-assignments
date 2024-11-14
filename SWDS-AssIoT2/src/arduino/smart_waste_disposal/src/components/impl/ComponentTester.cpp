@@ -1,7 +1,7 @@
-#include "classes/ComponentTester.hpp"
-#include "classes/LCD.hpp"
-#include "classes/Led.hpp"
-#include "classes/ServoMotor.hpp"
+#include "components/classes/ComponentTester.hpp"
+#include "components/classes/LCD.hpp"
+#include "components/classes/Led.hpp"
+#include "components/classes/ServoMotor.hpp"
 #include <Arduino.h>
 
 ComponentTester::ComponentTester(const unsigned int green_led_pin, const unsigned int red_led_pin, const unsigned int servo_pin){

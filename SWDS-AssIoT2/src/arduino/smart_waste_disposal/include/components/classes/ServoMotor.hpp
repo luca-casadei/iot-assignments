@@ -1,5 +1,5 @@
 #pragma once
-#include "interfaces/IServoMotor.hpp"
+#include "components/interfaces/IServoMotor.hpp"
 
 class Servo;
 
@@ -13,7 +13,7 @@ public:
     void empty() final;
     void init() final;
 
-protected:
+private:
     Servo * servo_motor;
     unsigned int pin;
 };

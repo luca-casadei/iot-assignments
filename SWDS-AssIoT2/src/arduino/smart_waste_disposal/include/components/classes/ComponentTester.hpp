@@ -1,10 +1,11 @@
-#include "interfaces/IComponentTester.hpp"
+#include "components/interfaces/IComponentTester.hpp"
 
 class LCD;
 class Led;
 class ServoMotor;
+class SerialCommunicator;
 
-class ComponentTester: public ICompoentTest{
+class ComponentTester: public ICompoentTester{
     public:
     void test();
     void init() final;

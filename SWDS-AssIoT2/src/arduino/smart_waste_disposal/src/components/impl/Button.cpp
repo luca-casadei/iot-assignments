@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "classes/Button.hpp"
+#include "components/classes/Button.hpp"
 
 Button::Button(int pin) : pin(pin) {}
 

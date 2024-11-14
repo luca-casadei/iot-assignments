@@ -1,5 +1,5 @@
 #include <Servo.h>
-#include "classes/ServoMotor.hpp"
+#include "components/classes/ServoMotor.hpp"
 
 #define OPEN 0
 #define CLOSED 90
