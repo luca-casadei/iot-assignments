@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "components/classes/Led.hpp"
+#include "components/Led.hpp"
 
 Led::Led(int pin) {
   this->pin = pin;

@@ -1,12 +1,16 @@
-#include <Arduino.h>
-#include "components/classes/ComponentTester.hpp"
 #include "constants.hpp"
-#include "serial/classes/MsgService.hpp"
+#include "tasks/Scheduler.hpp"
+#include "tasks/SleepingTask.hpp"
+#include <Arduino.h>
+#include "components/Led.hpp"
 
-#define TEST_COMPONENTS
+// #define TEST_COMPONENTS
 
 #ifdef TEST_COMPONENTS
-ICompoentTester * tester;
+#include "components/ComponentTester.hpp"
+IComponentTester *tester;
+#else
+Scheduler scheduler;
 #endif
 
 void setup()
@@ -15,24 +19,23 @@ void setup()
     tester = new ComponentTester(GREEN_PIN, RED_PIN, SERVO_PIN);
     tester->init();
     MsgService.init();
+#else
+//Tasks
+//Sleeping task
+Task * sleep = new SleepingTask(MOTION_DETECTOR, 5);
+sleep->init(TASK_SLEEP_PERIOD);
+
+//Scheduler
+scheduler.init(SCHEDULER_MCD_PERIOD);
+scheduler.addTask(sleep);
 #endif
-    //Task initialization
-    // TODO
 }
 
 void loop()
 {
 #ifdef TEST_COMPONENTS
     tester->test();
-    if (MsgService.isMsgAvailable()){
-        Msg * msg = MsgService.receiveMsg();
-        if (msg->getContent() == "ping"){
-            delay(500);
-            MsgService.sendMsg("pong");
-        }
-        delete msg;
-    }
 #else
-    // TODO
+    scheduler.schedule();
 #endif
 }
