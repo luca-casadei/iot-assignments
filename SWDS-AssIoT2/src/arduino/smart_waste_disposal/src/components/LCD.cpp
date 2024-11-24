@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <hd44780.h>
 #include <hd44780ioClass/hd44780_I2Cexp.h>
-#include "components/classes/LCD.hpp"
+#include "components/LCD.hpp"
 
 LCD::LCD(unsigned int lcd_address, unsigned int lcd_columns, unsigned int lcd_rows)
 {

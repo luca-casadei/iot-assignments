@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "serial/classes/MsgService.hpp"
+#include "serial/MsgService.hpp"
 
 String content;
 
