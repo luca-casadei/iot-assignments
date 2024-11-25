@@ -1,14 +1,15 @@
 #pragma once
 
-class Button
+#include "Component.hpp"
+
+class Button : public Component
 {
 public:
-    Button(int pin);
-    void begin();
-    bool wasPressed();
+    Button(unsigned int pin);
+    void init();
+    bool isPressed();
 
 private:
-    int pin;
     bool lastState;
     unsigned long lastDebounceTime;
     static const unsigned long debounceDelay = 50;
