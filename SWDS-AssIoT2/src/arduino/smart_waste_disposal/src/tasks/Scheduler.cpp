@@ -22,7 +22,7 @@ bool Scheduler::addTask(Task* task){
     nTasks++;
     return true;
   } else {
-    return false; 
+    return false;
   }
 }
   

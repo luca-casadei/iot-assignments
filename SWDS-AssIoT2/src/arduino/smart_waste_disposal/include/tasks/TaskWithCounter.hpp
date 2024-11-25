@@ -3,11 +3,12 @@
 class TaskWithCounter : public Task
 {
 protected:
-    /**
-     * Gets the amount of times that the counter must iterate before reaching the time deadline.
-     */
-    unsigned int counter_calc(unsigned int seconds, unsigned int task_period)
-    {
-        return (seconds * 1000U) / task_period;
-    }
+    virtual void init(unsigned int period);
+    unsigned int get_counter_max();
+    TaskWithCounter(unsigned int seconds);
+
+private:
+    unsigned int counter_max;
+    unsigned int seconds;
+    unsigned int counter_calc(unsigned int seconds, unsigned int task_period);
 };

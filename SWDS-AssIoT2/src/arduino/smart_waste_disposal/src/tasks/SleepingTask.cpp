@@ -1,39 +1,56 @@
 #include <avr/power.h>
 #include <avr/sleep.h>
+#include "components/LCD.hpp"
 #include "tasks/SleepingTask.hpp"
+#include <Arduino.h>
+#include "EnableInterrupt.h"
 
-SleepingTask::SleepingTask(unsigned int motionDetectorPin, unsigned int seconds_before_sleeping)
+SleepingTask::SleepingTask(unsigned int motionDetectorPin, unsigned int seconds_before_sleeping, LCD *lcd) : TaskWithCounter(seconds_before_sleeping)
 {
   this->motionDetectorPin = motionDetectorPin;
-  this->seconds_before_sleeping = seconds_before_sleeping;
+  this->lcd = lcd;
+}
+
+void wake_up(){
+
 }
 
 void SleepingTask::init(unsigned int period)
 {
-  Task::init(period);
+  TaskWithCounter::init(period);
   state = AWAKE;
   this->counter = 0;
-  this->time_before_sleeping = this->counter_calc(this->seconds_before_sleeping, period);
+  enableInterrupt(this->motionDetectorPin, wake_up, CHANGE);
 }
 
 void SleepingTask::tick()
 {
+  const int PIR = digitalRead(this->motionDetectorPin);
   switch (this->state)
   {
   case AWAKE:
   {
-    if (this->counter < this->time_before_sleeping)
+    if (PIR == HIGH)
     {
-      this->counter++;
+      this->counter = 0;
     }
     else
     {
-      this->state = SLEEPING;
+      if (this->counter < this->get_counter_max())
+      {
+        this->counter++;
+      }
+      else
+      {
+        this->state = SLEEPING;
+      }
     }
+
     break;
   }
   case SLEEPING:
   {
+    lcd->off();
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_enable();
     power_adc_disable();
@@ -46,6 +63,7 @@ void SleepingTask::tick()
     power_all_enable();
     this->state = AWAKE;
     this->counter = 0;
+    lcd->on();
     break;
   }
   }
