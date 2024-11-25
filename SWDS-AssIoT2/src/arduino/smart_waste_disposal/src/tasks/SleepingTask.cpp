@@ -1,42 +1,43 @@
 #include <avr/power.h>
 #include <avr/sleep.h>
 #include "components/LCD.hpp"
+#include "components/MotionDetector.hpp"
 #include "tasks/SleepingTask.hpp"
-#include <Arduino.h>
 #include "EnableInterrupt.h"
 
-SleepingTask::SleepingTask(unsigned int motionDetectorPin, unsigned int seconds_before_sleeping, LCD *lcd) : TaskWithCounter(seconds_before_sleeping)
+SleepingTask::SleepingTask(unsigned int motion_detector_pin, LCD * lcd, unsigned int time_before_sleep): TaskWithCounter(1)
 {
-  this->motionDetectorPin = motionDetectorPin;
+  this->pir = new MotionDetector(motion_detector_pin);
   this->lcd = lcd;
+  this->add_time(time_before_sleep);
 }
 
-void wake_up(){
-
+void wake_up()
+{
 }
 
 void SleepingTask::init(unsigned int period)
 {
-  TaskWithCounter::init(period);
-  state = AWAKE;
+  Task::init(period);
+  this->state = AWAKE;
   this->counter = 0;
-  enableInterrupt(this->motionDetectorPin, wake_up, CHANGE);
+  enableInterrupt(this->pir->getPin(), wake_up, RISING);
 }
 
 void SleepingTask::tick()
 {
-  const int PIR = digitalRead(this->motionDetectorPin);
+  const bool detected = this->pir->detected();
   switch (this->state)
   {
   case AWAKE:
   {
-    if (PIR == HIGH)
+    if (detected)
     {
       this->counter = 0;
     }
     else
     {
-      if (this->counter < this->get_counter_max())
+      if (this->counter < this->get_iterations())
       {
         this->counter++;
       }

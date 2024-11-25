@@ -21,7 +21,15 @@
 #define SEPARATOR ('\n')
 
 /**
+ * Temperature Sensor
+ */
+#define TEMPERATURE_THRESHOLD 30
+#define TEMPERATURE_SENSOR A2
+#define MAX_TEMP_TIME 10U
+
+/**
  * Tasks
  */
 #define SCHEDULER_MCD_PERIOD 50U
 #define TASK_SLEEP_PERIOD 500U
+#define TASK_TEMP_PERIOD 100U

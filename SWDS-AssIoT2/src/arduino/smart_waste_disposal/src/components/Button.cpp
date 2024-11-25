@@ -1,14 +1,12 @@
 #include <Arduino.h>
 #include "components/Button.hpp"
 
-Button::Button(int pin) : pin(pin) {}
-
-void Button::begin() {
-    pinMode(pin, INPUT);
+void Button::init() {
+    pinMode(this->getPin(), INPUT);
 }
 
-bool Button::wasPressed() {
-    bool currentState = digitalRead(pin);
+bool Button::isPressed() {
+    bool currentState = digitalRead(this->getPin());
 
     if (currentState != lastState)
     {
