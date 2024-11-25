@@ -3,10 +3,16 @@
  * PINS
  */
 #define SERVO_PIN 10
-#define LCD_ADDR 0x27
 #define GREEN_PIN 2
 #define RED_PIN 3
-#define MOTION_DETECTOR A5
+#define MOTION_DETECTOR A3
+
+/**
+ * LCD
+ */
+#define LCD_ADDR 0x27
+#define LCD_COLS 20
+#define LCD_ROWS 4
 
 /**
  * Serial
