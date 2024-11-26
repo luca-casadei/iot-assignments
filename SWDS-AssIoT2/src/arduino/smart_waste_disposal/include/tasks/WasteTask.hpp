@@ -4,6 +4,9 @@
 class Led;
 class Button;
 class WasteSensor;
+class TemperatureTask;
+class LCD;
+class ServoMotor;
 
 class WasteTask : public TaskWithCounter
 {
@@ -14,9 +17,9 @@ private:
   Button * open_button;
   Button * close_button;
   WasteSensor * waste_sensor;
-  unsigned int max_entered_waste_time; // T1 
-  unsigned int waste_received_time; // T2
-  unsigned int waste_emptying_time; // T3
+  TemperatureTask * tTask;
+  ServoMotor * servo;
+  LCD * lcd;
   unsigned int waste_max_level; 
   enum State{
       CLOSED,
@@ -37,7 +40,10 @@ public:
                     unsigned int max_entered_waste_time, 
                     unsigned int waste_received_time, 
                     unsigned int waste_emptying_time,
-                    unsigned int waste_max_level);
+                    unsigned int waste_max_level,
+                    unsigned int door_pin,
+                    TemperatureTask * tTask,
+                    LCD * lcd);
   void init(unsigned int period) final;
   void tick() final;
 };

@@ -6,10 +6,10 @@ class LCD
 public:
     LCD(unsigned int lcd_address, unsigned int lcd_columns, unsigned int lcd_rows);
     virtual ~LCD();
-    virtual void on() final;
-    virtual void off() final;
-    virtual void printToLine(unsigned int line_n, const char * text) final;
-    virtual void init() final;
+    void on();
+    void off();
+    void printToLine(unsigned int line_n, const char * text);
+    void init();
 
 private:
     hd44780_I2Cexp * lcd;

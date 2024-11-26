@@ -22,4 +22,5 @@ public:
   void init(unsigned int period) final;
   void tick() final;
   bool isInDanger();
+  double getTemp();
 };
