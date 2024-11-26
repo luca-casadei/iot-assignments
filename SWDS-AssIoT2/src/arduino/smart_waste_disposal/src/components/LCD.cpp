@@ -15,7 +15,8 @@ LCD::LCD(unsigned int lcd_address, unsigned int lcd_columns, unsigned int lcd_ro
     this->empty_line[i] = '\0';
 }
 
-void LCD::init(){
+void LCD::init()
+{
     lcd->init();
 }
 
@@ -26,18 +27,17 @@ LCD::~LCD()
 
 void LCD::on()
 {
-    lcd->clear();
     lcd->backlight();
 }
 
 void LCD::off()
 {
-    lcd->clear();
     lcd->noBacklight();
 }
 
 void LCD::printToLine(const unsigned int line_n, const char *text)
 {
+
     lcd->setCursor(0, line_n);
     lcd->print(this->empty_line);
     lcd->setCursor(0, line_n);

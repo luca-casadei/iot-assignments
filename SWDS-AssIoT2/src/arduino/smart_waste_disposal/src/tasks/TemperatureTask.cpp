@@ -20,6 +20,10 @@ bool TemperatureTask::isInDanger(){
     return this->state == DANGER;
 }
 
+double TemperatureTask::getTemp(){
+    return this->temperature_sensor->getTemperature();
+}
+
 void TemperatureTask::tick()
 {
     const double temperature = this->temperature_sensor->getTemperature();
