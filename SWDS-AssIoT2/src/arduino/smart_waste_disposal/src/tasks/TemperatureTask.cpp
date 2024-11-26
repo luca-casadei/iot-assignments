@@ -41,7 +41,6 @@ void TemperatureTask::tick()
             if (this->counter >= this->get_iterations())
             {
                 this->state = DANGER;
-                // temperr = true
             }
             else
             {
@@ -60,7 +59,6 @@ void TemperatureTask::tick()
             Msg* msg = MsgService.receiveMsg();    
             if (msg->getContent() == "RESTORE"){
                 this->state = STABLE;
-                // temperr = false
             }
             delete msg;
         }

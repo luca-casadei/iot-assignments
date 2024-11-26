@@ -3,6 +3,7 @@
 #include "components/WasteSensor.hpp"
 #include "components/Led.hpp"
 #include "components/LCD.hpp"
+#include "serial/MsgService.hpp"
 #include <Arduino.h>
 
 WasteTask::WasteTask(unsigned int green_led_pin,
@@ -47,35 +48,65 @@ void WasteTask::tick()
     }
     case RECEIVED:
     {
+       /* if(this->counter >= this->waste_received_time){
+            if(this->waste_sensor->getWasteLevel() > this->waste_max_level)
+            {
+                state = CLOSED;
+                this->counter = 0;
+            } else {
+                state = FULL;
+            }
+        }
+        if(temperature_task->isInDanger()){
+            state = ERRORED;
+        }*/
         break;
     }
     case ERRORED:
     {
+        if (MsgService.isMsgAvailable()){
+            Msg* msg = MsgService.receiveMsg();    
+            if (msg->getContent() == "RESTORE"){
+                this->state = EMPTYING;
+                this->counter = 0;
+            }
+            delete msg;
+        }
         break;
     }
     case EMPTYING:
     {
+        if(this->counter < this->waste_emptying_time){
+            this->counter++;
+        } else {
+            state = CLOSED;
+            this->counter = 0;
+        }
         break;
     }
     case FULL:
     {
+        if (MsgService.isMsgAvailable()){
+            Msg* msg = MsgService.receiveMsg();    
+            if (msg->getContent() == "EMPTY"){
+                this->state = EMPTYING;
+                this->counter = 0;
+            }
+            delete msg;
+        }
         break;
     }
 
     case OPEN:
     {
-        if (this->counter >= this->max_entered_waste_time /* TODO: || waste_sensor->getWasteLevel() <= this->waste_max_level*/)
+        if (close_button->isPressed() || this->counter >= this->max_entered_waste_time /*|| waste_sensor->getWasteLevel() <= this->waste_max_level*/)
         {
             state = RECEIVED;
             this->counter = 0;
         }
-        else if (close_button->isPressed())
+        else if(this->counter < this->max_entered_waste_time)
         {
-            state = CLOSED;
-            this->counter = 0;
-        }
-        else
-        {
+            this->counter++;
         }
     }
     break;
