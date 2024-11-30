@@ -27,6 +27,7 @@ double TemperatureTask::getTemp(){
 void TemperatureTask::tick()
 {
     const double temperature = this->temperature_sensor->getTemperature();
+    const unsigned int iterations = this->get_iterations();
     switch (this->state)
     {
     case STABLE:
@@ -42,7 +43,7 @@ void TemperatureTask::tick()
     {
         if (temperature >= this->max_temp)
         {
-            if (this->counter >= this->get_iterations())
+            if (this->counter >= iterations)
             {
                 this->state = DANGER;
             }
@@ -60,7 +61,7 @@ void TemperatureTask::tick()
     case DANGER:
     {
         if (MsgService.isMsgAvailable()){
-            Msg* msg = MsgService.receiveMsg();    
+            Msg* msg = MsgService.receiveMsg();
             if (msg->getContent() == "RESTORE"){
                 this->state = STABLE;
             }

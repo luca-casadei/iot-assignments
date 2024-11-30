@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 TaskWithCounter::TaskWithCounter(unsigned int max_times_amount) : Task() {
+    this->max_times_amount = max_times_amount;
     this->times = (unsigned int *)malloc(sizeof(unsigned int) * max_times_amount);
     this->curr_index = 0;
 }
@@ -25,5 +26,5 @@ unsigned int TaskWithCounter::get_iterations(unsigned int index){
 }
 
 unsigned int TaskWithCounter::get_iterations(void){
-    return counter_calc(get_iterations(0), this->get_period());
+    return get_iterations(0);
 }

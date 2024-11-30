@@ -8,10 +8,10 @@
 #define MOTION_DETECTOR A3
 #define ECHO 6
 #define TRIG 7
-#define MAX_RECV_TIME 5
-#define MAX_ENT_TIME 5
+#define MAX_RECV_TIME 5U
+#define MAX_ENT_TIME 5U
 #define TRASHTRESH_CM 5
-#define MAX_EMPTY_TIME 10
+#define MAX_EMPTY_TIME 10U
 
 /**
  * LCD
@@ -35,12 +35,12 @@
 /**
  * Temperature Sensor
  */
-#define TEMPERATURE_THRESHOLD 30
+#define TEMPERATURE_THRESHOLD 26
 #define TEMPERATURE_SENSOR A2
-#define MAX_TEMP_TIME 10U
+#define MAX_TEMP_TIME 5U
 
 /**
- * Tasks
+ * Task Periods
  */
 #define SCHEDULER_MCD_PERIOD 50U
 #define TASK_SLEEP_PERIOD 500U
