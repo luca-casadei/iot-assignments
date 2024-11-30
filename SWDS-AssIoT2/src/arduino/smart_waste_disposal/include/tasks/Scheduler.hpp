@@ -1,7 +1,7 @@
 #pragma once
 #include "Task.hpp"
 
-#define MAX_TASKS 50
+#define MAX_TASKS 10
 
 class Scheduler {
 

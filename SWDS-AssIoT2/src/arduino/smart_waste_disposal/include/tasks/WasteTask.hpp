@@ -29,6 +29,12 @@ private:
       FULL,
       EMPTYING
   } state;
+  void to_received();
+  void to_closed();
+  void to_full();
+  void to_open();
+  void to_emptying();
+  void to_errored();
     
 public:
   WasteTask(unsigned int green_led_pin,
@@ -45,5 +51,6 @@ public:
                     TemperatureTask * tTask,
                     LCD * lcd);
   void init(unsigned int period) final;
+  double get_fullness();
   void tick() final;
 };

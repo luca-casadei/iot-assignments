@@ -30,7 +30,7 @@ void setup()
 
     // Tasks
     // Sleeping task
-    Task *sleep = new SleepingTask(MOTION_DETECTOR, lcd, 5);
+    Task *sleep = new SleepingTask(MOTION_DETECTOR, lcd, 10);
     sleep->init(TASK_SLEEP_PERIOD);
     // Temperature Task
     TemperatureTask *temp = new TemperatureTask(TEMPERATURE_SENSOR, TEMPERATURE_THRESHOLD, MAX_TEMP_TIME);

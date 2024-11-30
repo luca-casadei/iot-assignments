@@ -1,28 +1,14 @@
 package org.operator;
 
-import org.operator.components.SerialCommunication;
-import org.operator.view.ContainerGUI;
+import org.operator.controller.SensorController;
+import org.operator.model.Container;
+import org.operator.view.SensorView;
 
-public class Main {
+public final class Main {
+    private static final double DEPTH = 50;
+    private static final double TRASH_THRESH = 5;
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-
-            ContainerGUI gui = new ContainerGUI();
-            gui.setVisible(true);
-
-            // Configura la comunicazione seriale
-            SerialCommunication serial = new SerialCommunication(" /dev/cu.usbmodem11301");
-            if (serial.open()) {
-                serial.setDataListener(data -> {
-
-                    try {
-                        int distance = Integer.parseInt(data);
-                        // gui.updateContainer(distance);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Dati ricevuti non validi: " + data);
-                    }
-                });
-            }
-        });
+        final SensorController controller = new SensorController(new Container(DEPTH, TRASH_THRESH), new SensorView());
+        controller.startUpdatingView();
     }
 }

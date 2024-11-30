@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    pmd
 }
 
 group = "org.operator"
@@ -9,12 +10,11 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("io.github.java-native:jssc:2.9.6")
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+pmd{
+    version = "7.0.0"
 }
 
-tasks.test {
-    useJUnitPlatform()
+dependencies {
+    // https://mvnrepository.com/artifact/com.fazecast/jSerialComm
+    implementation("com.fazecast:jSerialComm:1.3.10")
 }

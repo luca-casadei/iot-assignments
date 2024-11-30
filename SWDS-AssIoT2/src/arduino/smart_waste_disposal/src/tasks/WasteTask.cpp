@@ -49,30 +49,79 @@ void WasteTask::init(unsigned int period)
     this->green_led->init();
     this->servo->init();
 
-    this->state = CLOSED;
+    to_closed();
+}
+
+void WasteTask::to_received()
+{
+    this->lcd->printToLine(0, "WASTE");
+    this->lcd->printToLine(1, "RECEIVED");
+    this->servo->close();
+    state = RECEIVED;
     this->counter = 0;
-    this->lcd->printToLine(0, "PRESS OPEN TO");
-    this->lcd->printToLine(1, "ENTER WASTE");
+}
+void WasteTask::to_closed()
+{
     this->green_led->switchOn();
     this->red_led->switchOff();
+    this->lcd->printToLine(0, "PRESS OPEN TO");
+    this->lcd->printToLine(1, "ENTER WASTE");
+    this->servo->close();
+    state = CLOSED;
+    this->counter = 0;
+}
+void WasteTask::to_full()
+{
+    this->green_led->switchOff();
+    this->red_led->switchOn();
+    this->lcd->printToLine(0, "CONTAINER");
+    this->lcd->printToLine(1, "FULL!");
+    state = FULL;
+}
+void WasteTask::to_emptying()
+{
+    this->state = EMPTYING;
+    this->counter = 0;
+    this->servo->empty();
+}
+void WasteTask::to_errored()
+{
+    this->green_led->switchOff();
+    this->red_led->switchOn();
+    this->lcd->printToLine(0, "PROBLEM");
+    this->lcd->printToLine(1, "DETECTED!");
+    state = ERRORED;
+}
+
+void WasteTask::to_open()
+{
+    this->lcd->printToLine(0, "PRESS CLOSE");
+    this->lcd->printToLine(1, "WHEN DONE");
+    this->servo->open();
+    state = OPEN;
 }
 
 void WasteTask::tick()
 {
-    const bool isOpenPressed = this->open_button->isPressed();
-    const bool isClosePressed = this->close_button->isPressed();
-    const bool isInDanger = tTask->isInDanger();
-    const double wasteLevel = this->waste_sensor->getWasteLevel(this->tTask->getTemp());
+    const bool is_open_pressed = this->open_button->isPressed();
+    const bool is_close_pressed = this->close_button->isPressed();
+    const bool is_in_danger = tTask->isInDanger();
+    const double temp = this->tTask->getTemp();
+    const double waste_level = this->waste_sensor->getWasteLevel(temp);
+    Serial.print(temp);
+    Serial.print(",");
+    Serial.println(waste_level);
     switch (state)
     {
     case CLOSED:
     {
-        if (isOpenPressed)
+        if (is_in_danger)
         {
-            this->lcd->printToLine(0, "PRESS CLOSE");
-            this->lcd->printToLine(1, "WHEN DONE");
-            this->servo->open();
-            state = OPEN;
+            to_errored();
+        }
+        if (is_open_pressed)
+        {
+            to_open();
         }
         break;
     }
@@ -80,50 +129,30 @@ void WasteTask::tick()
     {
         if (this->counter >= this->get_iterations(T2))
         {
-            Serial.println(wasteLevel);
-            if (wasteLevel > this->waste_max_level)
+            if (waste_level > this->waste_max_level)
             {
-                this->green_led->switchOn();
-                this->red_led->switchOff();
-                this->lcd->printToLine(0, "PRESS OPEN TO");
-                this->lcd->printToLine(1, "ENTER WASTE");
-                state = CLOSED;
-                this->counter = 0;
+                to_closed();
             }
             else
             {
-                this->green_led->switchOff();
-                this->red_led->switchOn();
-                this->lcd->printToLine(0, "CONTAINER");
-                this->lcd->printToLine(1, "FULL!");
-                state = FULL;
+                to_full();
             }
         }
         else
         {
             counter++;
         }
-        if (isInDanger)
+        if (is_in_danger)
         {
-            this->green_led->switchOff();
-            this->red_led->switchOn();
-            this->lcd->printToLine(0, "PROBLEM");
-            this->lcd->printToLine(1, "DETECTED!");
-            state = ERRORED;
+            to_errored();
         }
         break;
     }
     case ERRORED:
     {
-        if (MsgService.isMsgAvailable())
+        if (!is_in_danger)
         {
-            Msg *msg = MsgService.receiveMsg();
-            if (msg->getContent() == "RESTORE")
-            {
-                this->state = EMPTYING;
-                this->counter = 0;
-            }
-            delete msg;
+            to_closed();
         }
         break;
     }
@@ -135,24 +164,16 @@ void WasteTask::tick()
         }
         else
         {
-            this->green_led->switchOn();
-            this->red_led->switchOff();
-            this->lcd->printToLine(0, "PRESS OPEN TO");
-            this->lcd->printToLine(1, "ENTER WASTE");
-            state = CLOSED;
-            this->counter = 0;
+            to_closed();
         }
         break;
     }
     case FULL:
     {
-        if (MsgService.isMsgAvailable())
-        {
-            Msg *msg = MsgService.receiveMsg();
-            if (msg->getContent() == "EMPTY")
-            {
-                this->state = EMPTYING;
-                this->counter = 0;
+        if (MsgService.isMsgAvailable()){
+            Msg* msg = MsgService.receiveMsg();
+            if (msg->getContent() == "EMPTY"){
+                to_emptying();
             }
             delete msg;
         }
@@ -161,13 +182,9 @@ void WasteTask::tick()
 
     case OPEN:
     {
-        if (isClosePressed || this->counter >= this->get_iterations(T1) || wasteLevel <= this->waste_max_level)
+        if (is_close_pressed || this->counter >= this->get_iterations(T1) || waste_level <= this->waste_max_level)
         {
-            this->lcd->printToLine(0, "WASTE");
-            this->lcd->printToLine(1, "RECEIVED");
-            this->servo->close();
-            state = RECEIVED;
-            this->counter = 0;
+            to_received();
         }
         else if (this->counter < this->get_iterations(T1))
         {
