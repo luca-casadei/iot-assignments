@@ -6,12 +6,9 @@
 \usepackage{float}
 \usepackage{todonotes}
 
-
-
 \author{Luca Casadei\\Francesco Pazzaglia\\Mattia Morri}
 \date{Last modified: \today}
 \title{\textbf{Assignment nr.2\\FSMs and Task-based Architectures: Smart Waste Disposal System}}
-
 
 \begin{document}
 	\maketitle
@@ -41,10 +38,32 @@
 		
 		\item \textbf{TemperatureTask}\\
 		Manages the temperature changes of the waste inside the container. It provides for the following states:
-				\begin{itemize}
+		\begin{itemize}
 			\item \textbf{STABLE}
 			\item \textbf{UNSTABLE}
 			\item \textbf{DANGER}
 		\end{itemize}
+
 	\end{enumerate}
+
+	\section{Java GUI for Monitoring and Control}
+	The java GUI provides real-time monitoring and operator control for the Smart Waste Disposal System. The GUI interacts with the Arduino system via a serial connection, displaying the container's current status and allowing user actions.
+
+	\subsection{Features}
+	\begin{itemize}
+		\item \textbf{Visual Representation of Waste Levels}: 
+		The GUI includes a container panel, which dynamically updates to show the percentage of waste in the container.
+		\item \textbf{Real-time Updates}: 
+		Serial communication allows the GUI to receive data from the Arduino system, such as waste level and temperature status.
+		\item \textbf{User Interaction}: 
+		Buttons are provided to control the container, including:
+		\begin{itemize}
+			\item \textbf{Empty the Container}: Decreases the waste level progressively when pressed.
+			\item \textbf{Restore the Container}: Resets the container waste level.
+		\end{itemize}
+	\end{itemize}
+
+    \section{Conclusion}
+    The Smart Waste Disposal System successfully integrates hardware and software to provide an efficient and user-friendly solution for liquid waste management. The finite state machine ensures reliable operations, while the task-based architecture and the Java GUI simplify development and future scalability.
+
 \end{document}
