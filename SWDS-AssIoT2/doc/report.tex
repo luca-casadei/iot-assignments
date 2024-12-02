@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{todonotes}
+
+
+
+\author{Luca Casadei\\Francesco Pazzaglia\\Mattia Morri}
+\date{Last modified: \today}
+\title{\textbf{Assignment nr.2\\FSMs and Task-based Architectures: Smart Waste Disposal System}}
+
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\section{Introduction}
+	This project implements a Smart Waste Disposal System for liquid waste using an Arduino-based embedded system and a PC application for monitoring and operator control. It is based on a finite state machine (FSM) and task-based architecture.
+	
+	\section{Finite State Machine and Task Decriptions}
+	\begin{enumerate}
+		\item \textbf{WasteTask}\\
+		Manages waste disposal operations, the main task for the proper functioning of the entire system. It provides for the following states:
+		\begin{itemize}
+			\item \textbf{CLOSED} (initial state)
+			\item \textbf{OPEN}
+			\item \textbf{RECEIVED}
+			\item \textbf{ERRORED}
+			\item \textbf{FULL}
+			\item \textbf{EMPTYING}
+		\end{itemize}
+		
+		\item \textbf{SleepingTask}\\
+		Manages the shutdown of the system when no user is detected in the proximity of the waste container. It provides for the following states:
+		\begin{itemize}
+			\item \textbf{AWAKE}
+			\item \textbf{SLEEPING}
+		\end{itemize}
+		
+		\item \textbf{TemperatureTask}\\
+		Manages the temperature changes of the waste inside the container. It provides for the following states:
+				\begin{itemize}
+			\item \textbf{STABLE}
+			\item \textbf{UNSTABLE}
+			\item \textbf{DANGER}
+		\end{itemize}
+	\end{enumerate}
+\end{document}
