@@ -4,3 +4,7 @@
 .idea
 *.class
 *.out
+*.log
+*.gz
+*.toc
+*.aux
