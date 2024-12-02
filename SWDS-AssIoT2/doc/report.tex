@@ -17,37 +17,38 @@
 	This project implements a Smart Waste Disposal System for liquid waste using an Arduino-based embedded system and a PC application for monitoring and operator control. It is based on a finite state machine (FSM) and task-based architecture.
 	
 	\section{Finite State Machine and Task Decriptions}
+	The Arduino project developed through PlatformIO was developed to manage the whole system through a change of states. In particular, we planned to divide the solution into 3 main tasks, which are:
 	\begin{enumerate}
 		\item \textbf{WasteTask}\\
 		Manages waste disposal operations, the main task for the proper functioning of the entire system. It provides for the following states:
 		\begin{itemize}
-			\item \textbf{CLOSED} (initial state)
-			\item \textbf{OPEN}
-			\item \textbf{RECEIVED}
-			\item \textbf{ERRORED}
-			\item \textbf{FULL}
-			\item \textbf{EMPTYING}
+			\item \textbf{CLOSED}: the neutral state of the system.
+			\item \textbf{OPEN}: when a user wants to throw something away he presses the open button and opens the door.
+			\item \textbf{RECEIVED}: reception of waste.
+			\item \textbf{ERRORED}: if the temperature increases too much
+			\item \textbf{FULL}: when the container fills up, so capacity goes to zero.
+			\item \textbf{EMPTYING}: when the operator empties the container.
 		\end{itemize}
 		
 		\item \textbf{SleepingTask}\\
 		Manages the shutdown of the system when no user is detected in the proximity of the waste container. It provides for the following states:
 		\begin{itemize}
-			\item \textbf{AWAKE}
-			\item \textbf{SLEEPING}
+			\item \textbf{AWAKE}: the system is in normal mode of operation.
+			\item \textbf{SLEEPING}: if no users were found nearby.
 		\end{itemize}
 		
 		\item \textbf{TemperatureTask}\\
 		Manages the temperature changes of the waste inside the container. It provides for the following states:
 		\begin{itemize}
-			\item \textbf{STABLE}
-			\item \textbf{UNSTABLE}
-			\item \textbf{DANGER}
+			\item \textbf{STABLE}: the temperature is below the maximum threshold.
+			\item \textbf{UNSTABLE}: the temperature is above the maximum threshold for a temporarily period.
+ 			\item \textbf{DANGER}: the temperature has been above the threshold for too long.
 		\end{itemize}
 
 	\end{enumerate}
 
-	\section{Java GUI for Monitoring and Control}
-	The java GUI provides real-time monitoring and operator control for the Smart Waste Disposal System. The GUI interacts with the Arduino system via a serial connection, displaying the container's current status and allowing user actions.
+	\section{Dashboard for Monitoring and Control}
+	The Operator Dashboard, developed in Java, provides real-time monitoring and operator control for the system. The GUI interacts with the Arduino system via a serial connection, displaying the container's current status and allowing user actions.
 
 	\subsection{Features}
 	\begin{itemize}
