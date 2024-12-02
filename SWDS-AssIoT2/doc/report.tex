@@ -5,8 +5,9 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{todonotes}
+\usepackage[margin=1.5cm]{geometry}
 
-\author{Luca Casadei\\Francesco Pazzaglia\\Mattia Morri}
+\author{Luca Casadei - 0001069237\\Francesco Pazzaglia - 0001077423\\Mattia Morri - 0001082027}
 \date{Last modified: \today}
 \title{\textbf{Assignment nr.2\\FSMs and Task-based Architectures: Smart Waste Disposal System}}
 
@@ -16,8 +17,8 @@
 	\section{Introduction}
 	This project implements a Smart Waste Disposal System for liquid waste using an Arduino-based embedded system and a PC application for monitoring and operator control. It is based on a finite state machine (FSM) and task-based architecture.
 	
-	\section{Finite State Machine and Task Decriptions}
-	The Arduino project developed through PlatformIO was developed to manage the whole system through a change of states. In particular, we planned to divide the solution into 3 main tasks, which are:
+	\section{Finite State Machine and Task Descriptions}
+	The Arduino project developed through PlatformIO has the objective to manage the whole system through a change of states. In particular, we planned to divide the solution into 3 main tasks, which are:
 	\begin{enumerate}
 		\item \textbf{WasteTask}\\
 		Manages waste disposal operations, the main task for the proper functioning of the entire system. It provides for the following states:
@@ -63,8 +64,5 @@
 			\item \textbf{Restore the Container}: Resets the container waste level.
 		\end{itemize}
 	\end{itemize}
-
-    \section{Conclusion}
-    The Smart Waste Disposal System successfully integrates hardware and software to provide an efficient and user-friendly solution for liquid waste management. The finite state machine ensures reliable operations, while the task-based architecture and the Java GUI simplify development and future scalability.
 
 \end{document}

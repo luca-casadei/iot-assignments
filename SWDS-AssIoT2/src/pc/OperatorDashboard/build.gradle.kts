@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    pmd
+    id("com.gradleup.shadow") version "9.0.0-beta2"
 }
 
 group = "org.operator"
@@ -10,8 +10,10 @@ repositories {
     mavenCentral()
 }
 
-pmd{
-    version = "7.0.0"
+tasks.jar{
+    manifest {
+        attributes["Main-Class"] = "org.operator.Main"
+    }
 }
 
 dependencies {
