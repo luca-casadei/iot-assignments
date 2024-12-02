@@ -19,7 +19,7 @@ public final class SerialCommunication {
 
     public void sendMessage(final String message) {
         if (serialPort.isOpen()) {
-            byte[] messageBytes = (message + "\n").getBytes();
+            final byte[] messageBytes = (message + "\n").getBytes();
             serialPort.writeBytes(messageBytes, messageBytes.length);
             System.out.println("Sent message: " + message);
         }
@@ -27,7 +27,7 @@ public final class SerialCommunication {
 
     public String readData() {
         if (serialPort.isOpen()) {
-            byte[] readBuffer = new byte[1024];
+            final byte[] readBuffer = new byte[1024];
             int numRead = serialPort.readBytes(readBuffer, readBuffer.length);
             return new String(readBuffer, 0, numRead).trim();
         }
