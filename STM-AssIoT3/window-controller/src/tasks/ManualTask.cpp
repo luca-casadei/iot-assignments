@@ -1,4 +1,4 @@
-#include "tasks/BackendCommTask.hpp"
+#include "tasks/ManualTask.hpp"
 #include <Arduino.h>
 #include "pins.hpp"
 
@@ -6,45 +6,32 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-BackendCommTask::BackendCommTask(Dashboard* pDashboard): 
+ManualTask::ManualTask(Dashboard* pDashboard): 
     pDashboard(pDashboard){
-    setState(NORMAL);
+    setState(CONTROLLING);
 }
   
-void BackendCommTask::tick(){
+void ManualTask::tick(){
     pDashboard->sync();
     pDashboard->notifyNewState();
     switch (state){    
-        case NORMAL: {
-
-            break;
-        }
-        case HOT: {
-
-            break;
-        }
-        case TOO_HOT: {
-
-            break;
-        }
-        case ALARM: {
-
+        case CONTROLLING:{
             break;
         }
     }
 }
 
-void BackendCommTask::setState(State s){
+void ManualTask::setState(State s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;
 }
 
-long BackendCommTask::elapsedTimeInState(){
+long ManualTask::elapsedTimeInState(){
     return millis() - stateTimestamp;
 }
 
-bool BackendCommTask::checkAndSetJustEntered(){
+bool ManualTask::checkAndSetJustEntered(){
     bool bak = justEntered;
     if (justEntered){
       justEntered = false;

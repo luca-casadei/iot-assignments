@@ -4,7 +4,7 @@
 #include "model/UserPanel.hpp"
 #include "kernel/MsgService.hpp"
 #include "model/Dashboard.hpp"
-#include "tasks/BackendCommTask.hpp"
+#include "tasks/AutomaticTask.hpp"
 
 
 Scheduler sched;
@@ -26,7 +26,7 @@ void setup() {
     pDashboard = new Dashboard();
     pDashboard->init();
 
-    Task* pBackendCommTask = new BackendCommTask(pDashboard);
+    Task* pBackendCommTask = new AutomaticTask(pDashboard);
     pBackendCommTask->init(100);
 
 }
