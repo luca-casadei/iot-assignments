@@ -29,7 +29,17 @@ void setup() {
     Task* pBackendCommTask = new AutomaticTask(pDashboard);
     pBackendCommTask->init(100);
 
+    Serial.begin(9600);
 }
 
 void loop() {
+    if(MsgService.isMsgAvailable()){
+        Msg * messaggio = MsgService.receiveMsg();
+        MsgService.sendMsg(messaggio->getContent());
+        delete messaggio;
+    }
+    else{
+        MsgService.sendMsg("Ciao!");
+    }
+    delay(2000);
 }
