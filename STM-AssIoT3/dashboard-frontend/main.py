@@ -1,8 +1,13 @@
-from tkinter import *
-from tkinter import ttk
-root = Tk()
-frm = ttk.Frame(root, padding=10)
-frm.grid()
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-root.mainloop()
+import tkinter as tk
+from gui import DashboardGUI
+from http_client import HTTPClient
+import config
+
+def main():
+    root = tk.Tk()
+    http_client = "" # HTTPClient(config.BACKEND_URL) # TODO: da finire questa parte
+    DashboardGUI(root, http_client)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
