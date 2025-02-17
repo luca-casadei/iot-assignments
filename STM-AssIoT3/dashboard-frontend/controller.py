@@ -29,11 +29,9 @@ class Controller:
             self.view.canvas.draw()
 
     def toggle_mode(self):
-        if self.view.manual_mode:
-            self.model.set_automatic_mode()
-        else:
-            self.model.set_manual_mode()
-        self.view.manual_mode = not self.model.manual_mode
+        mode = "AUTOMATIC" if self.view.manual_mode else "MANUAL"
+        self.model.toggle_mode(mode)
+        self.view.manual_mode = not self.view.manual_mode
 
     def set_window_opening(self):
         self.model.set_window_opening()

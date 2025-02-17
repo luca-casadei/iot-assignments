@@ -18,28 +18,23 @@ class HTTPClient:
             print(f"GET request error: {e}")
             return None
 
-    def set_automatic_mode(self):
+    def toggle_mode(self, mode):
         try:
-            headers = {'Content-type': 'application/json'}
-            self.connection.request("POST", "/set_automatic", "{}", headers)
-            response = self.connection.getresponse()
-            print(f"Automatic mode set: {response.status} - {response.reason}")
-        except Exception as e:
-            print(f"POST request error: {e}")
+            if mode not in ["AUTOMATIC", "MANUAL"]:
+                raise ValueError("Mode must be \'AUTOMATIC\' or \'MANUAL\'")
 
-    def set_manual_mode(self):
-        try:
             headers = {'Content-type': 'application/json'}
-            self.connection.request("POST", "/set_manual", "{}", headers)
+            body = json.dumps({"mode": mode})
+            self.connection.request("POST", "/toggle_mode", body, headers)
             response = self.connection.getresponse()
-            print(f"Manual mode set: {response.status} - {response.reason}")
+            print(f"Mode set to {mode}: {response.status} - {response.reason}")
         except Exception as e:
             print(f"POST request error: {e}")
 
     def reset_alarm(self):
         try:
             headers = {'Content-type': 'application/json'}
-            self.connection.request("POST", "/reset_alarm", "{}", headers)
+            self.connection.request("POST", "/reset", "{}", headers)
             response = self.connection.getresponse()
             print(f"Alarm reset: {response.status} - {response.reason}")
         except Exception as e:
