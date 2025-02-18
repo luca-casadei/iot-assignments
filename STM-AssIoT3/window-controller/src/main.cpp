@@ -5,6 +5,7 @@
 #include "kernel/MsgService.hpp"
 #include "model/Dashboard.hpp"
 #include "tasks/AutomaticTask.hpp"
+#include "tasks/ManualTask.hpp"
 
 
 Scheduler sched;
@@ -15,7 +16,7 @@ Dashboard* pDashboard;
 
 void setup() {
     MsgService.init();
-    sched.init(100);
+    sched.init(50);
 
     pHWPlatform = new HWPlatform();
     pHWPlatform->init();
@@ -28,18 +29,16 @@ void setup() {
 
     Task* pBackendCommTask = new AutomaticTask(pDashboard);
     pBackendCommTask->init(100);
+    Task * pManualWindowTask = new ManualTask(pDashboard);
+    pManualWindowTask->init(100);
+    pManualWindowTask->setActive(false);
+
+    sched.addTask(pBackendCommTask);
+    sched.addTask(pManualWindowTask);
 
     Serial.begin(9600);
 }
 
 void loop() {
-    if(MsgService.isMsgAvailable()){
-        Msg * messaggio = MsgService.receiveMsg();
-        MsgService.sendMsg(messaggio->getContent());
-        delete messaggio;
-    }
-    else{
-        MsgService.sendMsg("Ciao!");
-    }
-    delay(2000);
+    sched.schedule();
 }

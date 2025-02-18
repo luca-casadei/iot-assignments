@@ -2,6 +2,7 @@ package it.unibo.iot.serial;
 
 import java.util.concurrent.*;
 
+import io.vertx.core.AbstractVerticle;
 import jssc.*;
 
 /**
@@ -9,14 +10,14 @@ import jssc.*;
  *
  * @author aricci
  */
-public class SerialCommChannel implements CommChannel, SerialPortEventListener, Runnable {
-
+public class SerialCommChannel extends AbstractVerticle implements CommChannel, SerialPortEventListener {
     private final SerialPort serialPort;
     private final BlockingQueue<String> queue;
     private StringBuffer currentMsg = new StringBuffer();
+    private volatile boolean running;
 
     public SerialCommChannel(String port, int rate) throws SerialPortException {
-        queue = new ArrayBlockingQueue<String>(100);
+        queue = new ArrayBlockingQueue<>(100);
 
         serialPort = new SerialPort(port);
         serialPort.openPort();
@@ -45,7 +46,7 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener, 
                 serialPort.writeBytes(bytes);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -70,7 +71,7 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener, 
                 serialPort.closePort();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -102,26 +103,36 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener, 
                 }
 
             } catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("Error in receiving string from COM-port: " + ex);
+                System.out.println("Error in receiving string from COM-port: " + ex.getMessage());
             }
         }
     }
 
+    private void listen(){
+
+    }
+
     @Override
-    public void run() {
-        System.out.println("Serial listening on port: " + serialPort);
-        while (true) {
-            if (isMsgAvailable()) {
+    public void start() {
+        System.out.println("Serial started on port: " + serialPort.getPortName());
+        // For long-running tasks (if needed), use executeBlocking:
+        vertx.executeBlocking(promise -> {
+            while (running) {
                 try {
-                    final String msg = receiveMsg();
-                    System.out.println("[SERIAL]: "+ msg);
-                    //Check message content
-                    sendMsg("Content");
+                    String msg = queue.take();
+                    // Additional processing if required
                 } catch (InterruptedException e) {
-                    sendMsg("ERROR: " + e.getMessage());
+                    Thread.currentThread().interrupt();
+                    break;
                 }
             }
-        }
+            promise.complete();
+        }, false);
+    }
+
+    @Override
+    public void stop() {
+        running = false;
+        close();
     }
 }
