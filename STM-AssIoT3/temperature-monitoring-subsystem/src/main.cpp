@@ -4,6 +4,7 @@
 #include "./mqtt/MQTTManager.hpp"
 #include "./devices/TempSensor.hpp"
 #include "./devices/TempSensorLM35.hpp"
+#include "./devices/Led.hpp"
 #include "./config.hpp"
 
 
@@ -11,6 +12,8 @@
 
 MQTTManager mqttManager("broker.mqtt-temperature-monitoring.com", 1883, "temperature");
 TempSensor* tempSensor;
+Led* greenLed;
+Led* redLed;
 
 unsigned long lastMsgTime = 0;
 char msg[MSG_BUFFER_SIZE];
@@ -22,6 +25,8 @@ void setup() {
   randomSeed(micros());
   mqttManager.begin();
   tempSensor = new TempSensorLM35(TEMP_SENSOR_PIN);
+  greenLed = new Led(GREEN_LED_PIN);
+  redLed = new Led(RED_LED_PIN);
 }
 
 void loop() {
