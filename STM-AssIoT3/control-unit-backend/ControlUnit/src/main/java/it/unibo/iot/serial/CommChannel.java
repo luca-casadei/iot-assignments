@@ -1,4 +1,5 @@
 package it.unibo.iot.serial;
+
 public interface CommChannel {
 
     /**
