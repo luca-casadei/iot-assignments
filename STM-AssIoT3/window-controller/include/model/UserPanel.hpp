@@ -1,5 +1,4 @@
-#ifndef __USER_PANEL__
-#define __USER_PANEL__
+#pragma once
 
 #include "pins.hpp"
 #include "HWPlatform.hpp"
@@ -25,5 +24,3 @@ public:
   Button* pButtonMode;
   bool modePressed;
 };
-
-#endif

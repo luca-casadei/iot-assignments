@@ -1,5 +1,4 @@
-#ifndef __BUTTONIMPL__
-#define __BUTTONIMPL__
+#pragma once
 
 #include "Button.hpp"
 
@@ -17,5 +16,3 @@ private:
   bool pressed;
   bool clicked;
 };
-
-#endif

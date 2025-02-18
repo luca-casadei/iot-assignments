@@ -1,5 +1,4 @@
-#ifndef __HW_PLATFORM__
-#define __HW_PLATFORM__
+#pragma once
 
 #include "pins.hpp"
 #include "devices/Button.hpp"
@@ -24,5 +23,3 @@ private:
   ServoMotor* pMotorWindow;
 
 };
-
-#endif

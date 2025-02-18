@@ -1,5 +1,4 @@
-#ifndef __SERVO_MOTOR_IMPL__
-#define __SERVO_MOTOR_IMPL__
+#pragma once
 
 #include "servo_motor.hpp"
 #include <Arduino.h>
@@ -20,5 +19,3 @@ private:
   bool _on;
   ServoTimer2 motor; 
 };
-
-#endif
