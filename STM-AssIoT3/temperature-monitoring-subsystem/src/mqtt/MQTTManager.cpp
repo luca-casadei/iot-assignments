@@ -11,6 +11,7 @@ MQTTManager::MQTTManager(const char* server, uint16_t port, const char* topic)
 }
 
 void MQTTManager::begin() {
+  Serial.println(m_server);
   m_client.setServer(m_server, m_port);
   m_client.setCallback(mqttCallback);
 }

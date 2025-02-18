@@ -10,7 +10,7 @@
 
 #define MSG_BUFFER_SIZE  50
 
-MQTTManager mqttManager("broker.mqtt-temperature-monitoring.com", 1883, "temperature");
+MQTTManager mqttManager("broker.mqtt-dashboard.com", 1883, "casapazz-temperature");
 TempSensor* tempSensor;
 Led* greenLed;
 Led* redLed;
@@ -36,8 +36,8 @@ void loop() {
   if (now - lastMsgTime > 100) {
     lastMsgTime = now;
     tempValue = tempSensor->getTemperature();
-
     snprintf(msg, MSG_BUFFER_SIZE, "Temperature: %ld°C", tempValue);
+    Serial.println(msg);
     mqttManager.publishMessage(msg);
   }
 }
