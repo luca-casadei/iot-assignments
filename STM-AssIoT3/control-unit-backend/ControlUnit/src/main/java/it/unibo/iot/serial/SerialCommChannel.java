@@ -16,22 +16,26 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     private StringBuffer currentMsg = new StringBuffer();
     private volatile boolean running;
 
-    public SerialCommChannel(String port, int rate) throws SerialPortException {
+    public SerialCommChannel(String port, int rate) {
         queue = new ArrayBlockingQueue<>(100);
 
         serialPort = new SerialPort(port);
-        serialPort.openPort();
+        try {
+            serialPort.openPort();
 
-        serialPort.setParams(rate,
-                SerialPort.DATABITS_8,
-                SerialPort.STOPBITS_1,
-                SerialPort.PARITY_NONE);
+            serialPort.setParams(rate,
+                    SerialPort.DATABITS_8,
+                    SerialPort.STOPBITS_1,
+                    SerialPort.PARITY_NONE);
 
-        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |
-                SerialPort.FLOWCONTROL_RTSCTS_OUT);
+            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |
+                    SerialPort.FLOWCONTROL_RTSCTS_OUT);
 
-        // serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
-        serialPort.addEventListener(this);
+            serialPort.addEventListener(this);
+        } catch (SerialPortException ex) {
+            throw new IllegalStateException(ex.getMessage());
+        }
+
     }
 
     @Override
@@ -108,7 +112,7 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
         }
     }
 
-    private void listen(){
+    private void listen() {
 
     }
 
@@ -119,8 +123,8 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
         vertx.executeBlocking(promise -> {
             while (running) {
                 try {
-                    String msg = queue.take();
-                    // Additional processing if required
+                    final String msg = queue.take();
+                    final double potValue = Double.parseDouble(msg);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;

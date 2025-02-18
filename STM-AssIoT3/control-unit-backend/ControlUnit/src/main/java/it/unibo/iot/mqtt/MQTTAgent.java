@@ -1,9 +1,5 @@
 package it.unibo.iot.mqtt;
-
-import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.mqtt.MqttClient;
 
 /*
@@ -12,14 +8,12 @@ import io.vertx.mqtt.MqttClient;
 public class MQTTAgent extends AbstractVerticle {
 
     private static final String BROKER_ADDRESS = "broker.mqtt-dashboard.com";
-    private static final String TOPIC_NAME = "esiot-2024";
+    private static final String TOPIC_NAME = "casapazz-temperature";
 
     @Override
     public void start() {
         final MqttClient client = MqttClient.create(vertx);
-
         client.connect(1883, BROKER_ADDRESS, _ -> {
-
             log("connected");
             log("subscribing...");
             client.publishHandler(s -> {

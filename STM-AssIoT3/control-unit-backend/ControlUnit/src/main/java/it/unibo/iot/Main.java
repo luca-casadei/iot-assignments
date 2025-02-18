@@ -14,19 +14,19 @@ public class Main {
     public static void main(String[] args) {
         final Vertx vertx = Vertx.vertx();
         Future.all(
-                List.of(
-                        vertx.deployVerticle(new HTTPServer()),
-                        vertx.deployVerticle(new SerialCommChannel(SERIAL_PORT, SERIAL_RATE),
-                                new DeploymentOptions().setThreadingModel(ThreadingModel.WORKER)),
-                        vertx.deployVerticle(new MQTTAgent())
-                )
-        ).onComplete(res -> {
-            if (res.succeeded()) {
-                System.out.println("Deployment dei demoni eseguito con successo.");
-            } else {
-                System.out.println("Errore nel deployment dei demoni");
-                vertx.close();
-            }
-        });
+                        List.of(
+                                vertx.deployVerticle(new HTTPServer()),
+                                vertx.deployVerticle(new MQTTAgent()),
+                                vertx.deployVerticle(new SerialCommChannel(SERIAL_PORT, SERIAL_RATE),
+                                        new DeploymentOptions().setThreadingModel(ThreadingModel.WORKER))
+                        )
+                ).onFailure(res -> {
+                    System.out.println("Errore nel deployment dei demoni");
+                    vertx.close();
+                })
+                .onComplete(res -> {
+                            System.out.println("Deployment dei demoni eseguito con successo.");
+                        }
+                );
     }
 }
