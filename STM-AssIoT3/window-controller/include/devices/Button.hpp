@@ -1,5 +1,4 @@
-#ifndef __BUTTON__
-#define __BUTTON__
+#pragma once
 
 class Button {
  
@@ -18,5 +17,3 @@ private:
   long lastTimeSync;
 
 };
-
-#endif

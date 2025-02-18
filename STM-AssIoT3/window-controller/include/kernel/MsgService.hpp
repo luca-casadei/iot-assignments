@@ -1,5 +1,4 @@
-#ifndef __MSGSERVICE__
-#define __MSGSERVICE__
+#pragma once
 
 #include "Arduino.h"
 
@@ -40,6 +39,3 @@ public:
 };
 
 extern MsgServiceClass MsgService;
-
-#endif
-

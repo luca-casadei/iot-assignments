@@ -1,5 +1,4 @@
-#ifndef __SCHEDULER__
-#define __SCHEDULER__
+#pragma once
 
 #include "Task.hpp"
 
@@ -17,4 +16,3 @@ public:
   virtual void schedule();
 };
 
-#endif

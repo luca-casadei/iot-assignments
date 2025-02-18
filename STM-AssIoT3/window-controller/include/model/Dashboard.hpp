@@ -1,5 +1,4 @@
-#ifndef __DASHBOARD__
-#define __DASHBOARD__
+#pragma once
 
 #include "pins.hpp"
 #include "HWPlatform.hpp"
@@ -22,5 +21,3 @@ public:
   bool dischargeCmdRequested;
   bool maintenanceDoneNotified;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __TASK__
-#define __TASK__
+#pragma once
 
 class Task {
 
@@ -67,5 +66,3 @@ private:
   bool completed;
 
 };
-
-#endif
