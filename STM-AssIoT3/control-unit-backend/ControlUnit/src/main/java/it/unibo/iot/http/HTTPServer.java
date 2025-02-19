@@ -37,9 +37,8 @@ public class HTTPServer extends AbstractVerticle {
                 .handler(ctx -> {
                     HttpServerResponse response = ctx.response();
                     response.putHeader("Content-Type", "text/plain")
-                            .end("PROVA RISPOSTA getSystemInfo\n");
+                            .end("{\"prova\": \"CIAOO\"}");
                 });
-
     }
 
     private void toggleMode() {

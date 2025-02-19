@@ -8,7 +8,7 @@ import io.vertx.mqtt.MqttClient;
 public class MQTTAgent extends AbstractVerticle {
 
     private static final String BROKER_ADDRESS = "broker.mqtt-dashboard.com";
-    private static final String TOPIC_NAME = "casapazz-temperature";
+    private static final String TOPIC_NAME = "esiot-casadeipazzaglia-temperature";
 
     @Override
     public void start() {

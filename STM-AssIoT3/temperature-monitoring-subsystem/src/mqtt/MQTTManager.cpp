@@ -1,4 +1,5 @@
 #include "./mqtt/MQTTManager.hpp"
+#include "./config.hpp"
 
 MQTTManager* MQTTManager::instance = nullptr;
 
@@ -18,7 +19,8 @@ void MQTTManager::begin() {
 
 void MQTTManager::connect() {
   if (!m_client.connected()) {
-    while (!m_client.connected()) {
+    unsigned int tries = 0;
+    while (!m_client.connected() && tries < MAX_CONNECTION_TRIES) {
       Serial.print("Attempting MQTT connection...");
       String clientId = String("temperature-client-") + String(random(0xffff), HEX);
       
@@ -29,6 +31,7 @@ void MQTTManager::connect() {
         Serial.print("failed, rc=");
         Serial.print(m_client.state());
         Serial.println(" - trying again in 5 seconds");
+        tries++;
         delay(5000);
       }
     }

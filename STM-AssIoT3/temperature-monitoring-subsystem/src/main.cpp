@@ -10,7 +10,7 @@
 
 #define MSG_BUFFER_SIZE  50
 
-MQTTManager mqttManager("broker.mqtt-dashboard.com", 1883, "casapazz-temperature");
+MQTTManager mqttManager(BROKER_NAME, 1883, TOPIC_NAME);
 TempSensor* tempSensor;
 Led* greenLed;
 Led* redLed;

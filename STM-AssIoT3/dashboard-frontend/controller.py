@@ -2,12 +2,18 @@ import statistics
 
 class Controller:
     def __init__(self, model, view):
-        self.model = model
         self.view = view
+        self.model = model
 
     def update_view(self):
+        if not self.view:
+            return
+
         data = self.model.get_system_info()
         if data:
+            print(data)
+            if data["error"]:
+                return
             self.view.state = data["state"]
             self.view.temperature_data.append(data["current_temperature"])
             if len(self.view.temperature_data) > self.view.max_data_points:
