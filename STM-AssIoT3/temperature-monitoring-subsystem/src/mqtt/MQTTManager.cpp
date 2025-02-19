@@ -36,6 +36,10 @@ void MQTTManager::connect() {
   m_client.loop();
 }
 
+bool MQTTManager::isConnected() {
+  return m_client.connected();
+}
+
 void MQTTManager::publishMessage(const char* msg) {
   m_client.publish(m_topic, msg);
 }
