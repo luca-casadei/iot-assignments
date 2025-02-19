@@ -11,6 +11,8 @@ public:
 
     void connect();
 
+    bool isConnected();
+
     void publishMessage(const char* msg);
 
 private:

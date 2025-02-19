@@ -29,8 +29,21 @@ void setup() {
   redLed = new Led(RED_LED_PIN);
 }
 
+void updateLEDs() {
+  if (mqttManager.isConnected()) {
+    greenLed->switchOn();
+    redLed->switchOff();
+  } else {
+    greenLed->switchOff();
+    redLed->switchOn();
+  }
+}
+
 void loop() {
-  mqttManager.connect(); 
+  if (!mqttManager.isConnected()) {
+    mqttManager.connect();
+  }
+  updateLEDs();
 
   unsigned long now = millis();
   if (now - lastMsgTime > 100) {
