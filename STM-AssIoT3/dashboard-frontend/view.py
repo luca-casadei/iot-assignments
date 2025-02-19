@@ -22,7 +22,6 @@ class Dashboard:
         self.manual_mode = False
 
         self.create_dashboard()
-        # self.update_data()  # TODO: Attivare quando l'API è pronta
 
     def create_dashboard(self):
         main_frame = tk.Frame(self.root, bg="#f0f0f0")
@@ -84,6 +83,10 @@ class Dashboard:
             state=tk.DISABLED)
         self.alarm_btn.grid(row=0, column=2, padx=10, pady=5)
 
+    def start_updating(self):
+        self.update_data()
+
     def update_data(self):
-        self.controller.update_view()
+        if self.controller:
+            self.controller.update_view()
         self.root.after(5000, self.update_data) # Tempo di chiamata al metodo, attualmente è impostato a 5 secondi (quindi 5000ms) => TODO: da decidere quanto mettere.

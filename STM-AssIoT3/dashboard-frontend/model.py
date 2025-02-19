@@ -1,16 +1,27 @@
 import http.client
 import json
 
+from config import BACKEND_URL
+
 class HTTPClient:
-    def __init__(self, base_url):
-        self.connection = http.client.HTTPSConnection(base_url)
+    def __init__(self):
+        self.connection = http.client.HTTPConnection(BACKEND_URL, 8080)
+
+    @staticmethod
+    def parse_json(response):
+        if not response:
+            return {}
+        try:
+            return json.loads(response)
+        except json.JSONDecodeError:
+            return {"error": "Invalid JSON data"}
 
     def get_system_info(self):
         try:
             self.connection.request("GET", "/info")
             response = self.connection.getresponse()
             if response.status == 200:
-                return json.loads(response.read().decode())
+                return self.parse_json(response.read().decode())
             else:
                 print(f"Error: {response.status} - {response.reason}")
                 return None
