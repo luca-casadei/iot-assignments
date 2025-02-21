@@ -9,15 +9,17 @@ enum SystemState
   MANUAL
 };
 
-class UserPanel {
+class UserPanel
+{
 
 public:
-  UserPanel(HWPlatform* pHW);
+  UserPanel(HWPlatform *pHW);
 
   void init();
 
   void turnOffDisplay();
   void turnOnDisplay();
+  void printToLine(int line, char *msg);
 
   SystemState selectedMode();
 
@@ -26,8 +28,8 @@ public:
   void sync();
 
 private:
-  LCD* pLcd; 
-  Button* pButtonMode;
-  ServoMotor* pWindow;
+  LCD *pLcd;
+  Button *pButtonMode;
+  ServoMotor *pWindow;
   SystemState actualMode;
 };

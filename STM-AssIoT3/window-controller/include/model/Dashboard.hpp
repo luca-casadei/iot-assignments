@@ -11,7 +11,7 @@ public:
 
   void init();
 
-  void notifyNewState();
+  void notifyNewState(String msg);
 
   void notifyWindowOpening();
 
