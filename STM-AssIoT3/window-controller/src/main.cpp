@@ -3,7 +3,7 @@
 #include "model/HWPlatform.hpp"
 #include "model/UserPanel.hpp"
 #include "kernel/MsgService.hpp"
-#include "model/Dashboard.hpp"
+#include "tasks/DashboardTask.hpp"
 #include "tasks/AutomaticTask.hpp"
 #include "tasks/ManualTask.hpp"
 
@@ -11,7 +11,6 @@ Scheduler sched;
 
 HWPlatform *pHWPlatform;
 UserPanel *pUserPanel;
-Dashboard *pDashboard;
 
 void setup()
 {
@@ -24,17 +23,16 @@ void setup()
     pUserPanel = new UserPanel(pHWPlatform);
     pUserPanel->init();
 
-    pDashboard = new Dashboard(pUserPanel);
-    pDashboard->init();
-
-    Task *pBackendCommTask = new AutomaticTask(pDashboard, pUserPanel);
+    TaskWithState *pBackendCommTask = new AutomaticTask();
     pBackendCommTask->init(100);
-    Task *pManualWindowTask = new ManualTask(pDashboard, pUserPanel);
+    TaskWithState *pManualWindowTask = new ManualTask();
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
+    Task *pDashboardTask = new DashboardTask(pUserPanel, pBackendCommTask, pManualWindowTask);
 
     sched.addTask(pBackendCommTask);
     sched.addTask(pManualWindowTask);
+    sched.addTask(pDashboardTask);
 
     Serial.begin(9600);
 }

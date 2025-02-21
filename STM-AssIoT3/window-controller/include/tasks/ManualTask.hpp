@@ -1,30 +1,19 @@
 #pragma once
 
-#include "kernel/Task.hpp"
-#include "model/Dashboard.hpp"
+#include "kernel/TaskWithState.hpp"
+#include "model/UserPanel.hpp"
 
-class ManualTask : public Task
+class ManualTask : public TaskWithState
 {
 
 public:
-    ManualTask(Dashboard *pDashboard, UserPanel *pUserPanel);
+    ManualTask();
     void tick();
+    void changeState(State newState);
 
 private:
-    enum State
-    {
-        CONTROLLING
-    };
-    void setState(State state);
     long elapsedTimeInState();
-    void log(const String &msg);
-    State state;
-
     bool checkAndSetJustEntered();
 
-    long stateTimestamp;
-    bool justEntered;
-
-    Dashboard *pDashboard;
     UserPanel *pUserPanel;
 };

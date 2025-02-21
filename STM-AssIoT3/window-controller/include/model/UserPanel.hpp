@@ -6,7 +6,7 @@
 enum SystemMode
 {
   AUTOMATIC,
-  MANUAL
+  MANUAL 
 };
 
 class UserPanel
@@ -21,6 +21,8 @@ public:
   void turnOnDisplay();
   void printToLine(const int line, const char *msg);
 
+  bool isButtonModePressed();
+
   void setSystemMode(const SystemMode mode);
   SystemMode getSystemMode();
 
@@ -32,5 +34,5 @@ private:
   LCD *pLcd;
   Button *pButtonMode;
   ServoMotor *pWindow;
-  SystemMode actualMode;
+  SystemMode currentMode;
 };

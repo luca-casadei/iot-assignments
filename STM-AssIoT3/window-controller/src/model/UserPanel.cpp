@@ -33,12 +33,12 @@ void UserPanel::printToLine(const int line, const char *msg)
 
 void UserPanel::setSystemMode(const SystemMode mode)
 {
-  actualMode = mode;
+  currentMode = mode;
 }
 
 SystemMode UserPanel::getSystemMode()
 {
-  return actualMode;
+  return currentMode;
 }
 
 int UserPanel::getWindowOpeningPercentage()
@@ -46,11 +46,16 @@ int UserPanel::getWindowOpeningPercentage()
   return pWindow->getPosition();
 }
 
+bool UserPanel::isButtonModePressed(){
+  return pButtonMode->isPressed();
+}
+
 void UserPanel::sync()
 {
   pButtonMode->sync();
-  if (pButtonMode->isPressed())
+  if (isButtonModePressed())
   {
-    actualMode = actualMode == AUTOMATIC ? MANUAL : AUTOMATIC;
+    currentMode = currentMode == AUTOMATIC ? MANUAL : AUTOMATIC;
+    Serial.println("MODE:CHANGE");
   }
 }

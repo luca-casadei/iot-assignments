@@ -6,28 +6,33 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-ManualTask::ManualTask(Dashboard *pDashboard, UserPanel *pUserPanel) : pDashboard(pDashboard), pUserPanel(pUserPanel)
+ManualTask::ManualTask()
 {
-    setState(CONTROLLING);
+    changeState(CONTROLLING);
 }
 
 void ManualTask::tick()
 {
-    pDashboard->sync();
-    switch (state)
+    switch (currentState)
     {
     case CONTROLLING:
     {
         break;
     }
+    default:{
+        
+    }
     }
 }
 
-void ManualTask::setState(State s)
+void ManualTask::changeState(State s)
 {
-    state = s;
-    stateTimestamp = millis();
-    justEntered = true;
+    if (s == CONTROLLING)
+    {
+        currentState = s;
+        stateTimestamp = millis();
+        justEntered = true;
+    }
 }
 
 long ManualTask::elapsedTimeInState()
