@@ -13,7 +13,7 @@ public:
 
   void notifyNewState(String msg);
 
-  void notifyWindowOpening();
+  void notifyWindowPercentage();
 
   void sync();
 

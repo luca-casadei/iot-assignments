@@ -3,7 +3,7 @@
 #include "constants.hpp"
 #include "HWPlatform.hpp"
 
-enum SystemState
+enum SystemMode
 {
   AUTOMATIC,
   MANUAL
@@ -19,9 +19,10 @@ public:
 
   void turnOffDisplay();
   void turnOnDisplay();
-  void printToLine(int line, char *msg);
+  void printToLine(const int line, const char *msg);
 
-  SystemState selectedMode();
+  void setSystemMode(const SystemMode mode);
+  SystemMode getSystemMode();
 
   int getWindowOpeningPercentage();
 
@@ -31,5 +32,5 @@ private:
   LCD *pLcd;
   Button *pButtonMode;
   ServoMotor *pWindow;
-  SystemState actualMode;
+  SystemMode actualMode;
 };

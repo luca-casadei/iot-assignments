@@ -13,17 +13,14 @@ ManualTask::ManualTask(Dashboard *pDashboard, UserPanel *pUserPanel) : pDashboar
 
 void ManualTask::tick()
 {
-    String msg = "MANUAL:";
     pDashboard->sync();
     switch (state)
     {
     case CONTROLLING:
     {
-        msg += "CONTROLLING";
         break;
     }
     }
-    pDashboard->notifyNewState(msg);
 }
 
 void ManualTask::setState(State s)

@@ -16,7 +16,7 @@ void Dashboard::notifyNewState(String msg)
   MsgService.sendMsg(msg);
 }
 
-void Dashboard::notifyWindowOpening()
+void Dashboard::notifyWindowPercentage()
 {
   MsgService.sendMsg(String("WINDOW:") + (char *)(pUserPanel->getWindowOpeningPercentage()));
 }
@@ -28,14 +28,20 @@ void Dashboard::sync()
     Msg *msg = MsgService.receiveMsg();
     if (msg != NULL)
     {
-      /*if (msg->getContent() == "AUTOMATIC")
-      {
-        actualState = AUTOMATIC;
+      String receivedMsg = msg->getContent();
+      int separatorIndex = receivedMsg.indexOf(':');
+
+      String systemMode, innerMode;
+      if (separatorIndex != -1) {
+        systemMode = receivedMsg.substring(0, separatorIndex);
+        innerMode = receivedMsg.substring(separatorIndex + 1);
+      } else {
+        systemMode = receivedMsg;
+        innerMode = "";
       }
-      else if (msg->getContent() == "MANUAL")
-      {
-        actualState = MANUAL;
-      }*/
+      pUserPanel->setSystemMode(systemMode == "AUTOMATIC" ? AUTOMATIC : MANUAL);
+      
+      if (msg->getContent())
       delete msg;
     }
   }
