@@ -1,20 +1,23 @@
 package it.unibo.iot;
 
 import io.vertx.core.*;
+import it.unibo.iot.history.ControlUnit;
 import it.unibo.iot.http.HTTPServer;
 import it.unibo.iot.mqtt.MQTTAgent;
 import it.unibo.iot.serial.SerialCommChannel;
 
 import java.util.List;
 
-public class Main {
-    private final static String SERIAL_PORT = "/dev/ttyACM0";
-    private final static int SERIAL_RATE = 9600;
+import static it.unibo.iot.Configuration.SERIAL_RATE;
+import static it.unibo.iot.Configuration.HISTORY_LEN;
+import static it.unibo.iot.Configuration.SERIAL_PORT;
 
+public class Main {
     public static void main(String[] args) {
         final Vertx vertx = Vertx.vertx();
         Future.all(
                         List.of(
+                                vertx.deployVerticle(new ControlUnit(HISTORY_LEN)),
                                 vertx.deployVerticle(new HTTPServer()),
                                 vertx.deployVerticle(new MQTTAgent()),
                                 vertx.deployVerticle(new SerialCommChannel(SERIAL_PORT, SERIAL_RATE),

@@ -1,4 +1,5 @@
 package it.unibo.iot.mqtt;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.mqtt.MqttClient;
 
@@ -17,9 +18,7 @@ public class MQTTAgent extends AbstractVerticle {
             log("connected");
             log("subscribing...");
             client.publishHandler(s -> {
-                        System.out.println("There are new message in topic: " + s.topicName());
-                        System.out.println("Content(as string) of the message: " + s.payload().toString());
-                        System.out.println("QoS: " + s.qosLevel());
+                        vertx.eventBus().send("temperature.add", Float.parseFloat(s.payload().toString()));
                     })
                     .subscribe(TOPIC_NAME, 2);
         });

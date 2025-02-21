@@ -9,16 +9,18 @@ import static it.unibo.iot.Configuration.DTSeconds;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class History extends AbstractVerticle {
+public final class ControlUnit extends AbstractVerticle {
     private final int len;
     private final List<Float> temperatures;
     private State currentState;
+    private Mode currentMode;
     private long firstTooHotTime = 0;
 
-    public History(final int listLength) {
+    public ControlUnit(final int listLength) {
         temperatures = new ArrayList<>();
         this.len = listLength;
         this.currentState = State.NORMAL;
+        this.currentMode = Mode.AUTOMATIC;
     }
 
     private void addTemperatureToList(final float temperature) {
@@ -36,7 +38,7 @@ public final class History extends AbstractVerticle {
         } else if (temperature > T2) {
             if (this.currentState == State.TOO_HOT) {
                 final long currentTime = System.currentTimeMillis();
-                if ((currentTime - firstTooHotTime) > DTSeconds * 1000){
+                if ((currentTime - firstTooHotTime) > DTSeconds * 1000) {
                     currentState = State.ALARM;
                 }
             } else {
@@ -52,9 +54,22 @@ public final class History extends AbstractVerticle {
             final float temperature = Float.parseFloat(t.body().toString());
             addTemperatureToList(temperature);
             checkTemperatureForState(temperature);
-            System.out.println("Aggiunta temperatura: " + temperature);
+            vertx.eventBus().send("serial.mode.send", currentMode);
+            vertx.eventBus().send("serial.state.send", currentState);
+            vertx.eventBus().send("serial.temperature.send", temperature);
+            //System.out.println("Aggiunta temperatura: " + temperature);
+        });
+        vertx.eventBus().consumer("state.get", message -> {
+            message.reply(currentState);
+        });
+        vertx.eventBus().consumer("mode.change", _ -> {
+            if (this.currentMode == Mode.AUTOMATIC) {
+                this.currentMode = Mode.MANUAL;
+                this.currentState = State.CONTROLLING;
+            } else {
+                this.currentMode = Mode.AUTOMATIC;
+                this.currentState = State.NORMAL;
+            }
         });
     }
-
-
 }

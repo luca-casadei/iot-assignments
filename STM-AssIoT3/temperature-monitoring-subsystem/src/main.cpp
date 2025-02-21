@@ -51,6 +51,7 @@ void loop() {
     tempValue = tempSensor->getTemperature();
     snprintf(msg, MSG_BUFFER_SIZE, "Temperature: %ld°C", tempValue);
     Serial.println(msg);
+    sniprintf(msg, MSG_BUFFER_SIZE, "%ld", tempValue);
     mqttManager.publishMessage(msg);
   }
 }
