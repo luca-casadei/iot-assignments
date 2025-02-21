@@ -112,19 +112,28 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
         }
     }
 
-    private void listen() {
-
-    }
-
     @Override
     public void start() {
         System.out.println("Serial started on port: " + serialPort.getPortName());
-        // For long-running tasks (if needed), use executeBlocking:
+        vertx.eventBus().consumer("serial.state.send", t -> {
+            sendMsg(t.body().toString());
+        });
+        vertx.eventBus().consumer("serial.temperature.send", t -> {
+            sendMsg("TEMPERATURE:" + t.body().toString());
+        });
+        vertx.eventBus().consumer("serial.mode.send", t -> {
+            sendMsg("MODE:" + t.body().toString());
+        });
         vertx.executeBlocking(promise -> {
             while (running) {
                 try {
                     final String msg = queue.take();
-                    final double potValue = Double.parseDouble(msg);
+                    if (msg.equals("MODE:CHANGE")){
+                        vertx.eventBus().send("mode.change", "");
+                    }
+                    else{
+                        final double potValue = Double.parseDouble(msg);
+                    }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
