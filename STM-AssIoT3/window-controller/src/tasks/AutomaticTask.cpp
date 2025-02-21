@@ -6,17 +6,15 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-AutomaticTask::AutomaticTask(Dashboard *pDashboard, UserPanel *pUserPanel) : pDashboard(pDashboard), pUserPanel(pUserPanel)
+AutomaticTask::AutomaticTask()
 {
-    setState(NORMAL);
-    pUserPanel->printToLine(0, "AUTOMATIC");
-    pUserPanel->printToLine(1, "TEMPERATURE ...");
+    changeState(NORMAL);
+
 }
 
 void AutomaticTask::tick()
 {
-    pDashboard->sync();
-    switch (state)
+    switch (currentState)
     {
     case NORMAL:
     {
@@ -37,11 +35,13 @@ void AutomaticTask::tick()
     }
 }
 
-void AutomaticTask::setState(State s)
+void AutomaticTask::changeState(State newState)
 {
-    state = s;
-    stateTimestamp = millis();
-    justEntered = true;
+    if (newState != CONTROLLING){
+        currentState = newState;
+        stateTimestamp = millis();
+        justEntered = true;
+    }
 }
 
 long AutomaticTask::elapsedTimeInState()
@@ -58,3 +58,5 @@ bool AutomaticTask::checkAndSetJustEntered()
     }
     return bak;
 }
+
+
