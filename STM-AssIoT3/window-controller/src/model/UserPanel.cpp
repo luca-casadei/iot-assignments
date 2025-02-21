@@ -26,12 +26,17 @@ void UserPanel::turnOffDisplay()
   pLcd->off();
 }
 
+void UserPanel::printToLine(int line, char *msg)
+{
+  pLcd->printToLine(line, msg);
+}
+
 SystemState UserPanel::selectedMode()
 {
   return actualMode;
 }
 
-int UserPanel::getWindowOpeningPercentage() 
+int UserPanel::getWindowOpeningPercentage()
 {
   return pWindow->getPosition();
 }
@@ -41,6 +46,6 @@ void UserPanel::sync()
   pButtonMode->sync();
   if (pButtonMode->isPressed())
   {
-    actualMode = actualMode==AUTOMATIC ? MANUAL : AUTOMATIC;
+    actualMode = actualMode == AUTOMATIC ? MANUAL : AUTOMATIC;
   }
 }

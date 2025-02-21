@@ -11,14 +11,14 @@ void Dashboard::init()
 {
 }
 
-void Dashboard::notifyNewState()
+void Dashboard::notifyNewState(String msg)
 {
-  MsgService.sendMsg(String("MODE:") + pUserPanel->selectedMode());
+  MsgService.sendMsg(msg);
 }
 
-void Dashboard::notifyWindowOpening() 
+void Dashboard::notifyWindowOpening()
 {
-  MsgService.sendMsg(String("WINDOW:") + (String)(pUserPanel->getWindowOpeningPercentage()));
+  MsgService.sendMsg(String("WINDOW:") + (char *)(pUserPanel->getWindowOpeningPercentage()));
 }
 
 void Dashboard::sync()

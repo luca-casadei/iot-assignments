@@ -6,35 +6,44 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-ManualTask::ManualTask(Dashboard* pDashboard, HWPlatform* pHWPlatform): 
-    pDashboard(pDashboard), pHWPlatform(pHWPlatform){
+ManualTask::ManualTask(Dashboard *pDashboard, UserPanel *pUserPanel) : pDashboard(pDashboard), pUserPanel(pUserPanel)
+{
     setState(CONTROLLING);
 }
-  
-void ManualTask::tick(){
+
+void ManualTask::tick()
+{
+    String msg = "MANUAL:";
     pDashboard->sync();
-    pDashboard->notifyNewState();
-    switch (state){    
-        case CONTROLLING:{
-            break;
-        }
+    switch (state)
+    {
+    case CONTROLLING:
+    {
+        msg += "CONTROLLING";
+        break;
     }
+    }
+    pDashboard->notifyNewState(msg);
 }
 
-void ManualTask::setState(State s){
+void ManualTask::setState(State s)
+{
     state = s;
     stateTimestamp = millis();
     justEntered = true;
 }
 
-long ManualTask::elapsedTimeInState(){
+long ManualTask::elapsedTimeInState()
+{
     return millis() - stateTimestamp;
 }
 
-bool ManualTask::checkAndSetJustEntered(){
+bool ManualTask::checkAndSetJustEntered()
+{
     bool bak = justEntered;
-    if (justEntered){
-      justEntered = false;
+    if (justEntered)
+    {
+        justEntered = false;
     }
     return bak;
 }
