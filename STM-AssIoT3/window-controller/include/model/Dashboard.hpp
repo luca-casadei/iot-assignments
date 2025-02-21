@@ -1,21 +1,22 @@
 #pragma once
 
-#include "pins.hpp"
-#include "HWPlatform.hpp"
+#include "constants.hpp"
+#include "UserPanel.hpp"
 
-enum SystemState{ AUTOMATIC, MANUAL };
-
-class Dashboard {
+class Dashboard
+{
 
 public:
-  Dashboard();
+  Dashboard(UserPanel *pUserPanel);
 
   void init();
-  
+
   void notifyNewState();
-  
+
+  void notifyWindowOpening();
+
   void sync();
 
- private:
-  SystemState actualState;
+private:
+  UserPanel *pUserPanel;
 };

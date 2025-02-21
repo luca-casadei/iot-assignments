@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pins.hpp"
+#include "constants.hpp"
 #include "devices/Button.hpp"
 #include <Wire.h> 
 #include "devices/servo_motor.hpp"

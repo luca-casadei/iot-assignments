@@ -1,34 +1,46 @@
 #include "./model/UserPanel.hpp"
 #include <Arduino.h>
-#include "pins.hpp"
+#include "constants.hpp"
 #include "model/HWPlatform.hpp"
 
-UserPanel::UserPanel(HWPlatform* pHW) {
-    pLcd = pHW->getUserPanelLcd();
-    pButtonMode = pHW->getModeButton();
+UserPanel::UserPanel(HWPlatform *pHW)
+{
+  pLcd = pHW->getUserPanelLcd();
+  pButtonMode = pHW->getModeButton();
+  pWindow = pHW->getWindowMotor();
 }
 
-void UserPanel::init(){
+void UserPanel::init()
+{
   pLcd->init();
   turnOnDisplay();
 }
 
-void UserPanel::turnOnDisplay(){
-    pLcd->on();
+void UserPanel::turnOnDisplay()
+{
+  pLcd->on();
 }
 
-void UserPanel::turnOffDisplay(){
-    pLcd->off();
+void UserPanel::turnOffDisplay()
+{
+  pLcd->off();
 }
 
-bool UserPanel::pressedOpen(){
-  return modePressed;
+SystemState UserPanel::selectedMode()
+{
+  return actualMode;
 }
 
-void UserPanel::sync(){
+int UserPanel::getWindowOpeningPercentage() 
+{
+  return pWindow->getPosition();
+}
+
+void UserPanel::sync()
+{
   pButtonMode->sync();
-  modePressed = pButtonMode->isPressed();
+  if (pButtonMode->isPressed())
+  {
+    actualMode = actualMode==AUTOMATIC ? MANUAL : AUTOMATIC;
+  }
 }
-
-
-

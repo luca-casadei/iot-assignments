@@ -1,7 +1,13 @@
 #pragma once
 
-#include "pins.hpp"
+#include "constants.hpp"
 #include "HWPlatform.hpp"
+
+enum SystemState
+{
+  AUTOMATIC,
+  MANUAL
+};
 
 class UserPanel {
 
@@ -12,14 +18,16 @@ public:
 
   void turnOffDisplay();
   void turnOnDisplay();
-  
-  bool pressedOpen();
-  bool pressedClose();
+
+  SystemState selectedMode();
+
+  int getWindowOpeningPercentage();
 
   void sync();
 
- private:
+private:
   LCD* pLcd; 
   Button* pButtonMode;
-  bool modePressed;
+  ServoMotor* pWindow;
+  SystemState actualMode;
 };

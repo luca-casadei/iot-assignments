@@ -7,14 +7,14 @@
 #include "tasks/AutomaticTask.hpp"
 #include "tasks/ManualTask.hpp"
 
-
 Scheduler sched;
 
-HWPlatform* pHWPlatform;
-UserPanel* pUserPanel;
-Dashboard* pDashboard; 
+HWPlatform *pHWPlatform;
+UserPanel *pUserPanel;
+Dashboard *pDashboard;
 
-void setup() {
+void setup()
+{
     MsgService.init();
     sched.init(50);
 
@@ -24,12 +24,12 @@ void setup() {
     pUserPanel = new UserPanel(pHWPlatform);
     pUserPanel->init();
 
-    pDashboard = new Dashboard();
+    pDashboard = new Dashboard(pUserPanel);
     pDashboard->init();
 
-    Task* pBackendCommTask = new AutomaticTask(pDashboard, pHWPlatform);
+    Task *pBackendCommTask = new AutomaticTask(pDashboard, pHWPlatform);
     pBackendCommTask->init(100);
-    Task * pManualWindowTask = new ManualTask(pDashboard, pHWPlatform);
+    Task *pManualWindowTask = new ManualTask(pDashboard, pHWPlatform);
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
 
@@ -39,6 +39,7 @@ void setup() {
     Serial.begin(9600);
 }
 
-void loop() {
+void loop()
+{
     sched.schedule();
 }
