@@ -1,6 +1,6 @@
 #include "tasks/ManualTask.hpp"
 #include <Arduino.h>
-#include "pins.hpp"
+#include "constants.hpp"
 
 #define DISCHARGE_TIME 5000
 #define OPENING_DISCHARGING_TIME 1000

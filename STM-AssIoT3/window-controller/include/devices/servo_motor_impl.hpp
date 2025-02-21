@@ -12,10 +12,12 @@ public:
   void on();
   bool isOn();
   void setPosition(int angle);
+  int getPosition();
   void off();
     
 private:
   int pin; 
   bool _on;
-  ServoTimer2 motor; 
+  ServoTimer2 motor;
+  int lastAngle;
 };

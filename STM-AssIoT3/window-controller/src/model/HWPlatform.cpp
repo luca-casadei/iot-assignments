@@ -2,31 +2,34 @@
 #include <Arduino.h>
 #include "devices/ButtonImpl.hpp"
 #include "kernel/MsgService.hpp"
-#include "pins.hpp"
+#include "constants.hpp"
 #include "devices/servo_motor_impl.hpp"
 
-void wakeUp(){}
+void wakeUp() {}
 
-HWPlatform::HWPlatform(){
+HWPlatform::HWPlatform()
+{
   pLcd = new LCD(LCD_ADDR, LCD_COLS, LCD_ROWS);
   pButtonMode = new ButtonImpl(BUTTON_MODE_PIN);
   pMotorWindow = new ServoMotorImpl(MOTOR_PIN);
 }
 
-
-void HWPlatform::init(){
+void HWPlatform::init()
+{
   pLcd->init();
 }
 
-  Button* HWPlatform::getModeButton(){
-    return this->pButtonMode;
-  }
+Button *HWPlatform::getModeButton()
+{
+  return this->pButtonMode;
+}
 
-  LCD* HWPlatform::getUserPanelLcd(){
-    return this->pLcd;
-  }
+LCD *HWPlatform::getUserPanelLcd()
+{
+  return this->pLcd;
+}
 
-  ServoMotor* HWPlatform::getWindowMotor(){
-    return this->pMotorWindow;
-  }
-
+ServoMotor *HWPlatform::getWindowMotor()
+{
+  return this->pMotorWindow;
+}
