@@ -2,7 +2,6 @@
 
 #include "pins.hpp"
 #include "HWPlatform.hpp"
-#include <LiquidCrystal_I2C.h>
 
 class UserPanel {
 
@@ -20,7 +19,7 @@ public:
   void sync();
 
  private:
-  LiquidCrystal_I2C* pLcd; 
+  LCD* pLcd; 
   Button* pButtonMode;
   bool modePressed;
 };

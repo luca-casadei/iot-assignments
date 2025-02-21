@@ -6,17 +6,18 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-AutomaticTask::AutomaticTask(Dashboard* pDashboard): 
-    pDashboard(pDashboard){
+AutomaticTask::AutomaticTask(Dashboard* pDashboard, HWPlatform *pHWPlatform): pDashboard(pDashboard), pHWPlatform(pHWPlatform) {
     setState(NORMAL);
+    pHWPlatform->getUserPanelLcd()->printToLine(0, "AUTOMATIC");
+
 }
   
 void AutomaticTask::tick(){
     pDashboard->sync();
     pDashboard->notifyNewState();
+    pHWPlatform->getUserPanelLcd()->printToLine(1, "TEMPERATURE ...");
     switch (state){    
         case NORMAL: {
-
             break;
         }
         case HOT: {

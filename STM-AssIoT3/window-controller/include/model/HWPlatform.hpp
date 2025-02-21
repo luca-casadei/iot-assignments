@@ -3,8 +3,13 @@
 #include "pins.hpp"
 #include "devices/Button.hpp"
 #include <Wire.h> 
-#include <LiquidCrystal_I2C.h>
 #include "devices/servo_motor.hpp"
+#include "devices/LCD.hpp"
+
+// LCD define
+#define LCD_ADDR 0x27
+#define LCD_COLS 20
+#define LCD_ROWS 4
 
 class HWPlatform {
 
@@ -14,12 +19,12 @@ public:
   void test();
 
   Button* getModeButton();
-  LiquidCrystal_I2C* getUserPanelLcd(); 
+  LCD* getUserPanelLcd(); 
   ServoMotor* getWindowMotor();
 
 private:
   Button* pButtonMode;
-  LiquidCrystal_I2C* pLcd; 
+  LCD* pLcd; 
   ServoMotor* pMotorWindow;
 
 };
