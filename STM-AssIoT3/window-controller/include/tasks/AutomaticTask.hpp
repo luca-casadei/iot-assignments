@@ -7,7 +7,7 @@ class AutomaticTask : public Task
 {
 
 public:
-  AutomaticTask(Dashboard *pDashboard);
+  AutomaticTask(Dashboard *pDashboard, HWPlatform *pHWPlatform);
   void tick();
 
 private:
@@ -29,4 +29,5 @@ private:
   bool justEntered;
 
   Dashboard *pDashboard;
+  HWPlatform *pHWPlatform;
 };

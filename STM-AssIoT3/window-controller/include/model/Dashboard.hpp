@@ -3,6 +3,8 @@
 #include "pins.hpp"
 #include "HWPlatform.hpp"
 
+enum SystemState{ AUTOMATIC, MANUAL };
+
 class Dashboard {
 
 public:
@@ -12,12 +14,8 @@ public:
   
   void notifyNewState();
   
-  bool checkAndResetDischargeRequest();
-  bool checkAndResetMaintenanceDone();
-
   void sync();
 
  private:
-  bool dischargeCmdRequested;
-  bool maintenanceDoneNotified;
+  SystemState actualState;
 };

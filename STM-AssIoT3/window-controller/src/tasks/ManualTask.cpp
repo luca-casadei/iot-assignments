@@ -6,8 +6,8 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-ManualTask::ManualTask(Dashboard* pDashboard): 
-    pDashboard(pDashboard){
+ManualTask::ManualTask(Dashboard* pDashboard, HWPlatform* pHWPlatform): 
+    pDashboard(pDashboard), pHWPlatform(pHWPlatform){
     setState(CONTROLLING);
 }
   

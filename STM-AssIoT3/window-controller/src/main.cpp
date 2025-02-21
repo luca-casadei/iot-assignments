@@ -27,9 +27,9 @@ void setup() {
     pDashboard = new Dashboard();
     pDashboard->init();
 
-    Task* pBackendCommTask = new AutomaticTask(pDashboard);
+    Task* pBackendCommTask = new AutomaticTask(pDashboard, pHWPlatform);
     pBackendCommTask->init(100);
-    Task * pManualWindowTask = new ManualTask(pDashboard);
+    Task * pManualWindowTask = new ManualTask(pDashboard, pHWPlatform);
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
 

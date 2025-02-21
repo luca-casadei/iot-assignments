@@ -8,7 +8,7 @@
 void wakeUp(){}
 
 HWPlatform::HWPlatform(){
-  pLcd = new LiquidCrystal_I2C(0x27,20,4);
+  pLcd = new LCD(LCD_ADDR, LCD_COLS, LCD_ROWS);
   pButtonMode = new ButtonImpl(BUTTON_MODE_PIN);
   pMotorWindow = new ServoMotorImpl(MOTOR_PIN);
 }
@@ -16,14 +16,13 @@ HWPlatform::HWPlatform(){
 
 void HWPlatform::init(){
   pLcd->init();
-  pLcd->backlight();
 }
 
   Button* HWPlatform::getModeButton(){
     return this->pButtonMode;
   }
 
-  LiquidCrystal_I2C* HWPlatform::getUserPanelLcd(){
+  LCD* HWPlatform::getUserPanelLcd(){
     return this->pLcd;
   }
 

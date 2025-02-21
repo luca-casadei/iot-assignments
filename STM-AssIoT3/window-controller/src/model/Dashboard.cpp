@@ -6,8 +6,7 @@ Dashboard::Dashboard(){
 }
 
 void Dashboard::init(){
-  maintenanceDoneNotified = false;
-  dischargeCmdRequested = false;
+  actualState = AUTOMATIC;
 }
 
 void Dashboard::notifyNewState(){
@@ -20,24 +19,13 @@ void Dashboard::sync(){
   if (MsgService.isMsgAvailable()){
     Msg* msg = MsgService.receiveMsg();
     if (msg != NULL){
-      if (msg->getContent() == "ok"){
-        maintenanceDoneNotified = true;
-      } else if (msg->getContent() == "di"){
-        dischargeCmdRequested = true;
+      if (msg->getContent() == "AUTOMATIC"){
+        actualState = AUTOMATIC;
+      } else if (msg->getContent() == "MANUAL"){
+        actualState = MANUAL;
       }
       delete msg;
     }  
   }
 }
 
-bool Dashboard::checkAndResetDischargeRequest(){
-  bool com = this->dischargeCmdRequested;
-  dischargeCmdRequested = false;
-  return com;
-}
-
-bool Dashboard::checkAndResetMaintenanceDone(){
-  bool com = this->maintenanceDoneNotified;
-  maintenanceDoneNotified = false;
-  return com;
-}

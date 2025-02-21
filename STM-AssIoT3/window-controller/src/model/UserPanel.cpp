@@ -10,18 +10,15 @@ UserPanel::UserPanel(HWPlatform* pHW) {
 
 void UserPanel::init(){
   pLcd->init();
-  pLcd->backlight();
-  pLcd->noDisplay();
   turnOnDisplay();
 }
 
 void UserPanel::turnOnDisplay(){
-  pLcd->display();
-  pLcd->clear();
+    pLcd->on();
 }
 
 void UserPanel::turnOffDisplay(){
-  pLcd->noDisplay();
+    pLcd->off();
 }
 
 bool UserPanel::pressedOpen(){
