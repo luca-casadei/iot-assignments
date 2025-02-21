@@ -26,12 +26,17 @@ void UserPanel::turnOffDisplay()
   pLcd->off();
 }
 
-void UserPanel::printToLine(int line, char *msg)
+void UserPanel::printToLine(const int line, const char *msg)
 {
   pLcd->printToLine(line, msg);
 }
 
-SystemState UserPanel::selectedMode()
+void UserPanel::setSystemMode(const SystemMode mode)
+{
+  actualMode = mode;
+}
+
+SystemMode UserPanel::getSystemMode()
 {
   return actualMode;
 }

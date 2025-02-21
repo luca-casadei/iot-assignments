@@ -10,37 +10,31 @@ AutomaticTask::AutomaticTask(Dashboard *pDashboard, UserPanel *pUserPanel) : pDa
 {
     setState(NORMAL);
     pUserPanel->printToLine(0, "AUTOMATIC");
+    pUserPanel->printToLine(1, "TEMPERATURE ...");
 }
 
 void AutomaticTask::tick()
 {
-    String msg = "AUTOMATIC:";
     pDashboard->sync();
-    pUserPanel->printToLine(1, "TEMPERATURE ...");
     switch (state)
     {
     case NORMAL:
     {
-        msg += "NORMAL";
         break;
     }
     case HOT:
     {
-        msg += "HOT";
         break;
     }
     case TOO_HOT:
     {
-        msg += "TOO_HOT";
         break;
     }
     case ALARM:
     {
-        msg += "ALARM";
         break;
     }
     }
-    pDashboard->notifyNewState(msg);
 }
 
 void AutomaticTask::setState(State s)
