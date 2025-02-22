@@ -10,8 +10,8 @@ public:
   virtual void sync();
   long getLastSyncTime();
 
-protected: 
-  void updateSyncTime(long time);
+protected:
+  void updateSyncTime(const long time);
 
 private:
   long lastTimeSync;

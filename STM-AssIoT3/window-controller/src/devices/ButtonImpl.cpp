@@ -1,12 +1,13 @@
 #include "./devices/ButtonImpl.hpp"
 #include "Arduino.h"
 
-ButtonImpl::ButtonImpl(int pin){
+ButtonImpl::ButtonImpl(const int pin)
+{
   this->pin = pin;
   pinMode(pin, INPUT);  
-  sync();   
-} 
-  
+  sync();
+}
+
 bool ButtonImpl::isPressed(){
   return pressed;
 }

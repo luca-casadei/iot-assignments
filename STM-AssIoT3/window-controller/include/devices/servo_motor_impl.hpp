@@ -7,7 +7,7 @@
 class ServoMotorImpl: public ServoMotor {
 
 public:
-  ServoMotorImpl(int pin);
+  ServoMotorImpl(const int pin);
 
   void on();
   bool isOn();

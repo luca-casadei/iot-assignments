@@ -3,12 +3,6 @@
 #include "constants.hpp"
 #include "HWPlatform.hpp"
 
-enum SystemMode
-{
-  AUTOMATIC,
-  MANUAL 
-};
-
 class UserPanel
 {
 
@@ -23,9 +17,10 @@ public:
 
   bool isButtonModePressed();
 
-  void setSystemMode(const SystemMode mode);
-  SystemMode getSystemMode();
+  void saveTemperature(const float temp);
+  float getTemperature();
 
+  void setWindowPosition(const int position);
   int getWindowOpeningPercentage();
 
   void sync();
@@ -34,5 +29,5 @@ private:
   LCD *pLcd;
   Button *pButtonMode;
   ServoMotor *pWindow;
-  SystemMode currentMode;
+  float currentTemperature;
 };

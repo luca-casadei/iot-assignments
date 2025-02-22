@@ -1,24 +1,21 @@
 #include "tasks/DashboardTask.hpp"
-#include <Arduino.h>
 #include "constants.hpp"
 #include "kernel/MsgService.hpp"
 
-
 DashboardTask::DashboardTask(UserPanel* pUserPanel, TaskWithState *pAutomaticTask, TaskWithState *pManualTask)
 {
-    pUserPanel = pUserPanel;
-    pAutomaticTask = pAutomaticTask;
-    pManualTask = pManualTask;
+  pUserPanel = pUserPanel;
+  pAutomaticTask = pAutomaticTask;
+  pManualTask = pManualTask;
 }
 
-void DashboardTask::notifyNewState(String msg)
+void DashboardTask::notifyChangeMode()
 {
-  MsgService.sendMsg(msg);
+  MsgService.sendMsg("MODE:CHANGE");
 }
 
-void DashboardTask::notifyWindowPercentage()
-{
-  MsgService.sendMsg(String("WINDOW:") + (char *)(pUserPanel->getWindowOpeningPercentage()));
+void DashboardTask::notifyWindowChange() {
+  MsgService.sendMsg(String(this->pUserPanel->getWindowOpeningPercentage()));
 }
 
 void DashboardTask::tick()
@@ -30,31 +27,55 @@ void DashboardTask::tick()
     {
       String receivedMsg = msg->getContent();
 
+      int separatorIndex = receivedMsg.indexOf(MESSAGE_SEPARATOR);
 
-      int separatorIndex = receivedMsg.indexOf(':');
-
-      String firstPart, // MODE, STATE, TEMPERATURE
-       secondPart;
-      if (separatorIndex != -1) { 
+      String firstPart, secondPart;
+      if (separatorIndex != -1)
+      {
         firstPart = receivedMsg.substring(0, separatorIndex);
         secondPart = receivedMsg.substring(separatorIndex + 1);
-        if (firstPart == "MODE") 
+        if (firstPart.compareTo("MODE") == 0)
         {
-          pUserPanel->setSystemMode(secondPart == "AUTOMATIC" ? AUTOMATIC : MANUAL);
-        } else if (firstPart == "STATE") 
-        {
-          
-        } else if (firstPart == "TEMPERATURE") 
-        {
-
+          if (secondPart.compareTo("AUTOMATIC"))
+          {
+            this->pAutomaticTask->setActive(true);
+            this->pManualTask->setActive(false);
+          }
+          else if (secondPart.compareTo("MANUAL"))
+          {
+            this->pAutomaticTask->setActive(false);
+            this->pManualTask->setActive(true);
+          }
         }
-      } else {
+        else if (firstPart.compareTo("STATE") == 0)
+        {
+          if (this->pAutomaticTask->isActive())
+          {
+            this->pAutomaticTask->changeState(this->pAutomaticTask->getStateFromString(secondPart));
+          }
+          else if (this->pManualTask->isActive())
+          {
+            this->pManualTask->changeState(this->pManualTask->getStateFromString(secondPart));
+          }
+        }
+        else if (firstPart.compareTo("TEMPERATURE") == 0)
+        {
+          this->pUserPanel->saveTemperature((float)atof(secondPart.c_str()));
+        }
+      }
+      else
+      {
         // ERRORE
       }
-      
-      
+
       if (msg->getContent())
-      delete msg;
+      {
+        delete msg;
+      }
     }
+  }
+  if (this->pUserPanel->isButtonModePressed())
+  {
+    this->notifyChangeMode();
   }
 }

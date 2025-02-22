@@ -4,8 +4,8 @@
 
 class ButtonImpl: public Button {
  
-public: 
-  ButtonImpl(int pin);
+public:
+  ButtonImpl(const int pin);
   bool isPressed();
   bool isClicked();
 

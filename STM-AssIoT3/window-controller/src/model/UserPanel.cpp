@@ -31,14 +31,19 @@ void UserPanel::printToLine(const int line, const char *msg)
   pLcd->printToLine(line, msg);
 }
 
-void UserPanel::setSystemMode(const SystemMode mode)
+void UserPanel::saveTemperature(const float temp)
 {
-  currentMode = mode;
+  currentTemperature = temp;
 }
 
-SystemMode UserPanel::getSystemMode()
+float UserPanel::getTemperature()
 {
-  return currentMode;
+  return currentTemperature;
+}
+
+void UserPanel::setWindowPosition(const int position)
+{
+  this->pWindow->setPosition(position);
 }
 
 int UserPanel::getWindowOpeningPercentage()
@@ -46,16 +51,12 @@ int UserPanel::getWindowOpeningPercentage()
   return pWindow->getPosition();
 }
 
-bool UserPanel::isButtonModePressed(){
+bool UserPanel::isButtonModePressed()
+{
   return pButtonMode->isPressed();
 }
 
 void UserPanel::sync()
 {
   pButtonMode->sync();
-  if (isButtonModePressed())
-  {
-    currentMode = currentMode == AUTOMATIC ? MANUAL : AUTOMATIC;
-    Serial.println("MODE:CHANGE");
-  }
 }

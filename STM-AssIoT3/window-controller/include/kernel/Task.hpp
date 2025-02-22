@@ -10,7 +10,7 @@ public:
   }
 
   /* periodic */
-  virtual void init(int period)
+  virtual void init(const int period)
   {
     myPeriod = period;
     periodic = true;
@@ -29,7 +29,7 @@ public:
 
   virtual void tick() = 0;
 
-  bool updateAndCheckTime(int basePeriod)
+  bool updateAndCheckTime(const int basePeriod)
   {
     timeElapsed += basePeriod;
     if (timeElapsed >= myPeriod)
@@ -64,7 +64,7 @@ public:
     return active;
   }
 
-  virtual void setActive(bool active)
+  virtual void setActive(const bool active)
   {
     timeElapsed = 0;
     this->active = active;

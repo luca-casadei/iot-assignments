@@ -1,7 +1,7 @@
 #include "./devices/servo_motor_impl.hpp"
 #include "Arduino.h"
 
-ServoMotorImpl::ServoMotorImpl(int pin)
+ServoMotorImpl::ServoMotorImpl(const int pin)
 {
   this->pin = pin;
   _on = false;

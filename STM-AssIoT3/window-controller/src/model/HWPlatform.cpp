@@ -5,8 +5,6 @@
 #include "constants.hpp"
 #include "devices/servo_motor_impl.hpp"
 
-void wakeUp() {}
-
 HWPlatform::HWPlatform()
 {
   pLcd = new LCD(LCD_ADDR, LCD_COLS, LCD_ROWS);

@@ -7,7 +7,7 @@ class Msg
   String content;
 
 public:
-  Msg(String content)
+  Msg(const String content)
   {
     this->content = content;
   }
@@ -21,7 +21,7 @@ public:
 class Pattern
 {
 public:
-  virtual boolean match(const Msg &m) = 0;
+  virtual boolean match(Msg &m) = 0;
 };
 
 class MsgServiceClass
