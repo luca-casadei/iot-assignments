@@ -1,19 +1,13 @@
 #pragma once
 
 #include "kernel/TaskWithState.hpp"
-#include "model/UserPanel.hpp"
+#include "kernel/TaskWithUserPanel.hpp"
 
-class ManualTask : public TaskWithState
+class ManualTask : public TaskWithState, public TaskWithUserPanel
 {
 
 public:
-    ManualTask();
+    ManualTask(UserPanel *pUserPanel);
     void tick();
     void changeState(State newState);
-
-private:
-    long elapsedTimeInState();
-    bool checkAndSetJustEntered();
-
-    UserPanel *pUserPanel;
 };

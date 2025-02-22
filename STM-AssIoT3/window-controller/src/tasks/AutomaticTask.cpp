@@ -6,10 +6,10 @@
 #define OPENING_DISCHARGING_TIME 1000
 #define CLOSING_DISCHARGING_TIME 1000
 
-AutomaticTask::AutomaticTask()
+AutomaticTask::AutomaticTask(UserPanel *pUserPanel)
 {
+    this->setUserPanel(pUserPanel);
     changeState(NORMAL);
-
 }
 
 void AutomaticTask::tick()
@@ -18,18 +18,39 @@ void AutomaticTask::tick()
     {
     case NORMAL:
     {
+        if (firstTimeEntering())
+        {
+            pUserPanel->printToLine(1, "AUTOMATIC - NORMAL");
+        }
         break;
     }
     case HOT:
     {
+        if (firstTimeEntering())
+        {
+            pUserPanel->printToLine(1, "AUTOMATIC - HOT");
+        }
         break;
     }
     case TOO_HOT:
     {
+        if (firstTimeEntering())
+        {
+            pUserPanel->printToLine(1, "AUTOMATIC - TOO_HOT");
+        }
         break;
     }
     case ALARM:
     {
+        if (firstTimeEntering())
+        {
+            pUserPanel->printToLine(1, "AUTOMATIC - ALARM");
+        }
+        break;
+    }
+    default:
+    {
+        pUserPanel->printToLine(1, "AUTOMATIC - INVALID");
         break;
     }
     }
@@ -39,24 +60,6 @@ void AutomaticTask::changeState(State newState)
 {
     if (newState != CONTROLLING){
         currentState = newState;
-        stateTimestamp = millis();
-        justEntered = true;
-    }
-}
-
-long AutomaticTask::elapsedTimeInState()
-{
-    return millis() - stateTimestamp;
-}
-
-bool AutomaticTask::checkAndSetJustEntered()
-{
-    bool bak = justEntered;
-    if (justEntered)
-    {
         justEntered = false;
     }
-    return bak;
 }
-
-

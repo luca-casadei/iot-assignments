@@ -4,15 +4,18 @@
 #include "kernel/TaskWithState.hpp"
 #include "model/UserPanel.hpp"
 
+#define MESSAGE_SEPARATOR ':'
+
 class DashboardTask : public Task
 {
 public:
-    DashboardTask(UserPanel* pUserPanel, TaskWithState *pAutomaticTask, TaskWithState *pManualTask);
+    DashboardTask(UserPanel *pUserPanel, TaskWithState *pAutomaticTask, TaskWithState *pManualTask);
     void tick();
-    void notifyNewState(String msg);
-    void notifyWindowPercentage();
+
 private:
-    UserPanel     *pUserPanel;
+    UserPanel *pUserPanel;
     TaskWithState *pAutomaticTask;
     TaskWithState *pManualTask;
+    void notifyChangeMode();
+    void notifyWindowChange();
 };

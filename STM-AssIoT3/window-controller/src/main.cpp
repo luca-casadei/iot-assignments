@@ -23,9 +23,9 @@ void setup()
     pUserPanel = new UserPanel(pHWPlatform);
     pUserPanel->init();
 
-    TaskWithState *pBackendCommTask = new AutomaticTask();
+    TaskWithState *pBackendCommTask = new AutomaticTask(pUserPanel);
     pBackendCommTask->init(100);
-    TaskWithState *pManualWindowTask = new ManualTask();
+    TaskWithState *pManualWindowTask = new ManualTask(pUserPanel);
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
     Task *pDashboardTask = new DashboardTask(pUserPanel, pBackendCommTask, pManualWindowTask);

@@ -1,9 +1,10 @@
 #include "./devices/Button.hpp"
 
 Button::Button(){
-} 
-  
-void Button::updateSyncTime(long time){
+}
+
+void Button::updateSyncTime(const long time)
+{
 	lastTimeSync = time;
 }
 

@@ -8,7 +8,7 @@ void timerHandler(void)
   timerFlag = true;
 }
 
-void Scheduler::init(int basePeriod)
+void Scheduler::init(const int basePeriod)
 {
   this->basePeriod = basePeriod;
   timerFlag = false;

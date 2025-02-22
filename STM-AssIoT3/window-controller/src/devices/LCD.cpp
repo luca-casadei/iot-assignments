@@ -3,7 +3,7 @@
 #include <hd44780ioClass/hd44780_I2Cexp.h>
 #include "devices/LCD.hpp"
 
-LCD::LCD(unsigned int lcd_address, unsigned int lcd_columns, unsigned int lcd_rows)
+LCD::LCD(const unsigned int lcd_address, const unsigned int lcd_columns, const unsigned int lcd_rows)
 {
     this->lcd = new hd44780_I2Cexp(lcd_address, lcd_columns, lcd_rows);
     this->empty_line = (char *)malloc(sizeof(char) * lcd_columns);
