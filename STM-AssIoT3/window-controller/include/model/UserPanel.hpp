@@ -29,5 +29,6 @@ private:
   LCD *pLcd;
   Button *pButtonMode;
   ServoMotor *pWindow;
+  Potentiometer *pPotentiometer;
   float currentTemperature;
 };
