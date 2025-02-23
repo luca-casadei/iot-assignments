@@ -25,10 +25,13 @@ void setup()
 
     TaskWithState *pBackendCommTask = new AutomaticTask(pUserPanel);
     pBackendCommTask->init(100);
+    pBackendCommTask->setActive(true);
     TaskWithState *pManualWindowTask = new ManualTask(pUserPanel);
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
     Task *pDashboardTask = new DashboardTask(pUserPanel, pBackendCommTask, pManualWindowTask);
+    pDashboardTask->init(100);
+    pDashboardTask->setActive(true);
 
     sched.addTask(pBackendCommTask);
     sched.addTask(pManualWindowTask);

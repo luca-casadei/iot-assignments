@@ -17,9 +17,7 @@ public class MQTTAgent extends AbstractVerticle {
         client.connect(1883, BROKER_ADDRESS, _ -> {
             log("connected");
             log("subscribing...");
-            client.publishHandler(s -> {
-                        vertx.eventBus().send("temperature.add", Float.parseFloat(s.payload().toString()));
-                    })
+            client.publishHandler(s -> vertx.eventBus().send("temperature.add", Float.parseFloat(s.payload().toString())))
                     .subscribe(TOPIC_NAME, 2);
         });
     }

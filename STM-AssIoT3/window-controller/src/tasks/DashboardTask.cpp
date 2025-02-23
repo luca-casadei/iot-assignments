@@ -30,10 +30,13 @@ void DashboardTask::tick()
       int separatorIndex = receivedMsg.indexOf(MESSAGE_SEPARATOR);
 
       String firstPart, secondPart;
+      
       if (separatorIndex != -1)
       {
         firstPart = receivedMsg.substring(0, separatorIndex);
         secondPart = receivedMsg.substring(separatorIndex + 1);
+
+        
         if (firstPart.compareTo("MODE") == 0)
         {
           if (secondPart.compareTo("AUTOMATIC"))
@@ -47,7 +50,7 @@ void DashboardTask::tick()
             this->pManualTask->setActive(true);
           }
         }
-        else if (firstPart.compareTo("STATE") == 0)
+        else if (firstPart == "STATE")
         {
           if (this->pAutomaticTask->isActive())
           {
