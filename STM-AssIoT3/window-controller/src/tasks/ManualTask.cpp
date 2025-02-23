@@ -10,6 +10,7 @@ ManualTask::ManualTask(UserPanel *pUserPanel)
 
 void ManualTask::tick()
 {
+    
     switch (currentState)
     {
     case CONTROLLING:

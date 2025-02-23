@@ -3,7 +3,7 @@
 class Potentiometer
 {
 public:
-    Potentiometer();
+    Potentiometer(const int pin);
     int getValue();
 
 private:
