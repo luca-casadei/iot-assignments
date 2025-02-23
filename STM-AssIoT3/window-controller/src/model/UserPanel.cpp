@@ -49,7 +49,12 @@ void UserPanel::setWindowPosition(const int position)
 
 int UserPanel::getWindowOpeningPercentage()
 {
-  return pWindow->getPosition();
+  return this->pWindow->getPosition();
+}
+
+int UserPanel::getPotentiometerValue() 
+{
+  return this->pPotentiometer->getValue();
 }
 
 bool UserPanel::isButtonModePressed()

@@ -23,6 +23,8 @@ public:
   void setWindowPosition(const int position);
   int getWindowOpeningPercentage();
 
+  int getPotentiometerValue();
+
   void sync();
 
 private:

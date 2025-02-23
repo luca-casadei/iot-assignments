@@ -8,5 +8,5 @@ Potentiometer::Potentiometer(const int pin)
 
 int Potentiometer::getValue()
 {
-    return map(this->currentValue, 8, 1015, 1, 4);
+    return map(this->currentValue, 8, 1015, 1, 99);
 }
