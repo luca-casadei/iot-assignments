@@ -5,9 +5,10 @@
 
 UserPanel::UserPanel(HWPlatform *pHW)
 {
-  pLcd = pHW->getUserPanelLcd();
-  pButtonMode = pHW->getModeButton();
-  pWindow = pHW->getWindowMotor();
+  this->pLcd = pHW->getUserPanelLcd();
+  this->pButtonMode = pHW->getModeButton();
+  this->pWindow = pHW->getWindowMotor();
+  this->pPotentiometer = pHW->getPotentiometer();
 }
 
 void UserPanel::init()

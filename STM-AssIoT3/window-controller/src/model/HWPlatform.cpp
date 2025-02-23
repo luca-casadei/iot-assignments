@@ -31,3 +31,8 @@ ServoMotor *HWPlatform::getWindowMotor()
 {
   return this->pMotorWindow;
 }
+
+Potentiometer *HWPlatform::getPotentiometer()
+{
+  return this->pPotentiometer;
+}
