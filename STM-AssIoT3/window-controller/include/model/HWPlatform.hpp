@@ -17,7 +17,6 @@ class HWPlatform {
 public:
   HWPlatform();
   void init();
-  void test();
 
   Button* getModeButton();
   LCD* getUserPanelLcd(); 

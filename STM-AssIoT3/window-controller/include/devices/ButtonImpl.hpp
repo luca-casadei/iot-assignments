@@ -9,7 +9,7 @@ public:
   bool isPressed();
   bool isClicked();
 
-  void sync();
+  void sync() override final;
 
 private:
   int pin;

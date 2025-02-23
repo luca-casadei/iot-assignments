@@ -14,30 +14,29 @@ UserPanel *pUserPanel;
 
 void setup()
 {
-    MsgService.init();
-    sched.init(50);
 
+    MsgService.init();
+
+    sched.init(150);
     pHWPlatform = new HWPlatform();
     pHWPlatform->init();
 
     pUserPanel = new UserPanel(pHWPlatform);
     pUserPanel->init();
-
+    
     TaskWithState *pBackendCommTask = new AutomaticTask(pUserPanel);
-    pBackendCommTask->init(100);
+    pBackendCommTask->init(300);
     pBackendCommTask->setActive(true);
     TaskWithState *pManualWindowTask = new ManualTask(pUserPanel);
-    pManualWindowTask->init(100);
+    pManualWindowTask->init(300);
     pManualWindowTask->setActive(false);
     Task *pDashboardTask = new DashboardTask(pUserPanel, pBackendCommTask, pManualWindowTask);
-    pDashboardTask->init(100);
+    pDashboardTask->init(300);
     pDashboardTask->setActive(true);
-
+    
     sched.addTask(pDashboardTask);
     sched.addTask(pBackendCommTask);
     sched.addTask(pManualWindowTask);
-
-    Serial.begin(9600);
 }
 
 void loop()

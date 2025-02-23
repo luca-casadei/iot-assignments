@@ -20,7 +20,8 @@ void DashboardTask::notifyWindowChange() {
 
 void DashboardTask::tick()
 {
-  if (MsgService.isMsgAvailable())
+  this->pUserPanel->sync();
+  /*if (MsgService.isMsgAvailable())
   {
     Msg *msg = MsgService.receiveMsg();
     if (msg != NULL)
@@ -35,7 +36,6 @@ void DashboardTask::tick()
       {
         firstPart = receivedMsg.substring(0, separatorIndex);
         secondPart = receivedMsg.substring(separatorIndex + 1);
-
         
         if (firstPart.compareTo("MODE") == 0)
         {
@@ -68,7 +68,7 @@ void DashboardTask::tick()
       }
       else
       {
-        // ERRORE
+        this->pUserPanel->printToLine(2, "ERRORE");
       }
 
       if (msg->getContent())
@@ -79,6 +79,6 @@ void DashboardTask::tick()
   }
   if (this->pUserPanel->isButtonModePressed())
   {
-    this->notifyChangeMode();
-  }
+    //this->notifyChangeMode();
+  }*/
 }
