@@ -10,6 +10,7 @@ HWPlatform::HWPlatform()
   pLcd = new LCD(LCD_ADDR, LCD_COLS, LCD_ROWS);
   pButtonMode = new ButtonImpl(BUTTON_MODE_PIN);
   pMotorWindow = new ServoMotorImpl(MOTOR_PIN);
+  pPotentiometer = new Potentiometer(POTENTIOMETER_PIN);
 }
 
 void HWPlatform::init()

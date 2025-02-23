@@ -1,10 +1,12 @@
+#include <Arduino.h>
 #include "devices/Potentiometer.hpp"
 
-Potentiometer::Potentiometer()
+Potentiometer::Potentiometer(const int pin)
 {
+    pinMode(pin, INPUT);
 }
 
 int Potentiometer::getValue()
 {
-    return this->currentValue;
+    return map(this->currentValue, 8, 1015, 1, 4);
 }
