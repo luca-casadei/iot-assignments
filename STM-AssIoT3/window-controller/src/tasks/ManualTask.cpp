@@ -2,10 +2,6 @@
 #include <Arduino.h>
 #include "constants.hpp"
 
-#define DISCHARGE_TIME 5000
-#define OPENING_DISCHARGING_TIME 1000
-#define CLOSING_DISCHARGING_TIME 1000
-
 ManualTask::ManualTask(UserPanel *pUserPanel)
 {
     this->setUserPanel(pUserPanel);
@@ -21,6 +17,10 @@ void ManualTask::tick()
         if (firstTimeEntering())
         {
             pUserPanel->printToLine(1, "MANUAL - CONTROLLING");
+        }
+        if (this->pUserPanel->getPotentiometerValue() != this->pUserPanel->getWindowOpeningPercentage())
+        {
+            this->pUserPanel->setWindowPosition(this->pUserPanel->getPotentiometerValue());
         }
         break;
     }

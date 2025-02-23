@@ -5,9 +5,10 @@
 
 UserPanel::UserPanel(HWPlatform *pHW)
 {
-  pLcd = pHW->getUserPanelLcd();
-  pButtonMode = pHW->getModeButton();
-  pWindow = pHW->getWindowMotor();
+  this->pLcd = pHW->getUserPanelLcd();
+  this->pButtonMode = pHW->getModeButton();
+  this->pWindow = pHW->getWindowMotor();
+  this->pPotentiometer = pHW->getPotentiometer();
 }
 
 void UserPanel::init()
@@ -51,7 +52,12 @@ void UserPanel::setWindowPosition(const int position)
 
 int UserPanel::getWindowOpeningPercentage()
 {
-  return pWindow->getPosition();
+  return this->pWindow->getPosition();
+}
+
+int UserPanel::getPotentiometerValue() 
+{
+  return this->pPotentiometer->getValue();
 }
 
 bool UserPanel::isButtonModePressed()
