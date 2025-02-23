@@ -33,9 +33,9 @@ void setup()
     pDashboardTask->init(100);
     pDashboardTask->setActive(true);
 
+    sched.addTask(pDashboardTask);
     sched.addTask(pBackendCommTask);
     sched.addTask(pManualWindowTask);
-    sched.addTask(pDashboardTask);
 
     Serial.begin(9600);
 }

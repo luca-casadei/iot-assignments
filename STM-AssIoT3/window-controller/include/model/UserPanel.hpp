@@ -23,11 +23,14 @@ public:
   void setWindowPosition(const int position);
   int getWindowOpeningPercentage();
 
+  int getPotentiometerValue();
+
   void sync();
 
 private:
   LCD *pLcd;
   Button *pButtonMode;
   ServoMotor *pWindow;
+  Potentiometer *pPotentiometer;
   float currentTemperature;
 };
