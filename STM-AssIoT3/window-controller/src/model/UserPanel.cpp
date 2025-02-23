@@ -14,6 +14,7 @@ void UserPanel::init()
 {
   pLcd->init();
   turnOnDisplay();
+  pWindow->on();
 }
 
 void UserPanel::turnOnDisplay()
@@ -43,7 +44,9 @@ float UserPanel::getTemperature()
 
 void UserPanel::setWindowPosition(const int position)
 {
-  this->pWindow->setPosition(position);
+  const int cappedPos = constrain(position, 1, 99);
+  const int anglePos = map(cappedPos, 1, 99, 0, 180);
+  this->pWindow->setPosition(anglePos);
 }
 
 int UserPanel::getWindowOpeningPercentage()

@@ -33,5 +33,8 @@ bool TaskWithState::firstTimeEntering()
         this->justEntered = true;
         return true;
     }
-    return false;
+    else
+    {
+        return false;
+    }
 }

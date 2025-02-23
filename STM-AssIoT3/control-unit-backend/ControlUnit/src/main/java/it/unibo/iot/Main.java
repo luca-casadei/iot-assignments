@@ -23,13 +23,11 @@ public class Main {
                                 vertx.deployVerticle(new SerialCommChannel(SERIAL_PORT, SERIAL_RATE),
                                         new DeploymentOptions().setThreadingModel(ThreadingModel.WORKER))
                         )
-                ).onFailure(res -> {
+                ).onFailure(_ -> {
                     System.out.println("Errore nel deployment dei demoni");
                     vertx.close();
                 })
-                .onComplete(res -> {
-                            System.out.println("Deployment dei demoni eseguito con successo.");
-                        }
+                .onComplete(_ -> System.out.println("Deployment dei demoni eseguito con successo.")
                 );
     }
 }

@@ -21,6 +21,7 @@ void AutomaticTask::tick()
         if (firstTimeEntering())
         {
             pUserPanel->printToLine(1, "AUTOMATIC - NORMAL");
+            pUserPanel->setWindowPosition(0);
         }
         break;
     }

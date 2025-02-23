@@ -115,15 +115,11 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     @Override
     public void start() {
         System.out.println("Serial started on port: " + serialPort.getPortName());
-        vertx.eventBus().consumer("serial.state.send", t -> {
-            sendMsg(t.body().toString());
+        vertx.eventBus().consumer("serial.state.send", t ->  {
+            sendMsg("STATE:" + t.body().toString());
         });
-        vertx.eventBus().consumer("serial.temperature.send", t -> {
-            sendMsg("TEMPERATURE:" + t.body().toString());
-        });
-        vertx.eventBus().consumer("serial.mode.send", t -> {
-            sendMsg("MODE:" + t.body().toString());
-        });
+        vertx.eventBus().consumer("serial.temperature.send", t -> sendMsg("TEMPERATURE:" + t.body().toString()));
+        vertx.eventBus().consumer("serial.mode.send", t -> sendMsg("MODE:" + t.body().toString()));
         vertx.executeBlocking(promise -> {
             while (running) {
                 try {

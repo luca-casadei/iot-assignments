@@ -54,14 +54,12 @@ public final class ControlUnit extends AbstractVerticle {
             final float temperature = Float.parseFloat(t.body().toString());
             addTemperatureToList(temperature);
             checkTemperatureForState(temperature);
+            System.out.println("The state is now: " + currentState + " with a temperature of: " + temperature);
             vertx.eventBus().send("serial.mode.send", currentMode);
             vertx.eventBus().send("serial.state.send", currentState);
             vertx.eventBus().send("serial.temperature.send", temperature);
-            //System.out.println("Aggiunta temperatura: " + temperature);
         });
-        vertx.eventBus().consumer("state.get", message -> {
-            message.reply(currentState);
-        });
+        vertx.eventBus().consumer("state.get", message -> message.reply(currentState));
         vertx.eventBus().consumer("mode.change", _ -> {
             if (this.currentMode == Mode.AUTOMATIC) {
                 this.currentMode = Mode.MANUAL;
