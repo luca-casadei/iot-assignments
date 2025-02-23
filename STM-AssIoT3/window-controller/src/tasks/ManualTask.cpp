@@ -10,7 +10,6 @@ ManualTask::ManualTask(UserPanel *pUserPanel)
 
 void ManualTask::tick()
 {
-    
     switch (currentState)
     {
     case CONTROLLING:
@@ -18,6 +17,10 @@ void ManualTask::tick()
         if (firstTimeEntering())
         {
             pUserPanel->printToLine(1, "MANUAL - CONTROLLING");
+        }
+        if (this->pUserPanel->getPotentiometerValue() != this->pUserPanel->getWindowOpeningPercentage())
+        {
+            this->pUserPanel->setWindowPosition(this->pUserPanel->getPotentiometerValue());
         }
         break;
     }
