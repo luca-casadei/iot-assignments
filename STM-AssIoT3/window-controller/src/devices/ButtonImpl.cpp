@@ -4,30 +4,40 @@
 ButtonImpl::ButtonImpl(const int pin)
 {
   this->pin = pin;
-  pinMode(pin, INPUT);  
+  pinMode(pin, INPUT);
   sync();
 }
 
-bool ButtonImpl::isPressed(){
+bool ButtonImpl::isPressed()
+{
   return pressed;
 }
 
-bool ButtonImpl::isClicked(){
+bool ButtonImpl::isClicked()
+{
   return clicked;
 }
 
-void ButtonImpl::sync(){
+void ButtonImpl::sync()
+{
   bool wasPressed = pressed;
-  pressed = digitalRead(pin) == HIGH;
-  if (!pressed){
-    if (wasPressed){
+  pressed = (digitalRead(pin) == HIGH);
+  if (!pressed)
+  {
+    if (wasPressed)
+    {
       clicked = true;
-    } else {
-      if (clicked){
+    }
+    else
+    {
+      if (clicked)
+      {
         clicked = false;
       }
     }
-  } else if (pressed){
+  }
+  else if (pressed)
+  {
     clicked = false;
   }
   updateSyncTime(millis());

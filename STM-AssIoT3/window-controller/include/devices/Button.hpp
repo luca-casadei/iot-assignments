@@ -7,7 +7,7 @@ public:
   virtual bool isPressed() = 0;
   virtual bool isClicked() = 0;
 
-  virtual void sync();
+  virtual void sync() = 0;
   long getLastSyncTime();
 
 protected:
