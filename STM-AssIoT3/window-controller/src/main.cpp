@@ -29,10 +29,11 @@ void setup()
     pManualWindowTask->init(100);
     pManualWindowTask->setActive(false);
     Task *pDashboardTask = new DashboardTask(pUserPanel, pBackendCommTask, pManualWindowTask);
-
+    pDashboardTask->init(100);
+    
+    sched.addTask(pDashboardTask);
     sched.addTask(pBackendCommTask);
     sched.addTask(pManualWindowTask);
-    sched.addTask(pDashboardTask);
 
     Serial.begin(9600);
 }

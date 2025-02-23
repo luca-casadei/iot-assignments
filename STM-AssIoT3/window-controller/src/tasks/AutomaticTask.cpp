@@ -2,10 +2,6 @@
 #include <Arduino.h>
 #include "constants.hpp"
 
-#define DISCHARGE_TIME 5000
-#define OPENING_DISCHARGING_TIME 1000
-#define CLOSING_DISCHARGING_TIME 1000
-
 AutomaticTask::AutomaticTask(UserPanel *pUserPanel)
 {
     this->setUserPanel(pUserPanel);
