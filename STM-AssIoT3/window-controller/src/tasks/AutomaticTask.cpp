@@ -16,8 +16,8 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            pUserPanel->printToLine(1, "AUTOMATIC - NORMAL");
-            pUserPanel->setWindowPosition(0);
+            getUserPanel()->printToLine(1, "AUTOMATIC - NORMAL");
+            getUserPanel()->setWindowPosition(0);
         }
         break;
     }
@@ -25,7 +25,9 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            pUserPanel->printToLine(1, "AUTOMATIC - HOT");
+            getUserPanel()->printToLine(1, "AUTOMATIC - HOT");
+            float perc = 1 + ((getUserPanel()->getTemperature() - T1) / (T2 - T1)) * 98;
+            getUserPanel()->setWindowPosition(perc);
         }
         break;
     }
@@ -33,7 +35,7 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            pUserPanel->printToLine(1, "AUTOMATIC - TOO_HOT");
+            getUserPanel()->printToLine(1, "AUTOMATIC - TOO_HOT");
         }
         break;
     }
@@ -41,13 +43,13 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            pUserPanel->printToLine(1, "AUTOMATIC - ALARM");
+            getUserPanel()->printToLine(1, "AUTOMATIC - ALARM");
         }
         break;
     }
     default:
     {
-        pUserPanel->printToLine(1, "AUTOMATIC - INVALID");
+        getUserPanel()->printToLine(1, "AUTOMATIC - INVALID");
         break;
     }
     }

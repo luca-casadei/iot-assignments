@@ -4,9 +4,9 @@
 
 DashboardTask::DashboardTask(UserPanel* pUserPanel, TaskWithState *pAutomaticTask, TaskWithState *pManualTask)
 {
-  pUserPanel = pUserPanel;
-  pAutomaticTask = pAutomaticTask;
-  pManualTask = pManualTask;
+  this->pUserPanel = pUserPanel;
+  this->pAutomaticTask = pAutomaticTask;
+  this->pManualTask = pManualTask;
 }
 
 void DashboardTask::notifyChangeMode()
@@ -21,21 +21,26 @@ void DashboardTask::notifyWindowChange() {
 void DashboardTask::tick()
 {
   this->pUserPanel->sync();
-  /*if (MsgService.isMsgAvailable())
+
+  if (MsgService.isMsgAvailable())
   {
     Msg *msg = MsgService.receiveMsg();
     if (msg != NULL)
     {
       String receivedMsg = msg->getContent();
-
+      receivedMsg.trim();
+      
       int separatorIndex = receivedMsg.indexOf(MESSAGE_SEPARATOR);
 
       String firstPart, secondPart;
       
       if (separatorIndex != -1)
       {
+        pUserPanel->printToLine(3, "");
         firstPart = receivedMsg.substring(0, separatorIndex);
         secondPart = receivedMsg.substring(separatorIndex + 1);
+
+        pUserPanel->printToLine(2, firstPart.c_str());
         
         if (firstPart.compareTo("MODE") == 0)
         {
@@ -68,17 +73,13 @@ void DashboardTask::tick()
       }
       else
       {
-        this->pUserPanel->printToLine(2, "ERRORE");
-      }
-
-      if (msg->getContent())
-      {
-        delete msg;
+        this->pUserPanel->printToLine(3, "ERROR");
       }
     }
+    delete msg;
   }
   if (this->pUserPanel->isButtonModePressed())
   {
-    //this->notifyChangeMode();
-  }*/
+    this->notifyChangeMode();
+  }
 }

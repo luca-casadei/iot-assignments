@@ -9,6 +9,7 @@
 
 
 #define MSG_BUFFER_SIZE  50
+#define TEMPERATURE_CHECK_INTERVAL 1000
 
 MQTTManager mqttManager(BROKER_NAME, 1883, TOPIC_NAME);
 TempSensor* tempSensor;
@@ -46,7 +47,7 @@ void loop() {
   updateLEDs();
 
   unsigned long now = millis();
-  if (now - lastMsgTime > 100) {
+  if (now - lastMsgTime > TEMPERATURE_CHECK_INTERVAL) {
     lastMsgTime = now;
     tempValue = tempSensor->getTemperature();
     snprintf(msg, MSG_BUFFER_SIZE, "Temperature: %ld°C", tempValue);

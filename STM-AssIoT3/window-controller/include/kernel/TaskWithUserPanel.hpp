@@ -9,6 +9,6 @@ public:
     void setUserPanel(UserPanel* pUserPanel);
     UserPanel* getUserPanel();
 
-protected:
+private:
     UserPanel* pUserPanel;
 };

@@ -1,5 +1,6 @@
 package it.unibo.iot.serial;
 
+import java.util.Arrays;
 import java.util.concurrent.*;
 
 import io.vertx.core.AbstractVerticle;
@@ -41,6 +42,7 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     @Override
     public void sendMsg(String msg) {
         char[] array = (msg + "\n").toCharArray();
+        System.out.println(new String(array));
         byte[] bytes = new byte[array.length];
         for (int i = 0; i < array.length; i++) {
             bytes[i] = (byte) array[i];
@@ -115,19 +117,17 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     @Override
     public void start() {
         System.out.println("Serial started on port: " + serialPort.getPortName());
-        vertx.eventBus().consumer("serial.state.send", t ->  {
-            sendMsg("STATE:" + t.body().toString());
-        });
+        vertx.eventBus().consumer("serial.state.send", t -> sendMsg("STATE:" + t.body().toString()));
         vertx.eventBus().consumer("serial.temperature.send", t -> sendMsg("TEMPERATURE:" + t.body().toString()));
         vertx.eventBus().consumer("serial.mode.send", t -> sendMsg("MODE:" + t.body().toString()));
         vertx.executeBlocking(promise -> {
             while (running) {
                 try {
                     final String msg = queue.take();
-                    if (msg.equals("MODE:CHANGE")){
+                    System.out.println(msg);
+                    if (msg.equals("MODE:CHANGE")) {
                         vertx.eventBus().send("mode.change", "");
-                    }
-                    else{
+                    } else {
                         final double potValue = Double.parseDouble(msg);
                     }
                 } catch (InterruptedException e) {

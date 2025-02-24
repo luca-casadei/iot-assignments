@@ -54,7 +54,6 @@ public final class ControlUnit extends AbstractVerticle {
             final float temperature = Float.parseFloat(t.body().toString());
             addTemperatureToList(temperature);
             checkTemperatureForState(temperature);
-            System.out.println("The state is now: " + currentState + " with a temperature of: " + temperature);
             vertx.eventBus().send("serial.mode.send", currentMode);
             vertx.eventBus().send("serial.state.send", currentState);
             vertx.eventBus().send("serial.temperature.send", temperature);
