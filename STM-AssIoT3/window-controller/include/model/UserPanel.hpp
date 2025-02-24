@@ -1,13 +1,15 @@
 #pragma once
 
-#include "constants.hpp"
-#include "HWPlatform.hpp"
+class ServoMotor;
+class Button;
+class LCD;
+class Potentiometer;
 
 class UserPanel
 {
 
 public:
-  UserPanel(HWPlatform *pHW);
+  UserPanel();
 
   void init();
 

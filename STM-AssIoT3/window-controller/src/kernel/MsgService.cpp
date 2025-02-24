@@ -26,6 +26,19 @@ Msg *MsgServiceClass::receiveMsg()
   }
 }
 
+void serialEvent() {
+  /* reading the content */
+  while (Serial.available()) {
+    char ch = (char) Serial.read();
+    if (ch == '\n'){
+      MsgService.currentMsg = new Msg(content);
+      MsgService.msgAvailable = true;
+    } else {
+      content += ch;
+    }
+  }
+}
+
 void MsgServiceClass::init()
 {
   Serial.begin(115200);

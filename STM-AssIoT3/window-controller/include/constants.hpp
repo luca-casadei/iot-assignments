@@ -7,3 +7,6 @@
 #define LCD_ADDR 0x27
 #define LCD_COLS 20
 #define LCD_ROWS 4
+
+#define T1 23
+#define T2 30

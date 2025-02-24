@@ -1,14 +1,17 @@
-#include "./model/UserPanel.hpp"
 #include <Arduino.h>
 #include "constants.hpp"
-#include "model/HWPlatform.hpp"
+#include "./model/UserPanel.hpp"
+#include "./devices/LCD.hpp"
+#include "./devices/ButtonImpl.hpp"
+#include "./devices/Potentiometer.hpp"
+#include "./devices/servo_motor_impl.hpp"
 
-UserPanel::UserPanel(HWPlatform *pHW)
+UserPanel::UserPanel()
 {
-  this->pLcd = pHW->getUserPanelLcd();
-  this->pButtonMode = pHW->getModeButton();
-  this->pWindow = pHW->getWindowMotor();
-  this->pPotentiometer = pHW->getPotentiometer();
+  this->pLcd = new LCD(LCD_ADDR, LCD_COLS, LCD_ROWS);
+  this->pButtonMode = new ButtonImpl(BUTTON_MODE_PIN);
+  this->pPotentiometer = new Potentiometer(POTENTIOMETER_PIN);
+  this->pWindow = new ServoMotorImpl(MOTOR_PIN);
 }
 
 void UserPanel::init()
