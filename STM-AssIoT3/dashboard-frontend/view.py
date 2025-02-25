@@ -72,7 +72,7 @@ class Dashboard:
             from_=0, to=100,
             orient="horizontal",
             length=300,
-            command=self.controller.set_window_opening,
+            command=self.controller.move_window,
             state= tk.ACTIVE if self.manual_mode else tk.DISABLED)
         self.window_slider.grid(row=0, column=1, padx=10, pady=5)
 
@@ -89,4 +89,4 @@ class Dashboard:
     def update_data(self):
         if self.controller:
             self.controller.update_view()
-        self.root.after(5000, self.update_data) # Tempo di chiamata al metodo, attualmente è impostato a 5 secondi (quindi 5000ms) => TODO: da decidere quanto mettere.
+        self.root.after(5000, self.update_data)

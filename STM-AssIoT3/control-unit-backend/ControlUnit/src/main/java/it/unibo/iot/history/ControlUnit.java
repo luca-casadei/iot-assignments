@@ -12,6 +12,8 @@ import java.util.List;
 public final class ControlUnit extends AbstractVerticle {
     private final int len;
     private final List<Float> temperatures;
+    private int windowPercentage;
+    private int dashboardPercentage;
     private State currentState;
     private Mode currentMode;
     private long firstTooHotTime = 0;
@@ -21,6 +23,8 @@ public final class ControlUnit extends AbstractVerticle {
         this.len = listLength;
         this.currentState = State.NORMAL;
         this.currentMode = Mode.AUTOMATIC;
+        this.dashboardPercentage = -1;
+        this.windowPercentage = 1;
     }
 
     private void addTemperatureToList(final float temperature) {
@@ -53,19 +57,29 @@ public final class ControlUnit extends AbstractVerticle {
         vertx.eventBus().consumer("temperature.add", t -> {
             final float temperature = Float.parseFloat(t.body().toString());
             addTemperatureToList(temperature);
-            checkTemperatureForState(temperature);
-            vertx.eventBus().send("serial.mode.send", currentMode);
-            vertx.eventBus().send("serial.state.send", currentState);
-            vertx.eventBus().send("serial.temperature.send", temperature);
+            if (currentMode == Mode.AUTOMATIC && currentState != State.ALARM) {
+                checkTemperatureForState(temperature);
+            }
+            vertx.eventBus().send("serial.data.send", temperature + ":" + currentState + ":" + currentMode + ":" + dashboardPercentage);
+            vertx.eventBus().send("http.data.send", temperature + ":" + currentState + ":" + currentMode + ":" + windowPercentage);
+            dashboardPercentage = -1;
+        });
+        vertx.eventBus().consumer("serial.window.percentage", p -> {
+            this.windowPercentage = Integer.parseInt(p.body().toString());
+        });
+        vertx.eventBus().consumer("http.window.send", w -> {
+            dashboardPercentage = Integer.parseInt(w.body().toString());
         });
         vertx.eventBus().consumer("state.get", message -> message.reply(currentState));
         vertx.eventBus().consumer("mode.change", _ -> {
-            if (this.currentMode == Mode.AUTOMATIC) {
-                this.currentMode = Mode.MANUAL;
-                this.currentState = State.CONTROLLING;
-            } else {
-                this.currentMode = Mode.AUTOMATIC;
-                this.currentState = State.NORMAL;
+            if (this.currentState != State.ALARM) {
+                if (this.currentMode == Mode.AUTOMATIC) {
+                    this.currentMode = Mode.MANUAL;
+                    this.currentState = State.CONTROLLING;
+                } else {
+                    this.currentMode = Mode.AUTOMATIC;
+                    this.currentState = State.NORMAL;
+                }
             }
         });
     }

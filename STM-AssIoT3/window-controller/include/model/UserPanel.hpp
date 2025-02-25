@@ -26,6 +26,8 @@ public:
   int getWindowOpeningPercentage();
 
   int getPotentiometerValue();
+  void setDashboardPercentage(int dp);
+  int getDashboardPercentage(void);
 
   void sync();
 
@@ -35,4 +37,6 @@ private:
   ServoMotor *pWindow;
   Potentiometer *pPotentiometer;
   float currentTemperature;
+  int currentPercentage;
+  int dashBoardPercentage;
 };

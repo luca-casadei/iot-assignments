@@ -18,15 +18,21 @@ void ManualTask::tick()
         {
             getUserPanel()->printToLine(1, "MANUAL - CONTROLLING");
         }
-        if (this->getUserPanel()->getPotentiometerValue() != this->getUserPanel()->getWindowOpeningPercentage())
+        if (getUserPanel()->getDashboardPercentage() != -1){
+            this->getUserPanel()->setDashboardPercentage(-1);
+            this->getUserPanel()->setWindowPosition(getUserPanel()->getDashboardPercentage());
+        }
+        else if (this->getUserPanel()->getPotentiometerValue() != this->getUserPanel()->getWindowOpeningPercentage())
         {
-            this->getUserPanel()->setWindowPosition(this->getUserPanel()->getPotentiometerValue());
+            this->getUserPanel()->setWindowPosition(getUserPanel()->getPotentiometerValue());
         }
         break;
     }
     default:
     {
-        getUserPanel()->printToLine(1, "MANUAL - INVALID");
+        if (firstTimeEntering()){
+            getUserPanel()->printToLine(1, "MANUAL - INVALID");
+        }
     }
     }
 }

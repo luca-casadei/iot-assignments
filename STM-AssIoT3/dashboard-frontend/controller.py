@@ -12,10 +12,9 @@ class Controller:
         data = self.model.get_system_info()
         if data:
             print(data)
-            if data["error"]:
-                return
             self.view.state = data["state"]
-            self.view.temperature_data.append(data["current_temperature"])
+            self.view.temperature_data.append(float(data["temperature"]))
+            self.view.manual_mode = data["mode"]
             if len(self.view.temperature_data) > self.view.max_data_points:
                 self.view.temperature_data.pop(0)
 
@@ -35,12 +34,11 @@ class Controller:
             self.view.canvas.draw()
 
     def toggle_mode(self):
-        mode = "AUTOMATIC" if self.view.manual_mode else "MANUAL"
-        self.model.toggle_mode(mode)
+        self.model.toggle_mode()
         self.view.manual_mode = not self.view.manual_mode
 
-    def set_window_opening(self):
-        self.model.set_window_opening()
+    def move_window(self):
+        self.model.move_window()
 
     def reset_alarm(self):
         self.model.reset_alarm()
