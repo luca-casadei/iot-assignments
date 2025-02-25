@@ -29,16 +29,25 @@ class HTTPClient:
             print(f"GET request error: {e}")
             return None
 
-    def toggle_mode(self, mode):
+    def move_window(self, percentage):
         try:
-            if mode not in ["AUTOMATIC", "MANUAL"]:
-                raise ValueError("Mode must be \'AUTOMATIC\' or \'MANUAL\'")
+            if percentage not in range(0, 100):
+                raise ValueError("Percentage must be between 0 and 100.")
 
             headers = {'Content-type': 'application/json'}
-            body = json.dumps({"mode": mode})
-            self.connection.request("POST", "/toggle_mode", body, headers)
+            body = json.dumps({"window": percentage})
+            self.connection.request("POST", "/move_window", body, headers)
             response = self.connection.getresponse()
-            print(f"Mode set to {mode}: {response.status} - {response.reason}")
+            print(f"Window moved to {percentage}: {response.status} - {response.reason}")
+        except Exception as e:
+            print(f"POST request error: {e}")
+
+    def toggle_mode(self):
+        try:
+            headers = {'Content-type': 'application/json'}
+            self.connection.request("POST", "/toggle_mode", "{}", headers)
+            response = self.connection.getresponse()
+            print(f"Mode change: {response.status} - {response.reason}")
         except Exception as e:
             print(f"POST request error: {e}")
 

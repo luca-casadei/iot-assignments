@@ -1,6 +1,5 @@
 package it.unibo.iot.serial;
 
-import java.util.Arrays;
 import java.util.concurrent.*;
 
 import io.vertx.core.AbstractVerticle;
@@ -107,7 +106,7 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
                         goAhead = false;
                     }
                 }
-
+                vertx.eventBus().send("serial.event", "");
             } catch (Exception ex) {
                 System.out.println("Error in receiving string from COM-port: " + ex.getMessage());
             }
@@ -117,26 +116,25 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     @Override
     public void start() {
         System.out.println("Serial started on port: " + serialPort.getPortName());
-        vertx.eventBus().consumer("serial.state.send", t -> sendMsg("STATE:" + t.body().toString()));
-        vertx.eventBus().consumer("serial.temperature.send", t -> sendMsg("TEMPERATURE:" + t.body().toString()));
-        vertx.eventBus().consumer("serial.mode.send", t -> sendMsg("MODE:" + t.body().toString()));
-        vertx.executeBlocking(promise -> {
-            while (running) {
-                try {
-                    final String msg = queue.take();
-                    System.out.println(msg);
+        running = true;
+        vertx.eventBus().consumer("serial.data.send", t -> {
+            sendMsg(t.body().toString());
+        });
+        vertx.eventBus().consumer("serial.event", _ -> {
+            final String msg;
+            try {
+                if (isMsgAvailable()) {
+                    msg = receiveMsg();
                     if (msg.equals("MODE:CHANGE")) {
                         vertx.eventBus().send("mode.change", "");
-                    } else {
-                        final double potValue = Double.parseDouble(msg);
+                    } else if (msg.contains("WINDOW")) {
+                        vertx.eventBus().send("serial.window.percentage", msg.substring(msg.indexOf(':') + 1));
                     }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
                 }
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
             }
-            promise.complete();
-        }, false);
+        });
     }
 
     @Override

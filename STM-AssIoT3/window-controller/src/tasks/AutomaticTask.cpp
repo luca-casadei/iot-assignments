@@ -10,6 +10,8 @@ AutomaticTask::AutomaticTask(UserPanel *pUserPanel)
 
 void AutomaticTask::tick()
 {
+    this->getUserPanel()->sync();
+    
     switch (currentState)
     {
     case NORMAL:
@@ -17,7 +19,7 @@ void AutomaticTask::tick()
         if (firstTimeEntering())
         {
             getUserPanel()->printToLine(1, "AUTOMATIC - NORMAL");
-            getUserPanel()->setWindowPosition(0);
+            getUserPanel()->setWindowPosition(1);
         }
         break;
     }
@@ -26,9 +28,9 @@ void AutomaticTask::tick()
         if (firstTimeEntering())
         {
             getUserPanel()->printToLine(1, "AUTOMATIC - HOT");
-            float perc = 1 + ((getUserPanel()->getTemperature() - T1) / (T2 - T1)) * 98;
-            getUserPanel()->setWindowPosition(perc);
         }
+        float perc = 1 + ((getUserPanel()->getTemperature() - T1) / (T2 - T1)) * 98;
+        getUserPanel()->setWindowPosition(perc);
         break;
     }
     case TOO_HOT:
@@ -36,6 +38,7 @@ void AutomaticTask::tick()
         if (firstTimeEntering())
         {
             getUserPanel()->printToLine(1, "AUTOMATIC - TOO_HOT");
+            getUserPanel()->setWindowPosition(99);
         }
         break;
     }
@@ -44,6 +47,7 @@ void AutomaticTask::tick()
         if (firstTimeEntering())
         {
             getUserPanel()->printToLine(1, "AUTOMATIC - ALARM");
+            getUserPanel()->setWindowPosition(99);
         }
         break;
     }

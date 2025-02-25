@@ -49,18 +49,27 @@ float UserPanel::getTemperature()
 void UserPanel::setWindowPosition(const int position)
 {
   const int cappedPos = constrain(position, 1, 99);
+  this->currentPercentage = cappedPos;
   const int anglePos = map(cappedPos, 1, 99, 0, 180);
   this->pWindow->setPosition(anglePos);
 }
 
 int UserPanel::getWindowOpeningPercentage()
 {
-  return this->pWindow->getPosition();
+  return this->currentPercentage;
 }
 
 int UserPanel::getPotentiometerValue() 
 {
   return this->pPotentiometer->getValue();
+}
+
+void UserPanel::setDashboardPercentage(int dp){
+  this->dashBoardPercentage = dp;
+}
+
+int UserPanel::getDashboardPercentage(){
+  return this->dashBoardPercentage;
 }
 
 bool UserPanel::isButtonModePressed()
@@ -71,4 +80,5 @@ bool UserPanel::isButtonModePressed()
 void UserPanel::sync()
 {
   pButtonMode->sync();
+  pPotentiometer->sync();
 }
