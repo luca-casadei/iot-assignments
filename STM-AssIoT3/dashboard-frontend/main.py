@@ -6,10 +6,10 @@ from controller import Controller
 def main():
     root = tk.Tk()
     model = HTTPClient()
-    controller = Controller(model, None)
+    controller = Controller(root, model, None)
     view = Dashboard(root, controller)
     controller.view = view
-    view.start_updating()
+    controller.start_updating()
     root.mainloop()
 
 if __name__ == "__main__":

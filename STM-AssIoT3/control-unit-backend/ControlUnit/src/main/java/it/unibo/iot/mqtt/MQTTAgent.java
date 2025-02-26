@@ -3,14 +3,13 @@ package it.unibo.iot.mqtt;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.mqtt.MqttClient;
 
+import static it.unibo.iot.Configuration.BROKER_ADDRESS;
+import static it.unibo.iot.Configuration.TOPIC_NAME;
+
 /*
  * MQTT Agent
  */
 public class MQTTAgent extends AbstractVerticle {
-
-    private static final String BROKER_ADDRESS = "broker.mqtt-dashboard.com";
-    private static final String TOPIC_NAME = "esiot-casadeipazzaglia-temperature";
-
     @Override
     public void start() {
         final MqttClient client = MqttClient.create(vertx);

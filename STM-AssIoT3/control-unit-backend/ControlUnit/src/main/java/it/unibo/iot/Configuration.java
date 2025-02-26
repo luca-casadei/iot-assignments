@@ -7,4 +7,6 @@ public final class Configuration {
     public final static String SERIAL_PORT = "/dev/ttyACM0";
     public final static int SERIAL_RATE = 115200;
     public final static int HISTORY_LEN = 100;
+    public static final String BROKER_ADDRESS = "broker.emqx.io";
+    public static final String TOPIC_NAME = "esiot-casadeipazzaglia-temperature";
 }
