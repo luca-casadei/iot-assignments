@@ -5,5 +5,5 @@
 #define TEMP_SENSOR_PIN 33
 
 #define MAX_CONNECTION_TRIES 3
-#define BROKER_NAME "broker.mqtt-dashboard.com"
+#define BROKER_NAME "broker.emqx.io"
 #define TOPIC_NAME "esiot-casadeipazzaglia-temperature"

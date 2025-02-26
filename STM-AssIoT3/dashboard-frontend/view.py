@@ -12,15 +12,6 @@ class Dashboard:
         self.root.resizable(False, False)
         self.root.configure(bg="#f0f0f0")
 
-        self.temperature_data = []
-        self.max_data_points = 100
-        self.temp_min = 0
-        self.temp_max = 0
-        self.temp_avg = 0
-        self.state = ""
-        self.window_percentage = 0
-        self.manual_mode = False
-
         self.create_dashboard()
 
     def create_dashboard(self):
@@ -29,7 +20,6 @@ class Dashboard:
 
         self.status_label = tk.Label(
             main_frame,
-            text=f"State: {self.state}",
             font=("Arial", 18, "bold"),
             fg="blue",
             bg="#f0f0f0")
@@ -37,7 +27,6 @@ class Dashboard:
 
         self.temp_stats_label = tk.Label(
             main_frame,
-            text=f"Min: {self.temp_min}°C  Max: {self.temp_max}°C  Avg: {self.temp_avg}°C",
             font=("Arial", 12),
             bg="#f0f0f0"
         )
@@ -45,7 +34,7 @@ class Dashboard:
 
         self.window_level_label = tk.Label(
             main_frame,
-            text=f"Window Opening: {self.window_percentage}%",
+            text=f"Window Opening: {self.controller.window_percentage}%",
             font=("Arial", 12),
             bg="#f0f0f0")
         self.window_level_label.pack(pady=5)
@@ -54,7 +43,7 @@ class Dashboard:
         self.ax.set_title("Temperature Trend", fontsize=12)
         self.ax.set_xlabel("Time", fontsize=10)
         self.ax.set_ylabel("Temperature (°C)", fontsize=10)
-        self.ax.grid(True, linestyle="--", alpha=0.6)
+        self.ax.grid(True, linestyle="-.", alpha=0.6)
         self.canvas = FigureCanvasTkAgg(self.fig, master=main_frame)
         self.canvas.get_tk_widget().pack(pady=10, fill="both", expand=True)
 
@@ -63,7 +52,7 @@ class Dashboard:
 
         self.system_mode_btn = ttk.Button(
             control_frame,
-            text= "Activate Automatic Mode" if self.manual_mode else "Activate Manual Mode",
+            text= "Activate Automatic Mode" if self.controller.manual_mode else "Activate Manual Mode",
             command=self.controller.toggle_mode)
         self.system_mode_btn.grid(row=0, column=0, padx=10, pady=5)
 
@@ -71,22 +60,20 @@ class Dashboard:
             control_frame,
             from_=0, to=100,
             orient="horizontal",
-            length=300,
-            command=self.controller.move_window,
-            state= tk.ACTIVE if self.manual_mode else tk.DISABLED)
+            length=300
+        )
         self.window_slider.grid(row=0, column=1, padx=10, pady=5)
+
+        self.move_window_btn = ttk.Button(
+            control_frame,
+            text="Move Window",
+            command=self.controller.move_window,
+            state=tk.NORMAL if self.controller.manual_mode else tk.DISABLED)
+        self.move_window_btn.grid(row=0, column=2, padx=10, pady=5)
 
         self.alarm_btn = ttk.Button(
             control_frame,
             text="Reset Alarm",
             command=self.controller.reset_alarm,
-            state=tk.DISABLED)
-        self.alarm_btn.grid(row=0, column=2, padx=10, pady=5)
-
-    def start_updating(self):
-        self.update_data()
-
-    def update_data(self):
-        if self.controller:
-            self.controller.update_view()
-        self.root.after(5000, self.update_data)
+            state= tk.NORMAL if self.controller.manual_mode else tk.DISABLED)
+        self.alarm_btn.grid(row=0, column=3, padx=15, pady=5)
