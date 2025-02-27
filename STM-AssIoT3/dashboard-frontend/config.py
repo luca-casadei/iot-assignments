@@ -1,1 +1,2 @@
 BACKEND_URL = "localhost"
+THRESHOLD_TEMP = 25

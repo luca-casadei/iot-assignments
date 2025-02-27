@@ -5,6 +5,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 import it.unibo.iot.history.Mode;
 import it.unibo.iot.history.State;
 
@@ -17,6 +18,8 @@ public class HTTPServer extends AbstractVerticle {
 
     @Override
     public void start() {
+        router.route().handler(BodyHandler.create());
+
         getSystemInfo();
         toggleMode();
         moveWindow();
@@ -70,6 +73,7 @@ public class HTTPServer extends AbstractVerticle {
                 .consumes("application/json")
                 .handler(ctx -> {
                     final JsonObject body = ctx.body().asJsonObject();
+                    System.out.println(body);
                     if (body == null || !body.containsKey("window")) {
                         ctx.response()
                                 .setStatusCode(400)

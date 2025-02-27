@@ -31,14 +31,15 @@ class HTTPClient:
 
     def move_window(self, percentage):
         try:
-            if percentage not in range(0, 100):
+            if percentage not in range(0, 101):
                 raise ValueError("Percentage must be between 0 and 100.")
 
             headers = {'Content-type': 'application/json'}
-            body = json.dumps({"window": percentage})
+            body = json.dumps({"window": str(percentage)})
             self.connection.request("POST", "/move_window", body, headers)
             response = self.connection.getresponse()
             print(f"Window moved to {percentage}: {response.status} - {response.reason}")
+            response.read()
         except Exception as e:
             print(f"POST request error: {e}")
 
@@ -48,6 +49,7 @@ class HTTPClient:
             self.connection.request("POST", "/toggle_mode", "{}", headers)
             response = self.connection.getresponse()
             print(f"Mode change: {response.status} - {response.reason}")
+            response.read()
         except Exception as e:
             print(f"POST request error: {e}")
 
@@ -57,6 +59,7 @@ class HTTPClient:
             self.connection.request("POST", "/reset", "{}", headers)
             response = self.connection.getresponse()
             print(f"Alarm reset: {response.status} - {response.reason}")
+            response.read()
         except Exception as e:
             print(f"POST request error: {e}")
 

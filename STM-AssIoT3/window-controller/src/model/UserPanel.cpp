@@ -19,6 +19,7 @@ void UserPanel::init()
   pLcd->init();
   turnOnDisplay();
   pWindow->on();
+  setOldPotValue(getPotentiometerValue());
 }
 
 void UserPanel::turnOnDisplay()
@@ -48,10 +49,18 @@ float UserPanel::getTemperature()
 
 void UserPanel::setWindowPosition(const int position)
 {
-  const int cappedPos = constrain(position, 1, 99);
+  const int cappedPos = constrain(position, 0, 100);
   this->currentPercentage = cappedPos;
-  const int anglePos = map(cappedPos, 1, 99, 0, 180);
+  const int anglePos = map(cappedPos, 0, 100, 0, 180);
   this->pWindow->setPosition(anglePos);
+}
+
+int UserPanel::getOldPotValue(){
+  return this->oldPotValue;
+}
+
+void UserPanel::setOldPotValue(int opv){
+  this->oldPotValue = opv;
 }
 
 int UserPanel::getWindowOpeningPercentage()

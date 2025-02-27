@@ -22,7 +22,7 @@ void MQTTManager::connect() {
     unsigned int tries = 0;
     while (!m_client.connected() && tries < MAX_CONNECTION_TRIES) {
       Serial.print("Attempting MQTT connection...");
-      String clientId = String("temperature-client-") + String(random(0xffff), HEX);
+      String clientId = String("temperature-esiot25pc-client-") + String(random(0xffff), HEX);
       
       if (m_client.connect(clientId.c_str())) {
         Serial.println("connected");
