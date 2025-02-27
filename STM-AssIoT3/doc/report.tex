@@ -6,6 +6,9 @@
 \usepackage{float}
 \usepackage{todonotes}
 \usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
 
 \author{Luca Casadei - 0001069237\\Francesco Pazzaglia - 0001077423}
 \date{Last modified: \today}
@@ -14,9 +17,18 @@
 \begin{document}
 	\maketitle
 	\tableofcontents
-	\section{Introduction}
-		
-	\section{Finite State Machine and Task Descriptions}
 	
-
+	\section{Introduction}
+	This document describes a smart temperature monitoring system consisting of four integrated subsystems:
+	
+	\begin{itemize}
+		\item \textbf{Temperature Monitoring Subsystem} (ESP32): Continuously samples temperature data and communicates via MQTT;
+		\item \textbf{Control Unit} (Java/Vert.x): Acts as system brain handling state management, data aggregation, and inter-subsystem coordination;
+		\item \textbf{Window Controller} (Arduino): Manages physical window actuator and operator interface with LCD display;
+		\item \textbf{Dashboard} (Python/Tkinter): Provides GUI for remote monitoring and control;
+	\end{itemize}
+	
+	The system features two operational modes: \textit{AUTOMATIC} with temperature-dependent window control, and \textit{MANUAL} for direct operator intervention. Communication uses MQTT for sensor data, HTTP for dashboard updates, and serial protocol for actuator control.
+	
+	
 \end{document}
