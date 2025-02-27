@@ -10,3 +10,5 @@
 
 #define T1 5
 #define T2 25
+
+#define POT_CHANGE_MARGIN 10

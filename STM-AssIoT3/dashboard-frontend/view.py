@@ -56,13 +56,22 @@ class Dashboard:
             command=self.controller.toggle_mode)
         self.system_mode_btn.grid(row=0, column=0, padx=10, pady=5)
 
+        slider_frame = tk.Frame(control_frame, bg="#f0f0f0")
+        slider_frame.grid(row=0, column=1, padx=10, pady=5)
+
+        min_label = tk.Label(slider_frame, text="Min: 0%", font=("Arial", 10), bg="#f0f0f0")
+        min_label.pack(side=tk.LEFT, padx=5)
+
         self.window_slider = ttk.Scale(
-            control_frame,
+            slider_frame,
             from_=0, to=100,
             orient="horizontal",
             length=300
         )
-        self.window_slider.grid(row=0, column=1, padx=10, pady=5)
+        self.window_slider.pack(side=tk.LEFT, padx=5)
+
+        max_label = tk.Label(slider_frame, text="Max: 100%", font=("Arial", 10), bg="#f0f0f0")
+        max_label.pack(side=tk.LEFT, padx=5)
 
         self.move_window_btn = ttk.Button(
             control_frame,

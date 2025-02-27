@@ -19,11 +19,12 @@ void ManualTask::tick()
             getUserPanel()->printToLine(1, "MANUAL - CONTROLLING");
         }
         if (getUserPanel()->getDashboardPercentage() != -1){
-            this->getUserPanel()->setDashboardPercentage(-1);
+            getUserPanel()->setOldPotValue(getUserPanel()->getPotentiometerValue());
             this->getUserPanel()->setWindowPosition(getUserPanel()->getDashboardPercentage());
         }
-        else if (this->getUserPanel()->getPotentiometerValue() != this->getUserPanel()->getWindowOpeningPercentage())
+        else if (abs(this->getUserPanel()->getPotentiometerValue() - this->getUserPanel()->getOldPotValue()) > POT_CHANGE_MARGIN)
         {
+            this->getUserPanel()->setDashboardPercentage(-1);
             this->getUserPanel()->setWindowPosition(getUserPanel()->getPotentiometerValue());
         }
         break;

@@ -9,7 +9,7 @@
 
 
 #define MSG_BUFFER_SIZE  50
-#define TEMPERATURE_CHECK_INTERVAL 500
+#define TEMPERATURE_CHECK_INTERVAL 1000
 
 MQTTManager mqttManager(BROKER_NAME, 1883, TOPIC_NAME);
 TempSensor* tempSensor;

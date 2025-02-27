@@ -28,6 +28,8 @@ public:
   int getPotentiometerValue();
   void setDashboardPercentage(int dp);
   int getDashboardPercentage(void);
+  int getOldPotValue();
+  void setOldPotValue(int);
 
   void sync();
 
@@ -39,4 +41,5 @@ private:
   float currentTemperature;
   int currentPercentage;
   int dashBoardPercentage;
+  int oldPotValue;
 };

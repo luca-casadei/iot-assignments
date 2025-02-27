@@ -12,7 +12,7 @@ class Controller:
         self.manual_mode = False
 
         self.temperature_data = []
-        self.max_data_points = 100
+        self.max_data_points = 50
         self.temp_min = 0
         self.temp_max = 0
         self.temp_avg = 0
@@ -27,7 +27,7 @@ class Controller:
             self.state = data["state"]
             self.temperature_data.append(float(data["temperature"]))
             self.mode = data["mode"]
-            self.manual_mode = True if self.mode == "MANUAL" else False
+            self.manual_mode = (data["mode"] == "MANUAL")
             if len(self.temperature_data) > self.max_data_points:
                 self.temperature_data.pop(0)
 
@@ -39,7 +39,12 @@ class Controller:
             self.view.temp_stats_label.config(
                 text=f"Min: {self.temp_min}°C Max: {self.temp_max}°C Avg: {self.temp_avg}°C")
             self.view.window_level_label.config(text=f"Window Opening: {data['window_opening']}%")
-            self.view.window_slider.set(int(data['window_opening']))
+            if not self.manual_mode:
+                self.view.window_slider.set(int(data['window_opening']))
+
+            self.view.system_mode_btn.config(text="Activate Automatic Mode" if self.manual_mode else "Activate Manual Mode")
+            self.view.move_window_btn.config(state="normal" if self.manual_mode else "disabled")
+
             self.view.ax.clear()
             self.view.ax.plot(
                 self.temperature_data,
@@ -55,14 +60,17 @@ class Controller:
 
             self.view.canvas.draw()
 
+
     def toggle_mode(self):
         self.model.toggle_mode()
-        self.manual_mode = not self.manual_mode
-        self.update_data()
+        data = self.model.get_system_info()
+        if data:
+            self.manual_mode = (data["mode"] == "MANUAL")
+            self.view.system_mode_btn.config(text="Activate Automatic Mode" if self.manual_mode else "Activate Manual Mode")
+            self.view.move_window_btn.config(state="normal" if self.manual_mode else "disabled")
 
     def move_window(self):
-        self.model.move_window()
-        self.view.move_window_btn.state = "normal" if self.manual_mode else "disabled"
+        self.model.move_window(int(self.view.window_slider.get()))
 
     def reset_alarm(self):
         self.model.reset_alarm()
@@ -72,4 +80,4 @@ class Controller:
 
     def update_data(self):
         self.update_view()
-        self.root.after(500, self.update_data)
+        self.root.after(1000, self.update_data)
