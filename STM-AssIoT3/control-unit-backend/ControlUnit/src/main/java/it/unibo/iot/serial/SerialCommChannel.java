@@ -14,7 +14,6 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     private final SerialPort serialPort;
     private final BlockingQueue<String> queue;
     private StringBuffer currentMsg = new StringBuffer();
-    private volatile boolean running;
 
     public SerialCommChannel(String port, int rate) {
         queue = new ArrayBlockingQueue<>(100);
@@ -116,7 +115,6 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
     @Override
     public void start() {
         System.out.println("Serial started on port: " + serialPort.getPortName());
-        running = true;
         vertx.eventBus().consumer("serial.data.send", t -> {
             sendMsg(t.body().toString());
         });
@@ -139,7 +137,6 @@ public class SerialCommChannel extends AbstractVerticle implements CommChannel, 
 
     @Override
     public void stop() {
-        running = false;
         close();
     }
 }
