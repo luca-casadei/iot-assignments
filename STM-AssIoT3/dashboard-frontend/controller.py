@@ -15,9 +15,6 @@ class Controller:
 
         self.temperature_data = []
         self.max_data_points = 50
-        self.temp_min = 0
-        self.temp_max = 0
-        self.temp_avg = 0
 
     def update_view(self):
         if not self.view:
@@ -33,13 +30,9 @@ class Controller:
             if len(self.temperature_data) > self.max_data_points:
                 self.temperature_data.pop(0)
 
-            self.temp_min = min(self.temperature_data, default=0)
-            self.temp_max = max(self.temperature_data, default=0)
-            self.temp_avg = round(statistics.mean(self.temperature_data), 2) if self.temperature_data else 0
-
             self.view.status_label.config(text=f"{self.mode}: {self.state}")
             self.view.temp_stats_label.config(
-                text=f"Min: {self.temp_min}°C Max: {self.temp_max}°C Avg: {self.temp_avg}°C")
+                text=f"Min: {data["min"]}°C Max: {data["max"]}°C Avg: {data["avg"]}°C")
             self.view.window_level_label.config(text=f"Window Opening: {data['window_opening']}%")
             if not self.manual_mode:
                 self.view.window_slider.set(int(data['window_opening']))
