@@ -11,7 +11,7 @@ AutomaticTask::AutomaticTask(UserPanel *pUserPanel)
 void AutomaticTask::tick()
 {
     this->getUserPanel()->sync();
-    getUserPanel()->printToLine(2, "");
+    getUserPanel()->printToLine(3, "");
     
     switch (currentState)
     {
@@ -19,9 +19,10 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            getUserPanel()->printToLine(0, "AUTOMATIC - NORMAL");
+            getUserPanel()->printToLine(0, " MODE: AUTOMATIC");
+            getUserPanel()->printToLine(1, " STATE: NORMAL");
             getUserPanel()->setWindowPosition(0);
-            getUserPanel()->printToLine(1, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
         }
         break;
     }
@@ -31,8 +32,9 @@ void AutomaticTask::tick()
         getUserPanel()->setWindowPosition(perc);
         if (firstTimeEntering())
         {
-            getUserPanel()->printToLine(0, "AUTOMATIC - HOT");
-            getUserPanel()->printToLine(1, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(0, " MODE: AUTOMATIC");
+            getUserPanel()->printToLine(1, " STATE: HOT");
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
         }
         break;
     }
@@ -40,9 +42,10 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            getUserPanel()->printToLine(0, "AUTOMATIC - TOO_HOT");
+            getUserPanel()->printToLine(0, " MODE: AUTOMATIC");
+            getUserPanel()->printToLine(1, " STATE: TOO_HOT");
             getUserPanel()->setWindowPosition(100);
-            getUserPanel()->printToLine(1, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
         }
         break;
     }
@@ -50,9 +53,10 @@ void AutomaticTask::tick()
     {
         if (firstTimeEntering())
         {
-            getUserPanel()->printToLine(0, "AUTOMATIC - ALARM");
+            getUserPanel()->printToLine(0, " MODE: AUTOMATIC");
+            getUserPanel()->printToLine(1, " STATE: ALARM");
             getUserPanel()->setWindowPosition(100);
-            getUserPanel()->printToLine(1, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
 
         }
         break;
@@ -60,7 +64,8 @@ void AutomaticTask::tick()
     default:
     {
         if (firstTimeEntering()){
-            getUserPanel()->printToLine(0, "AUTOMATIC - INVALID");
+            getUserPanel()->printToLine(0, " MODE: AUTOMATIC");
+            getUserPanel()->printToLine(1, " STATE: INVALID");
         }
         break;
     }

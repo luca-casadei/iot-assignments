@@ -26,9 +26,10 @@ void ManualTask::tick()
         }
         if (firstTimeEntering())
         {
-            getUserPanel()->printToLine(0, "MANUAL - CONTROLLING");
-            getUserPanel()->printToLine(1, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
-            getUserPanel()->printToLine(2, ("TEMPERATURE: " + String(getUserPanel()->getTemperature())).c_str());
+            getUserPanel()->printToLine(0, " MODE: MANUAL");
+            getUserPanel()->printToLine(1, " STATE: CONTROLLING");
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(3, ("TEMPERATURE: " + String(getUserPanel()->getTemperature())).c_str());
         }
         break;
     }
