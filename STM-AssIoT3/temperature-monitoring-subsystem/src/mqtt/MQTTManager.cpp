@@ -3,8 +3,8 @@
 
 MQTTManager* MQTTManager::instance = nullptr;
 
-MQTTManager::MQTTManager(const char* server, uint16_t port, const char* topic)
-  : m_client(m_espClient), m_server(server), m_port(port), m_topic(topic)
+MQTTManager::MQTTManager(const char* server,const char* server_secondary, uint16_t port, const char* topic)
+  : m_client(m_espClient), m_server_secondary(server_secondary), m_server(server), m_port(port), m_topic(topic)
 {
   if (instance == nullptr) {
     instance = this;
@@ -20,6 +20,7 @@ void MQTTManager::begin() {
 void MQTTManager::connect() {
   if (!m_client.connected()) {
     unsigned int tries = 0;
+    bool primary = true;
     while (!m_client.connected() && tries < MAX_CONNECTION_TRIES) {
       Serial.print("Attempting MQTT connection...");
       String clientId = String("temperature-esiot25pc-client-") + String(random(0xffff), HEX);
@@ -34,7 +35,12 @@ void MQTTManager::connect() {
         tries++;
         delay(5000);
       }
+      if(tries == MAX_CONNECTION_TRIES && primary){
+        primary = false;
+        m_client.setServer(this->m_server_secondary, this->m_port);
+      }
     }
+
   }
   m_client.loop();
 }

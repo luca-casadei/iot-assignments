@@ -70,6 +70,11 @@ public final class ControlUnit extends AbstractVerticle {
         vertx.eventBus().consumer("http.window.send", w -> {
             dashboardPercentage = Integer.parseInt(w.body().toString());
         });
+        vertx.eventBus().consumer("alarm.reset", _ -> {
+            if(this.currentMode == Mode.AUTOMATIC && this.currentState == State.ALARM){
+                this.currentState = State.NORMAL;
+            }
+        });
         vertx.eventBus().consumer("state.get", message -> message.reply(currentState));
         vertx.eventBus().consumer("mode.change", _ -> {
             if (this.currentState != State.ALARM) {
