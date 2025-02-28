@@ -45,7 +45,6 @@ void DashboardTask::tick()
         opening = receivedMsg.substring(lastSeparatorIndex + 1);
 
         pUserPanel->setDashboardPercentage(atoi(opening.c_str()));
-        pUserPanel->printToLine(2, (temperature + " DEGREES").c_str());
         
         if (mode.compareTo("AUTOMATIC") == 0)
         {
