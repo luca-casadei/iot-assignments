@@ -13,8 +13,11 @@ public:
 
     bool isConnected();
 
+    void loop(void);
+
     void publishMessage(const char* msg);
 
+    unsigned int get_frequency();
 private:
     static MQTTManager* instance;
 
@@ -25,6 +28,7 @@ private:
     const char* m_topic;
     const char* m_server;
     const char* m_server_secondary;
+    unsigned int frequency = 1000;
 
     void handleMessage(char* topic, uint8_t* payload, unsigned int length);
 
