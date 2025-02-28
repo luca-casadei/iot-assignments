@@ -32,7 +32,7 @@ class Controller:
 
             self.view.status_label.config(text=f"{self.mode}: {self.state}")
             self.view.temp_stats_label.config(
-                text=f"Min: {data["min"]}°C Max: {data["max"]}°C Avg: {data["avg"]}°C")
+                text=f"Min: {data["min"]}°C Max: {data["max"]}°C Avg: {"{:.2f}".format(data["avg"])}°C")
             self.view.window_level_label.config(text=f"Window Opening: {data['window_opening']}%")
             if not self.manual_mode:
                 self.view.window_slider.set(int(data['window_opening']))
