@@ -19,16 +19,34 @@
 	\tableofcontents
 	
 	\section{Introduction}
-	This document describes a smart temperature monitoring system consisting of four integrated subsystems:
+	The third assigned represents a smart temperature monitoring system by using the appropriate communication protocols between different devices with each other. In particular:
 	
 	\begin{itemize}
-		\item \textbf{Temperature Monitoring Subsystem} (ESP32): Continuously samples temperature data and communicates via MQTT;
-		\item \textbf{Control Unit} (Java/Vert.x): Acts as system brain handling state management, data aggregation, and inter-subsystem coordination;
-		\item \textbf{Window Controller} (Arduino): Manages physical window actuator and operator interface with LCD display;
+		\item \textbf{Temperature Monitoring Subsystem} (ESP32): It continuously sends temperature data and communicates via MQTT and using LEDs that describe the status of the connection;
+		\item \textbf{Control Unit Backend} (Java/Vert.x): It acts as the brain of the system by managing the state, communicating the temperature to other subsystems by managing their coordination;
+		\item \textbf{Window Controller} (Arduino): Manages the physical window (the servomotor) optionally through the use of the potentiometer(if in MANUAL mode) and the operator interface with the LCD display;
 		\item \textbf{Dashboard} (Python/Tkinter): Provides GUI for remote monitoring and control;
 	\end{itemize}
 	
-	The system features two operational modes: \textit{AUTOMATIC} with temperature-dependent window control, and \textit{MANUAL} for direct operator intervention. Communication uses MQTT for sensor data, HTTP for dashboard updates, and serial protocol for actuator control.
+	The system has two operating modes: \textit{AUTOMATIC} with window control based on temperature and \textit{MANUAL} for direct operator input. Communication uses MQTT for thermometer data, HTTP for dashboard updates, and serial protocol for window control.
+	
+	\section{Temperature Monitoring Subsystem}
+	The Temperature Monitoring subsystem is based on ESP32 and is responsible for continuously sending the temperature of the environment to the Control Unit Backend. It uses a temperature sensor to acquire data and sends it to the Control Unit via the MQTT protocol.
+	
+	The subsystem continuously collects temperature readings from the LM35 temperature sensor.  Some fault tolerance is ensured by the choice of including a secondary broker, meaning that if the primary MQTT broker becomes unreachable, after a certain number of attempts(by default 3), the system can switch to a secondary broker, maintaining uninterrupted operation, an essential feature in critical IoT applications.
+	
+	In addition, the use of indicator LEDs adds an additional layer of feedback in fact they immediately inform the operator about the network status, thus whether it is connected or if there have been connection problems by the SoC.
+
+	\section{Control Unit Backend}
+	%TODO: da fare da parte di luca
+	
+	\section{Window Controller}
+	The Window Controller subsystem is implemented on an Arduino UNO board and is responsible for managing the physical opening of the window. The actuator is controlled by a servo motor, which can adjust the window opening from 0\% (window closed) to 100\% (window fully open, corresponding to 90°).
+	
+	This subsystem also includes a touch button to switch between automatic and manual modes and a potentiometer for manual fine control(active only in MANUAL mode otherwise window opening is dictated AUTOMATIC by the Control Unit). Also through the use of an LCD display we print the mode type, its status, and the updated temperature on the screen.
+	
+	\section{Dashboard Frontend}
+	The Frontend Dashboard is a GUI for remote monitoring and control of the system. Developed in Python with Tkinter, it uses the Model-View-Controller (MVC) model to separate data management, control logic, and presentation. It periodically makes HTTP calls in order to take(and send) data to the Control Unit. Through the dashboard, the operator has several functions available including: displaying a graph with temperatures, the average of the last N temperatures, changing the mode from AUTOMATIC to MANUAL, and possibly through a slider changing the opening of the Window.
 	
 	
 \end{document}
