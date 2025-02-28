@@ -16,6 +16,8 @@ class Controller:
         self.temperature_data = []
         self.max_data_points = 50
 
+        self.frequency = 0
+
     def update_view(self):
         if not self.view:
             return
@@ -59,6 +61,8 @@ class Controller:
             self.view.ax.legend()
             self.view.canvas.draw()
 
+            self.frequency = data["freq"]
+
 
     def toggle_mode(self):
         self.model.toggle_mode()
@@ -79,4 +83,4 @@ class Controller:
 
     def update_data(self):
         self.update_view()
-        self.root.after(1000, self.update_data)
+        self.root.after(self.frequency, self.update_data)
