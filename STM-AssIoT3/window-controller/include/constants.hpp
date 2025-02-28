@@ -8,7 +8,7 @@
 #define LCD_COLS 21
 #define LCD_ROWS 4
 
-#define T1 5
-#define T2 25
+#define T1 15
+#define T2 20
 
 #define POT_CHANGE_MARGIN 10

@@ -93,9 +93,10 @@ public class HTTPServer extends AbstractVerticle {
         this.router.route(HttpMethod.POST, "/reset")
                 .consumes("application/json")
                 .handler(ctx -> {
-                    HttpServerResponse response = ctx.response();
-                    response.putHeader("Content-Type", "text/plain")
-                            .end("PROVA RISPOSTA resetAlarm\n");
+                    vertx.eventBus().send("alarm.reset", "");
+                    ctx.response()
+                            .putHeader("Content-Type", "text/plain")
+                            .end("Alarm reset");
                 });
     }
 }

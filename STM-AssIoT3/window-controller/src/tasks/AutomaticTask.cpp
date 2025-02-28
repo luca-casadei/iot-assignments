@@ -53,7 +53,9 @@ void AutomaticTask::tick()
     }
     default:
     {
-        getUserPanel()->printToLine(1, "AUTOMATIC - INVALID");
+        if (firstTimeEntering()){
+            getUserPanel()->printToLine(1, "AUTOMATIC - INVALID");
+        }
         break;
     }
     }

@@ -1,5 +1,7 @@
 import statistics
 
+from config import TEMPERATURE_THRESHOLD
+
 class Controller:
     def __init__(self, root, model, view):
         self.root = root
@@ -45,6 +47,8 @@ class Controller:
             self.view.system_mode_btn.config(text="Activate Automatic Mode" if self.manual_mode else "Activate Manual Mode")
             self.view.move_window_btn.config(state="normal" if self.manual_mode else "disabled")
 
+            self.view.alarm_btn.config(state="normal" if self.state == "ALARM" else "disabled")
+
             self.view.ax.clear()
             self.view.ax.plot(
                 self.temperature_data,
@@ -57,7 +61,9 @@ class Controller:
                 markersize=4,
                 alpha=0.8
             )
-
+            fixed_threshold = TEMPERATURE_THRESHOLD
+            self.view.ax.axhline(fixed_threshold, color="red", linestyle="--", label=f"Threshold: {fixed_threshold}°C")
+            self.view.ax.legend()
             self.view.canvas.draw()
 
 
