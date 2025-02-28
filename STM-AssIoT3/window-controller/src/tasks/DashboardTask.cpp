@@ -38,7 +38,6 @@ void DashboardTask::tick()
       
       if (firstSeparatorIndex != -1 && lastSeparatorIndex != -1 && middleSeparatorIndex != -1)
       {
-        pUserPanel->printToLine(3, "");
         temperature = receivedMsg.substring(0, firstSeparatorIndex);
         state = receivedMsg.substring(firstSeparatorIndex + 1,middleSeparatorIndex);
         mode = receivedMsg.substring(middleSeparatorIndex + 1, lastSeparatorIndex);
@@ -68,10 +67,6 @@ void DashboardTask::tick()
 
         this->pUserPanel->saveTemperature((float)atof(temperature.c_str()));
         MsgService.sendMsg("WINDOW:" + String(this->pUserPanel->getWindowOpeningPercentage()));
-      }
-      else
-      {
-        this->pUserPanel->printToLine(3, "ERROR");
       }
     }
     delete msg;
