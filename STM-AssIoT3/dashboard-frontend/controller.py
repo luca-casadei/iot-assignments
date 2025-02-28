@@ -1,5 +1,5 @@
 import statistics
-
+from tkinter import messagebox
 from config import TEMPERATURE_THRESHOLD
 
 class Controller:
@@ -77,6 +77,7 @@ class Controller:
 
     def reset_alarm(self):
         self.model.reset_alarm()
+        messagebox.showinfo("Reset succesfully", "The reset was successfully completed.") 
 
     def start_updating(self):
         self.update_data()
