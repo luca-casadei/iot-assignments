@@ -61,7 +61,7 @@ public final class ControlUnit extends AbstractVerticle {
                 checkTemperatureForState(temperature);
             }
             vertx.eventBus().send("serial.data.send", temperature + ":" + currentState + ":" + currentMode + ":" + dashboardPercentage);
-            vertx.eventBus().send("http.data.send", temperature + ":" + currentState + ":" + currentMode + ":" + windowPercentage);
+            vertx.eventBus().send("http.data.send", temperature + ":" + currentState + ":" + currentMode + ":" + windowPercentage + ":" + temperatures.stream().mapToDouble(Float::doubleValue).average().orElse(0) + ":" + temperatures.stream().max(Float::compare).orElse(0.0f) + ":" + temperatures.stream().min(Float::compare).orElse(0.0f));
             dashboardPercentage = -1;
         });
         vertx.eventBus().consumer("serial.window.percentage", p -> {
@@ -71,7 +71,7 @@ public final class ControlUnit extends AbstractVerticle {
             dashboardPercentage = Integer.parseInt(w.body().toString());
         });
         vertx.eventBus().consumer("alarm.reset", _ -> {
-            if(this.currentMode == Mode.AUTOMATIC && this.currentState == State.ALARM){
+            if (this.currentMode == Mode.AUTOMATIC && this.currentState == State.ALARM) {
                 this.currentState = State.NORMAL;
             }
         });
