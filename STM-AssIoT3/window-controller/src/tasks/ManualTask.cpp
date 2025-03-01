@@ -10,14 +10,11 @@ ManualTask::ManualTask(UserPanel *pUserPanel)
 
 void ManualTask::tick()
 {
+    this->getUserPanel()->sync();
     switch (currentState)
     {
     case CONTROLLING:
     {
-        if (firstTimeEntering())
-        {
-            getUserPanel()->printToLine(1, "MANUAL - CONTROLLING");
-        }
         if (getUserPanel()->getDashboardPercentage() != -1){
             getUserPanel()->setOldPotValue(getUserPanel()->getPotentiometerValue());
             this->getUserPanel()->setWindowPosition(getUserPanel()->getDashboardPercentage());
@@ -27,12 +24,19 @@ void ManualTask::tick()
             this->getUserPanel()->setDashboardPercentage(-1);
             this->getUserPanel()->setWindowPosition(getUserPanel()->getPotentiometerValue());
         }
+        if (firstTimeEntering())
+        {
+            getUserPanel()->printToLine(0, " MODE: MANUAL");
+            getUserPanel()->printToLine(1, " STATE: CONTROLLING");
+            getUserPanel()->printToLine(2, ("WINDOW: " + String(getUserPanel()->getWindowOpeningPercentage())).c_str());
+            getUserPanel()->printToLine(3, ("TEMPERATURE: " + String(getUserPanel()->getTemperature())).c_str());
+        }
         break;
     }
     default:
     {
         if (firstTimeEntering()){
-            getUserPanel()->printToLine(1, "MANUAL - INVALID");
+            getUserPanel()->printToLine(0, "MANUAL - INVALID");
         }
     }
     }
