@@ -11,6 +11,10 @@ MQTTManager::MQTTManager(const char* server,const char* server_secondary, uint16
   }
 }
 
+unsigned int MQTTManager::get_frequency(){
+  return this->frequency;
+}
+
 void MQTTManager::begin() {
   Serial.println(m_server);
   m_client.setServer(m_server, m_port);
@@ -49,12 +53,23 @@ bool MQTTManager::isConnected() {
   return m_client.connected();
 }
 
+void MQTTManager::loop(void){
+  this->m_client.loop();
+}
+
 void MQTTManager::publishMessage(const char* msg) {
   m_client.publish(m_topic, msg);
 }
 
 void MQTTManager::handleMessage(char* topic, uint8_t* payload, unsigned int length) {
-  Serial.println(String("Message arrived on [") + topic + "] len: " + length);
+  String msg;
+  for(int i = 0; i < length; i++){
+    msg += (char)payload[i];
+  }
+  if (msg.startsWith("FREQ:")){
+    String sub = msg.substring(msg.indexOf(":") + 1);
+    this->frequency = atoi(sub.c_str());
+  }
 }
 
 void MQTTManager::mqttCallback(char* topic, byte* payload, unsigned int length) {

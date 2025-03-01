@@ -1,5 +1,5 @@
 import statistics
-
+from tkinter import messagebox
 from config import TEMPERATURE_THRESHOLD
 
 class Controller:
@@ -15,9 +15,8 @@ class Controller:
 
         self.temperature_data = []
         self.max_data_points = 50
-        self.temp_min = 0
-        self.temp_max = 0
-        self.temp_avg = 0
+
+        self.frequency = 0
 
     def update_view(self):
         if not self.view:
@@ -33,13 +32,9 @@ class Controller:
             if len(self.temperature_data) > self.max_data_points:
                 self.temperature_data.pop(0)
 
-            self.temp_min = min(self.temperature_data, default=0)
-            self.temp_max = max(self.temperature_data, default=0)
-            self.temp_avg = round(statistics.mean(self.temperature_data), 2) if self.temperature_data else 0
-
             self.view.status_label.config(text=f"{self.mode}: {self.state}")
             self.view.temp_stats_label.config(
-                text=f"Min: {self.temp_min}°C Max: {self.temp_max}°C Avg: {self.temp_avg}°C")
+                text=f"Min: {data["min"]}°C Max: {data["max"]}°C Avg: {"{:.2f}".format(float(data["avg"]))}°C")
             self.view.window_level_label.config(text=f"Window Opening: {data['window_opening']}%")
             if not self.manual_mode:
                 self.view.window_slider.set(int(data['window_opening']))
@@ -66,6 +61,8 @@ class Controller:
             self.view.ax.legend()
             self.view.canvas.draw()
 
+            self.frequency = data["freq"]
+
 
     def toggle_mode(self):
         self.model.toggle_mode()
@@ -80,10 +77,11 @@ class Controller:
 
     def reset_alarm(self):
         self.model.reset_alarm()
+        messagebox.showinfo("Reset succesfully", "The reset was successfully completed.") 
 
     def start_updating(self):
         self.update_data()
 
     def update_data(self):
         self.update_view()
-        self.root.after(1000, self.update_data)
+        self.root.after(self.frequency, self.update_data)

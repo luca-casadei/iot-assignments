@@ -38,14 +38,12 @@ void DashboardTask::tick()
       
       if (firstSeparatorIndex != -1 && lastSeparatorIndex != -1 && middleSeparatorIndex != -1)
       {
-        pUserPanel->printToLine(3, "");
         temperature = receivedMsg.substring(0, firstSeparatorIndex);
         state = receivedMsg.substring(firstSeparatorIndex + 1,middleSeparatorIndex);
         mode = receivedMsg.substring(middleSeparatorIndex + 1, lastSeparatorIndex);
         opening = receivedMsg.substring(lastSeparatorIndex + 1);
 
         pUserPanel->setDashboardPercentage(atoi(opening.c_str()));
-        pUserPanel->printToLine(2, (temperature + " DEGREES").c_str());
         
         if (mode.compareTo("AUTOMATIC") == 0)
         {
@@ -69,10 +67,6 @@ void DashboardTask::tick()
 
         this->pUserPanel->saveTemperature((float)atof(temperature.c_str()));
         MsgService.sendMsg("WINDOW:" + String(this->pUserPanel->getWindowOpeningPercentage()));
-      }
-      else
-      {
-        this->pUserPanel->printToLine(3, "ERROR");
       }
     }
     delete msg;

@@ -15,6 +15,10 @@ public class HTTPServer extends AbstractVerticle {
     private State currentState;
     private Mode currentMode;
     private int windowPercentage;
+    private double averageTemp;
+    private float maxTemp;
+    private float minTemp;
+    private int freq;
 
     @Override
     public void start() {
@@ -32,6 +36,10 @@ public class HTTPServer extends AbstractVerticle {
             currentState = State.valueOf(data[1]);
             currentMode = Mode.valueOf(data[2]);
             windowPercentage = Integer.parseInt(data[3]);
+            averageTemp = Double.parseDouble(data[4]);
+            maxTemp = Float.parseFloat(data[5]);
+            minTemp = Float.parseFloat(data[6]);
+            freq = Integer.parseInt(data[7]);
         });
 
         vertx.createHttpServer()
@@ -53,7 +61,7 @@ public class HTTPServer extends AbstractVerticle {
                 .handler(ctx -> {
                     HttpServerResponse response = ctx.response();
                     response.putHeader("Content-Type", "text/plain")
-                            .end(String.format("{\"temperature\": \"%s\",\"state\":\"%s\",\"mode\":\"%s\",\"window_opening\":\"%s\"}", currentTemperature, currentState, currentMode, windowPercentage));
+                            .end(String.format("{\"temperature\": \"%s\",\"state\":\"%s\",\"mode\":\"%s\",\"window_opening\":\"%s\",\"avg\":\"%s\",\"min\":\"%s\",\"max\":\"%s\",\"freq\":\"%s\"}", currentTemperature, currentState, currentMode, windowPercentage, averageTemp, maxTemp, minTemp, freq));
                 });
     }
 
