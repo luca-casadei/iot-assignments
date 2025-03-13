@@ -1,7 +1,7 @@
 #include "./wifi/wifi_manager.hpp"
 
-const char* ssid = "Modem01";
-const char* password = "***REMOVED***";
+const char* ssid = "";
+const char* password = "";
 
 void setup_wifi() {
   delay(10);
